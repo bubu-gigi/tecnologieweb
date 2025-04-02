@@ -1,0 +1,22 @@
+version: '3'
+volumes:
+  mysql-data:
+services:
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+      - PMA_PORT=3306
+    ports:
+      - '8888:80'
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: metahr
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - '3306:3306'
