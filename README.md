@@ -34,13 +34,19 @@ Usa questo comando per popolare le tabelle
 php artisan db:seed
 ```
 
-### Lancia il server
+### Server
 
 Usa questo comando per lanciare il server laravel
 
 ```bash
 php artisan serve
 ```
+
+Quando siamo in fase di sviluppo visitare `http://127.0.0.1:8000` sul browser.
+
+Attenzione! Quando vogliamo chiamare le **api** occorre mettere il prefisso `/api/` 
+
+Per esempio se vogliamo vedere tutti i dipartimenti basta cercare `http://127.0.0.1:8000/api/departments` che ci restituirà i dati nel formato **json**
 
 ### Vedere il diagramma ER del database
 
