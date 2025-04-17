@@ -10,6 +10,8 @@ class Erogazione extends Model
 {
     use HasFactory;
 
+    protected $table = 'erogazioni';
+
     protected $fillable = [
         'medico_id',
         'prestazione_id',

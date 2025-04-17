@@ -11,6 +11,8 @@ class Prestazione extends Model
 {
     use HasFactory;
 
+    protected $table = 'prestazioni';
+
     protected $fillable = [
         'descrizione',
         'prescrizioni',
