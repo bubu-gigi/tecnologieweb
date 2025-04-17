@@ -33,3 +33,7 @@ Usa questo per popolare le tabelle
 ```bash
 php artisan db:seed
 ```
+
+### Vedere il diagramma ER del database
+
+Per consultare il diagramma **Entity-Relationship (E-R)** del database, apri il seguente file: `/database/TecWeb.drawio.html`
