@@ -22,16 +22,24 @@ Per visionare **phpmyadmin** visita http://localhost:8888
 
 ### Inizializza il database con i seguenti comandi
 
-Usa questo per creare le tabelle
+Usa questo comando per creare le tabelle
 
 ```bash
 php artisan migrate
 ```
 
-Usa questo per popolare le tabelle
+Usa questo comando per popolare le tabelle
 
 ```bash
 php artisan db:seed
+```
+
+### Lancia il server
+
+Usa questo comando per lanciare il server laravel
+
+```bash
+php artisan serve
 ```
 
 ### Vedere il diagramma ER del database
