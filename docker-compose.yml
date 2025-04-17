@@ -15,7 +15,7 @@ services:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: metahr
+      MYSQL_DATABASE: tecweb
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
