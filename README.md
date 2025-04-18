@@ -44,9 +44,19 @@ php artisan serve
 
 Quando siamo in fase di sviluppo visitare `http://127.0.0.1:8000` sul browser.
 
+### Api
+
 Attenzione! Quando vogliamo chiamare le **api** occorre mettere il prefisso `/api/` 
 
 Per esempio se vogliamo vedere tutti i dipartimenti basta cercare `http://127.0.0.1:8000/api/departments` che ci restituirà i dati nel formato **json**
+
+Se usate l'IDE **Visual Studio Code** è molto consigliato utilizzare l'estensione **Thunder Client** in quanto ci consente di testare le api.
+
+Navigando nella cartella `/shared/thunderClientApiRequests` è possibile importare le api scritte dagli altri nel proprio ThunderClient e utilizzarle, usando la funzione importa.
+
+Si consiglia di aggiornare sempre la cartella per consentire agli altri di testare le api in modo veloce.
+
+Per esempio basta importare il file `/shared/thunderClientApiRequests/Departments.json` per avere subito disponibili le api per i dipartimenti.
 
 ### Vedere il diagramma ER del database
 
