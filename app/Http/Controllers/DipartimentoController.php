@@ -19,4 +19,10 @@ class DipartimentoController extends Controller
         $dipartimenti = $this->dipartimentoService->getAll();
         return response()->json($dipartimenti);
     }
+
+    public function show(string $id): JsonResponse
+    {
+        $dipartimento = $this->dipartimentoService->getById($id);
+        return response()->json($dipartimento);
+    }
 }

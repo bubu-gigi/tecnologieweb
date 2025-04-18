@@ -1,22 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\DipartimentoController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
 
-Route::get('/departments', [\App\Http\Controllers\DipartimentoController::class, 'showAll'])
+Route::get('/departments', [DipartimentoController::class, 'showAll'])
     ->name('dipartimenti.showAll');
+
+Route::get('/departments/{id}', [DipartimentoController::class, 'show'])
+    ->name('dipartimenti.show');

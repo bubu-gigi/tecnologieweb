@@ -11,4 +11,9 @@ class DipartimentoService
     {
         return Dipartimento::all();
     }
+
+    public function getById(string $id): Dipartimento
+    {
+        return Dipartimento::find($id);
+    }
 }
