@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('/departments', [DipartimentoController::class, 'showAll'])
-    ->name('dipartimenti.showAll');
-
-Route::get('/departments/{id}', [DipartimentoController::class, 'show'])
-    ->name('dipartimenti.show');
+Route::controller(DipartimentoController::class)->group(function () {
+    Route::get('/departments', 'showAll');
+    Route::get('/departments/{id}', 'show');
+    Route::post('/departments', 'store');
+    Route::put('/departments/{id}', 'update');
+    Route::delete('/departments/{id}', 'delete');
+});

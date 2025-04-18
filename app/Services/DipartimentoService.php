@@ -16,4 +16,21 @@ class DipartimentoService
     {
         return Dipartimento::find($id);
     }
+
+    public function create(array $data): Dipartimento
+    {
+        return Dipartimento::create($data);
+    }
+
+    public function update(string $id, array $data): Dipartimento
+    {
+        $dip = Dipartimento::findOrFail($id);
+        $dip->update($data);
+        return $dip;
+    }
+
+    public function delete(string $id): int
+    {
+        return Dipartimento::destroy($id);
+    }
 }
