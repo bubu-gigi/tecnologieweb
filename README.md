@@ -50,4 +50,4 @@ Per esempio se vogliamo vedere tutti i dipartimenti basta cercare `http://127.0.
 
 ### Vedere il diagramma ER del database
 
-Per consultare il diagramma **Entity-Relationship (E-R)** del database, apri il seguente file: `/database/TecWeb.drawio.html`
+Per consultare il diagramma **Entity-Relationship (E-R)** del database, apri il seguente file: `/database/DiagrammaER.drawio.html`
