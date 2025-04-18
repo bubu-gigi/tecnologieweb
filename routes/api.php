@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DipartimentoController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +15,8 @@ Route::controller(DipartimentoController::class)->group(function () {
     Route::put('/departments/{id}', 'update');
     Route::delete('/departments/{id}', 'delete');
 });
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login');
+});
+
