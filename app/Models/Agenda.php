@@ -13,18 +13,15 @@ class Agenda extends Model
     protected $table = 'agende';
 
     protected $fillable = [
-        'giorno_id',
-        'fascia_id',
+        'giorno',
+        'ora',
+        'prenotati',
         'max_prenotazioni',
+        'prestazione_id',
     ];
 
-    public function giorno(): BelongsTo
+    public function prestazione(): BelongsTo
     {
-        return $this->belongsTo(Giorno::class);
-    }
-
-    public function fascia(): BelongsTo
-    {
-        return $this->belongsTo(FasciaOraria::class, 'fascia_id');
+        return $this->belongsTo(Prestazione::class);
     }
 }

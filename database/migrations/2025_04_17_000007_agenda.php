@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('agende', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('giorno_id')->references('id')->on('giorni')->onDelete('cascade');
-            $table->foreignId('fascia_id')->references('id')->on('fascie_orarie')->onDelete('cascade');
+            $table->string('giorno');
+            $table->string('ora');
+            $table->foreignId('prestazione_id')->references('id')->on('prestazioni')->onDelete('cascade');
             $table->unsignedInteger('max_prenotazioni')->default(0);
+            $table->unsignedInteger('prenotati')->default(0);
             $table->timestamps();
         });
     }
