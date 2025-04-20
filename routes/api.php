@@ -24,8 +24,3 @@ Route::controller(MedicoController::class)->group(function () {
     Route::put('/doctors/{id}', 'update');
     Route::delete('/doctors/{id}', 'destroy');
 });
-
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-Route::get('/me', [AuthController::class, 'me'])->middleware('auth')->name('me');
-

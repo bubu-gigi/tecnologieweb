@@ -10,6 +10,12 @@ Questo progetto è stato sviluppato utilizzando le seguenti tecnologie:
 
 ---
 
+### Installa le dipendenze 
+
+```bash
+composer install
+```
+
 ### 🚀 Avvia il progetto con Docker
 
 Assicurati di essere nella **root del progetto**, poi esegui:
@@ -43,6 +49,14 @@ php artisan serve
 ```
 
 Quando siamo in fase di sviluppo visitare `http://127.0.0.1:8000` sul browser.
+
+Usa questo comando per lanciare il server vite
+
+```bash
+npm run dev
+```
+
+Questo ci consentirà di agganciare tutti i file sulla cartella `resources` al nostro server laravel
 
 ### Api
 

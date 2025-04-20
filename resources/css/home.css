@@ -1,0 +1,62 @@
+body {
+    font-family: 'Figtree', sans-serif;
+    background-color: #f7f9fb;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #0077b6;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+section {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-top: 0;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0077b6;
+    color: white;
+    padding: 2rem;
+    position: relative;
+}
+
+.header-left h1 {
+    margin: 0;
+}
+
+.header-right .login-button {
+    background-color: white;
+    color: #0077b6;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.header-right .login-button:hover {
+    background-color: #e0f0f9;
+}
