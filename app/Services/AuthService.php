@@ -3,28 +3,49 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    public function login(Request $request): array
+    public function login(array $credentials): array|null
     {
-        $credentials = $request->only('username', 'password');
-
         $user = User::where('username', $credentials['username'])->first();
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return [
-                'error' => 'Credenziali non valide',
-            ];
-        } else {
-            return [
-                'nome' => $user->nome,
-                'cognome' => $user->cognome,
-                'username' => $user->username,
-                'ruolo' => $user->ruolo,
-            ];
+            return null;
         }
+
+        Auth::login($user); // Login user and start session
+
+        session([
+            'username' => $user->username,
+            'ruolo' => $user->ruolo,
+        ]);
+
+        return [
+            'id' => $user->id,
+            'nome' => $user->nome,
+            'cognome' => $user->cognome,
+            'username' => $user->username,
+            'ruolo' => $user->ruolo,
+        ];
+    }
+
+    public function logout(): void
+    {
+        Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+    }
+
+    public function getUser(): ?User
+    {
+        return Auth::user();
+    }
+
+    public function check(): bool
+    {
+        return Auth::check();
     }
 }

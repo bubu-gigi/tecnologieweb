@@ -15,7 +15,7 @@ class DipartimentoController extends Controller
         $this->dipartimentoService = $dipartimentoService;
     }
 
-    public function showAll(): JsonResponse
+    public function index(): JsonResponse
     {
         $dipartimenti = $this->dipartimentoService->getAll();
         return response()->json($dipartimenti);
@@ -42,7 +42,7 @@ class DipartimentoController extends Controller
         return response()->json($dipartimento);
     }
 
-    public function delete(string $id): JsonResponse
+    public function destroy(string $id): JsonResponse
     {
         $dipartimento = $this->dipartimentoService->delete($id);
         return response()->json($dipartimento);
