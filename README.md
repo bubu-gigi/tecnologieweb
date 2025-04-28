@@ -75,6 +75,3 @@ Per esempio basta importare il file `/shared/thunderClientApiRequests/Department
 ### Vedere il diagramma ER del database
 
 Per consultare il diagramma **Entity-Relationship (E-R)** del database, apri il seguente file: `/database/DiagrammaER.drawio.html`
-
-
-composer install
