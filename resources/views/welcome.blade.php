@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-    @vite(entrypoints: ['resources/css/home.css'])
+        @vite(entrypoints: ['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
@@ -45,10 +45,6 @@
             La salute dei nostri pazienti è la nostra priorità.
         </p>
     </section>
-
-    <footer>
-        &copy; {{ date('Y') }} Sanitaria Salus - Tutti i diritti riservati
-    </footer>
 
 </body>
 </html>
