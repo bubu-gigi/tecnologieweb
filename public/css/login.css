@@ -17,10 +17,17 @@ body {
     width: 100%;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2rem; /* 1.5rem verticale, 2rem orizzontale */
+    margin-top: 1.5rem;
 }
 
+.form-grid .form-group {
+    display: flex;
+    flex-direction: column;
+}
 .label-input {
     display: block;
     margin-bottom: 0.5rem;
@@ -44,7 +51,9 @@ body {
 
 .button {
     display: block;
-    margin: 0 auto; /* <-- This centers the block-level element */
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
     width: 50%;
     padding: 0.75rem;
     background-color: #007BFF;

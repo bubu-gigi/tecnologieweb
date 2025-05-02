@@ -17,11 +17,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/';
+    public const CUSTOMERS = '/customers';
+    public const STAFF = '/staff';
 
-    /**
-     * Define your route model bindings, pattern filters, and other route configuration.
-     */
+    public const ADMIN = '/admin';
+
     public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
