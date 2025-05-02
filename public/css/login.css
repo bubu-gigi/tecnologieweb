@@ -1,0 +1,72 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.label-input {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.2s ease;
+}
+
+.input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.button {
+    display: block;
+    margin: 0 auto; /* <-- This centers the block-level element */
+    width: 50%;
+    padding: 0.75rem;
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+ul.error,
+.error {
+    color: #d93025;
+    font-size: 0.9rem;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 0.25rem;
+}

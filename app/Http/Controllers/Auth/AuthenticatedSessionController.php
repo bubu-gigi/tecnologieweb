@@ -31,7 +31,12 @@ class AuthenticatedSessionController extends Controller
             'role' => $user->ruolo,
         ]);
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        switch (Auth::user()->ruolo) {
+            case 'admin': return redirect()->route('admin');
+            case 'user': return redirect()->route('customers');
+            case 'staff': return redirect()->route('staff');
+            default: return redirect('/');
+        }
     }
 
     public function destroy(Request $request): RedirectResponse
