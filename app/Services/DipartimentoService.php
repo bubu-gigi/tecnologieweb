@@ -9,7 +9,7 @@ class DipartimentoService
 {
     public function getAll(): Collection
     {
-        return Dipartimento::all();
+        return Dipartimento::with(['medici.prestazioni'])->get();;
     }
 
     public function getById(string $id): Dipartimento

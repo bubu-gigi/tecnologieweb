@@ -3,38 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class ProfileController extends Controller
+class ProfiloController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('customers.profile', [
             'user' => $request->user(),
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = [
+            'nome' => $request->nome,
+            'cognome' => $request->cognome,
+            'password' => Hash::make($request->password),
+            'indirizzo' => $request->indirizzo,
+            'citta_nascita' => $request->citta,
+            'data_nascita' => $request->dataNascita,
+            'username' => $request->username,
+            'ruolo' => 'user',
+        ];
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        $this->userService->update($request->user()->id, $user);
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('customers.dashboard');
     }
 
     /**

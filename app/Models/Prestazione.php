@@ -16,12 +16,12 @@ class Prestazione extends Model
     protected $fillable = [
         'descrizione',
         'prescrizioni',
-        'dipartimento_id',
+        'medico_id',
     ];
 
-    public function dipartimento(): BelongsTo
+    public function medico(): BelongsTo
     {
-        return $this->belongsTo(Dipartimento::class);
+        return $this->belongsTo(Medico::class);
     }
 
     public function erogazioni(): HasMany

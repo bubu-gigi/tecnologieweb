@@ -21,4 +21,9 @@ class Dipartimento extends Model
     {
         return $this->hasMany(Medico::class);
     }
+
+    public function prestazioni(): HasMany
+    {
+        return $this->hasMany(Prestazione::class);
+    }
 }

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('descrizione');
             $table->string('prescrizioni');
-            $table->foreignId('dipartimento_id')->references('id')->on('dipartimenti')->onDelete('cascade');
+            $table->foreignId('medico_id')->references('id')->on('medici')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -28,6 +28,12 @@ class Medico extends Model
         return $this->belongsTo(Dipartimento::class);
     }
 
+    public function prestazioni(): HasMany
+    {
+        return $this->hasMany(Prestazione::class);
+    }
+
+
     public function erogazioni(): HasMany
     {
         return $this->hasMany(Erogazione::class);

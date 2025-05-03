@@ -2,22 +2,33 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'nome' => ['required', 'string', 'max:255'],
+            'cognome' => ['required', 'string', 'max:255'],
+            'indirizzo' => ['required', 'string', 'max:255'],
+            'citta' => ['required', 'string', 'max:100'],
+            'dataNascita' => ['required', 'date', 'before:today'],
+            'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users,username'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'birthdate.before' => 'La data di nascita deve essere precedente a oggi.',
+            'password.confirmed' => 'Le password non coincidono.',
+            'username.unique' => 'Questo username è già in uso.',
         ];
     }
 }

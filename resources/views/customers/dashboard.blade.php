@@ -1,45 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+@extends('layouts.layout_customer')
 
-        .dashboard-box {
-            background: white;
-            padding: 2rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
+@section('title', 'Area Utente Registrato')
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
+@section('content')
+<div class="user-area-container">
+    <h2>Benvenuto nella tua Area Personale</h2>
 
-        p {
-            font-size: 1.2rem;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
+    <section class="search-prestazioni">
+        <h3>Gestione Profilo</h3>
+        <p>Puoi aggiornare le tue informazioni personali, come nome, email, indirizzo o password.</p>
+        <a href="{{ route('profile.edit') }}" class="btn">Modifica Profilo</a>
+    </section>
 
-    <div class="dashboard-box">
-        <h1>Dashboard</h1>
-        <p>Hello <strong>{{ Auth::user()->username }}</strong> 👋</p>
-    </div>
+    <section class="search-prestazioni">
+        <h3>Prenotazioni</h3>
+        <ul>
+            <li><a >Cerca e richiedi una nuova prestazione</a></li>
+            <li><a>Visualizza le prenotazioni future</a></li>
+            <li><a>Storico delle prestazioni già usufruite</a></li>
+            <li><a>Annulla una prenotazione attiva</a></li>
+        </ul>
+    </section>
 
-</body>
-</html>
+    <section class="search-prestazioni">
+        <h3>Ricerca Prestazioni</h3>
+        <form method="GET">
+            <label for="prestazione">Ricerca per prestazione:</label>
+            <input type="text" name="prestazione" placeholder="es. Visita, Radiografia o R*">
+
+            <button type="submit" class="btn">Cerca</button>
+        </form>
+        <form method="GET">
+            <label for="dipartimento">Ricerca per dipartimento:</label>
+            <input type="text" name="dipartimento" placeholder="es. Cardiologia o C*">
+            <button type="submit" class="btn">Cerca</button>
+        </form>
+
+    </section>
+
+    <section class="note">
+        <p>Ricorda: quando richiedi una prestazione, non devi specificare data e ora. Lo staff assegnerà il primo slot disponibile e te lo comunicherà direttamente.</p>
+    </section>
+</div>
+@endsection
