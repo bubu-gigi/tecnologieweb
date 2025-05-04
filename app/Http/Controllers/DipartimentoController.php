@@ -21,6 +21,18 @@ class DipartimentoController extends Controller
         return response()->json($dipartimenti);
     }
 
+    public function showPage(string $id)
+    {
+        $dipartimento = $this->dipartimentoService->getById($id);
+
+        if (!$dipartimento) {
+            abort(404, 'Dipartimento non trovato');
+        }
+
+        return view('customers.dipartimento', compact('dipartimento'));
+    }
+
+
     public function show(string $id): JsonResponse
     {
         $dipartimento = $this->dipartimentoService->getById($id);

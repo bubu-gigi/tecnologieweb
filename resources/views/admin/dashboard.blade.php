@@ -1,45 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+@extends('layouts.layout_admin')
 
-        .dashboard-box {
-            background: white;
-            padding: 2rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
+@section('title', 'Area Amministratore')
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
+@section('content')
+<div class="user-area-container">
+    <h2>Benvenuto Amministratore</h2>
 
-        p {
-            font-size: 1.2rem;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
+    <section class="search-prestazioni">
+        <h3>Gestione Dipartimenti</h3>
+        <p>Puoi aggiornare le tue informazioni e i dati relativi ai dipartimenti.</p>
+        <a class="btn">Modifica Dipartimenti</a>
+    </section>
 
-    <div class="dashboard-box">
-        <h1>Dashboard</h1>
-        <p>Hello <strong>{{ Auth::user()->username }}</strong> 👋</p>
-    </div>
+    <section class="search-prestazioni">
+        <h3>Gestione Prestazioni</h3>
+        <p>Puoi aggiornare le tue informazioni e i dati relativi alle prestazioni e alle loro relativa agenda.</p>
+        <a class="btn">Modifica Prestazioni</a>
+    </section>
 
-</body>
-</html>
+    <section class="search-prestazioni">
+        <h3>Gestioni Utenti</h3>
+        <p>Puoi aggiornare le tue informazioni e i dati relativi agli utenti registrati.</p>
+        <a class="btn">Modifica Utenti</a>
+    </section>
+
+    <section class="search-prestazioni">
+        <h3>Gestioni Statistiche</h3>
+        <p>Puoi visualizzare le seguenti statistiche in base a un tuo desiderato intervallo temporale</p>
+        <ul>
+            <li>Il numero di prestazioni erogate suddivise per prestazione</li>
+            <li>Il numero di prestazioni erogate suddivise per dipartimento</li>
+            <li>Tutte le prestazioni erogate ad un utente esterno specificato</li>
+        </ul>
+        <a class="btn">Visualizza Statistiche</a>
+    </section>
+</div>
+@endsection

@@ -1,45 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+@extends('layouts.layout_staff')
 
-        .dashboard-box {
-            background: white;
-            padding: 2rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
+@section('title', 'Area Staff')
 
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
+@section('content')
+<div class="user-area-container">
+    <h2>Benvenuto {{ Auth::user()->username }}</h2>
 
-        p {
-            font-size: 1.2rem;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
+    <section class="search-prestazioni">
+        <h3>Inserimento Prestazioni</h3>
+        <p>Puoi inserire nuove prestazioni</p>
+        <a class="btn">Inserisci</a>
+    </section>
 
-    <div class="dashboard-box">
-        <h1>Dashboard</h1>
-        <p>Hello <strong>{{ Auth::user()->username }}</strong> 👋</p>
-    </div>
+    <section class="search-prestazioni">
+        <h3>Modifica Agende</h3>
+        <p>Puoi modificare le agende delle prenotazioni</p>
+        <a class="btn">Modifica Agende</a>
+    </section>
 
-</body>
-</html>
+    <section class="search-prestazioni">
+        <h3>Visualizzazioni Agende</h3>
+        <p>Puoi modificare le agende di ciascuna prestazione, solo per prestazioni ancora da
+            erogare, con l’indicazione, specificando un giorno, dei singoli appuntamenti di quel giorno e degli utenti
+            a cui verranno erogati;</p>
+        <a class="btn">Modifica Agende</a>
+    </section>
+</div>
+@endsection

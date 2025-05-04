@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DipartimentoController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\PrenotazioniController;
 use Illuminate\Support\Facades\Route;
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -24,3 +24,13 @@ Route::controller(MedicoController::class)->group(function () {
     Route::put('/doctors/{id}', 'update');
     Route::delete('/doctors/{id}', 'destroy');
 });
+
+Route::controller(PrenotazioniController::class)->group(function () {
+    Route::get('/reservations', 'index');
+    Route::get('/reservations/{id}', 'show');
+    Route::post('/reservations', 'store')->name('reservations.store');
+    Route::put('/reservations/{id}', 'update');
+    Route::delete('/reservations/{id}', 'destroy');
+});
+
+

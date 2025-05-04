@@ -44,6 +44,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::CUSTOMERS);
+        if ($request->has('redirect_to')) {
+            return redirect($request->get('redirect_to'));
+        } else {
+            return redirect(RouteServiceProvider::CUSTOMERS);
+        }
     }
 }

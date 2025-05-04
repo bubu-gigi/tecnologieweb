@@ -14,7 +14,7 @@ class DipartimentoService
 
     public function getById(string $id): Dipartimento
     {
-        return Dipartimento::find($id);
+        return Dipartimento::with(['medici.prestazioni'])->find($id);
     }
 
     public function create(array $data): Dipartimento

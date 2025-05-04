@@ -15,6 +15,10 @@
         {!! html()->form('POST', url('register'))->open() !!}
         {{ csrf_field() }}
 
+        @if(request()->has('redirect_to'))
+            <input type="hidden" name="redirect_to" value="{{ request('redirect_to') }}">
+        @endif
+
         <div class="form-grid">
 
             <div class="form-group">

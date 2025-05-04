@@ -7,7 +7,7 @@
 
     @if (Auth::check())
         <nav class="nav-secondary">
-            <a href="/profile" class="button">Profilo</a>
+            <a href="/customers" class="button">Area Personale</a>
             <a href="/logout" class="button">Logout</a>
         </nav>
     @else
