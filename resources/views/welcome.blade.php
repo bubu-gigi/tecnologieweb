@@ -1,6 +1,6 @@
 @extends('layouts.layout_guest')
 
-@section('title', 'Benvenuti - Struttura Sanitaria')
+@section('title', 'Benvenuti - Struttura Sanitaria'
 
 @section('content')
 <div class="welcome-container">
