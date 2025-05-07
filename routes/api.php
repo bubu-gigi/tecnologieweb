@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\DipartimentoController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PrenotazioniController;
+use App\Http\Controllers\PrestazioneController;
 use Illuminate\Support\Facades\Route;
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -31,6 +33,22 @@ Route::controller(PrenotazioniController::class)->group(function () {
     Route::post('/reservations', 'store')->name('reservations.store');
     Route::put('/reservations/{id}', 'update');
     Route::delete('/reservations/{id}', 'destroy');
+});
+
+Route::controller(PrestazioneController::class)->group(function () {
+    Route::get('/procedures', 'index');
+    Route::get('/procedures/{id}', 'show');
+    Route::post('/procedures', 'store');
+    Route::put('/procedures/{id}', 'update');
+    Route::delete('/procedures/{id}', 'destroy');
+});
+
+Route::controller(AgendaController::class)->group(function () {
+    Route::get('/procedures/schedules', 'index');
+    Route::get('/procedures/{procedure}/schedules', 'show')->name('procedures.schedules.show');
+    Route::post('/procedures/{procedure}/schedules', action: 'store')->name('procedures.schedules.save');
+    Route::put('/procedures/{procedure}/schedules', 'update');
+    Route::delete('/procedures/{procedure}/schedules', 'destroy');
 });
 
 
