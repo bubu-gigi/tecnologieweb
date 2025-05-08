@@ -5,6 +5,7 @@
     <title>@yield('title', 'Area Staff')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    @vite('resources/css/app.css')
 </head>
 <body>
     <header class="site-header">
