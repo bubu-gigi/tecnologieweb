@@ -9,11 +9,13 @@
 </head>
 <body>
 
+//ciao
+
     <header class="site-header">
         @include('layouts.navbar_guest')
     </header>
 
-    <main class="main-content">
+    <main class="flex-1 px-8 max-w-[1000px] mx-auto">
         @yield('content')
     </main>
 
