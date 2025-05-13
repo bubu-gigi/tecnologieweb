@@ -4,36 +4,40 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    @vite('resources/css/app.css')
 </head>
-<body class="login-body">
+<body class="min-h-screen bg-gray-50 flex items-center justify-center">
 
-    <div class="form-wrapper">
-        <div class="form-container">
-            <h2>Login</h2>
+    <x-card class="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
+        <div class="flex flex-col gap-6">
+            <h2 class="text-center text-2xl font-bold text-indigo-700">Login</h2>
 
             {!! html()->form('POST', url('login'))->open() !!}
                 {{ csrf_field() }}
 
-                <div class="form-group">
-                    {{ html()->label('Username', 'username')->class('label-input') }}
-                    {{ html()->text('username')->class('input')->id('username') }}
-                    <x-field-errors field="username" />
-                </div>
+                <x-input
+                    label="Username"
+                    name="username"
+                    placeholder="Inserisci username"
+                    class="w-full"
+                />
 
-                <div class="form-group">
-                    {{ html()->label('Password', 'password')->class('label-input') }}
-                    {{ html()->password('password')->class('input')->id('password') }}
-                    <x-field-errors field="password" />
-                </div>
+                <x-input
+                    label="Password"
+                    name="password"
+                    type="password"
+                    placeholder="Inserisci la password"
+                    class="w-full"
+                />
 
-                <div class="form-group">
-                    {{ html()->button('Login')->type('submit')->class('button') }}
+                <div class="flex justify-center">
+                    <x-button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                        Accedi
+                    </x-button>
                 </div>
-
             {{ html()->form()->close() }}
         </div>
-    </div>
+    </x-card>
 
 </body>
 </html>
