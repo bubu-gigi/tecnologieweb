@@ -8,9 +8,9 @@
     @vite(entrypoints: 'resources/css/app.css')
 </head>
 <body>
-    <header class="site-header">
+    <x-header>
         @include('layouts.navbar_guest')
-    </header>
+    </x-header>
 
     <main class="flex-1 px-8 max-w-[1000px] mx-auto">
         @yield('content')

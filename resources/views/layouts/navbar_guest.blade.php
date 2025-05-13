@@ -1,19 +1,30 @@
-<section class="navigation">
-    <nav class="nav-primary">
-        <a href="#struttura">Struttura</a>
-        <a href="#dipartimenti">Dipartimenti</a>
-        <a href="#funzionalita">Funzionalità</a>
-    </nav>
-
+<section class="bg-white px-8 py-4 border-b border-indigo-100 flex justify-between items-center flex-wrap gap-4">
+    <x-left-navbar>
+        <x-link-navbar href="#struttura">
+            Struttura
+        </x-link-navbar>
+        <x-link-navbar href="#dipartimenti">
+            Struttura
+        </x-link-navbar>
+        <x-link-navbar href="#funzionalita">
+            Struttura
+        </x-link-navbar>
+    </x-left-navbar>
+    <x-right-navbar>
     @if (Auth::check())
-        <nav class="nav-secondary">
-            <a href="/customers" class="button">Area Personale</a>
-            <a href="/logout" class="button">Logout</a>
-        </nav>
+        <x-button-navbar href="/customers">
+            Area Personale
+        </x-button-navbar>
+        <x-button-navbar href="/logout">
+            Logout
+        </x-button-navbar>
     @else
-        <nav class="nav-secondary">
-            <a href="/login" class="button">Login</a>
-            <a href="/register" class="button">Registrati</a>
-        </nav>
+        <x-button-navbar href="/login">
+            Login
+        </x-button-navbar>
+        <x-button-navbar href="/register">
+            Register
+        </x-button-navbar>
     @endif
+    </x-right-navbar>
 </section>
