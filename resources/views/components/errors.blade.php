@@ -1,9 +1,9 @@
 @props(['field'])
 
 @if ($errors->has($field))
-    <ul class="error">
+    <ul>
         @foreach ($errors->get($field) as $message)
-            <li>{{ $message }}</li>
+            <li class="text-red-700">{{ $message }}</li>
         @endforeach
     </ul>
 @endif

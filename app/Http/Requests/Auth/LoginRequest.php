@@ -18,8 +18,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string'],
-            'password' => ['required', 'string'],
+            'username' => ['required', 'string', 'min:4'],
+            'password' => ['required', 'string', 'min:6'],
         ];
     }
 
@@ -36,7 +36,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username' => trans('auth.failed'),
+                'username' => "Credenziali errate",
             ]);
         }
 
@@ -64,6 +64,17 @@ class LoginRequest extends FormRequest
                 'minutes' => ceil($seconds / 60),
             ]),
         ]);
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'username.required' => 'Inserisci il tuo username.',
+            'username.min' => 'Lo username deve contenere almeno 4 caratteri.',
+            'password.required' => 'Inserisci la password.',
+            'password.min' => 'La password deve contenere almeno 6 caratteri.',
+        ];
     }
 
     /**

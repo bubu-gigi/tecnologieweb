@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,8 +38,6 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'ruolo' => 'user',
         ]);
-
-        event(new Registered($user));
 
         Auth::login($user);
 
