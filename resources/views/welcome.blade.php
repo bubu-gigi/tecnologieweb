@@ -6,7 +6,7 @@
 <div class="welcome-container">
     <!-- HERO HEADER -->
     <header class="relative">
-        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class="w-full h-96 object-cover opacity-80">
+        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class= h-96"w-full object-cover opacity-80">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-12">
             <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-md">STRUTTURA SANITARIA</h1>
             <p class="text-white text-lg mt-2">La tua salute, la nostra missione</p>
@@ -78,7 +78,7 @@
     <section id="dipartimenti" class="my-6">
         <x-card class="bg-white shadow border border-indigo-200">
             <h2 class="text-2xl font-bold text-center text-indigo-800 mb-6">Dipartimenti Specialistici</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+            <div class="grid grid-cols-2 gap-6 p-4">
                 @foreach($departments as $department)
                     <x-card class="bg-blue-50 border border-indigo-100 shadow-sm p-4 hover:shadow-md transition">
                         <h3 class="text-lg font-semibold text-indigo-700 mb-2">{{ $department->nome }}</h3>

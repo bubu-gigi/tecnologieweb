@@ -31,7 +31,7 @@
                 />
 
                 <div class="flex justify-center">
-                    <x-button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                    <x-button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 font-semibold">
                         Accedi
                     </x-button>
                 </div>
