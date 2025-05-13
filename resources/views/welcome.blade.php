@@ -118,9 +118,12 @@
                             </ul>
                         </div>
 
-                        <x-button class="bg-indigo-600 hover:bg-indigo-700 text-white w-full">
+                        <a
+                            href="{{ auth()->check() ? route('customers.dipartimento', ['id' => $department->id]) : route('login') }}"
+                            class="inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded w-full transition"
+                        >
                             Scopri di più
-                        </x-button>
+                        </a>
                     </x-card>
                 @endforeach
             </div>
