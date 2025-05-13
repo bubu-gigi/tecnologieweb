@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
 
         switch (Auth::user()->ruolo) {
             case 'admin': return redirect()->route('admin');
-            case 'user': return redirect()->route('customers');
+            case 'user': return redirect()->route('customers.dashboard');
             case 'staff': return redirect()->route('staff');
             default: return redirect('/');
         }
