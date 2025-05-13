@@ -8,9 +8,9 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <header class="site-header">
+    <x-header>
         @include('layouts.navbar_staff')
-    </header>
+    </x-header>
 
     <main class="main-content">
         @yield('content')

@@ -1,13 +1,28 @@
-<section class="navigation">
-<nav class="nav-primary">
-    <a href="/">Home</a>
-    <a href="/admin">Dashboard</a>
-    <a href="/admin/dipartimenti">Dipartimenti</a>
-    <a href="/admin/prestazioni">Prestazioni</a>
-    <a href="/admin/users">Utenti</a>
-    <a href="/admin/stats">Statistiche</a>
-    <nav class="nav-secondary">
-        <a href="/logout" class="button">Logout</a>
-    </nav>
-</nav>
-</section>
+<x-wrapper-navbar>
+    <x-left-navbar>
+        <x-link-navbar href="/">
+            Home
+        </x-link-navbar>
+        <x-link-navbar href="/admin">
+            Dashboard
+        </x-link-navbar>
+        <x-link-navbar href="/admin/dipartimenti">
+            Dipartimenti
+        </x-link-navbar>
+        <x-link-navbar href="/admin/prestazioni">
+            Prestazioni
+        </x-link-navbar>
+        <x-link-navbar href="/admin/users">
+            Utenti
+        </x-link-navbar>
+        <x-link-navbar href="/admin/statistiche">
+            Statistiche
+        </x-link-navbar>
+    </x-left-navbar>
+    <x-right-navbar>
+        <x-button-navbar href="/logout">
+            Logout
+        </x-button-navbar>
+    </x-right-navbar>
+</x-wrapper-navbar>
+
