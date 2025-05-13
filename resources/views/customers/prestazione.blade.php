@@ -68,7 +68,7 @@
                         <x-button
                             class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
                             data-id="{{ $prestazione->id }}"
-                        >
+                            onclick="prenotaPrestazione('{{ $prestazione->id }}')">
                             Prenota
                         </x-button>
                         <div id="user-data" data-user-id="{{ auth()->id() }}"></div>
