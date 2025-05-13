@@ -8,9 +8,6 @@
     @vite(entrypoints: 'resources/css/app.css')
 </head>
 <body>
-
-//ciao
-
     <header class="site-header">
         @include('layouts.navbar_guest')
     </header>
