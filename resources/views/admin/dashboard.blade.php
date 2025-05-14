@@ -15,7 +15,7 @@
                     Aggiorna le informazioni relative ai dipartimenti e alla loro struttura.
                 </p>
             </div>
-            <a
+            <a href="/admin/dipartimenti"
                 class="mt-4 inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
                 Modifica Dipartimenti
             </a>
@@ -29,7 +29,7 @@
                     Gestisci prestazioni sanitarie e le relative agende in modo semplice e veloce.
                 </p>
             </div>
-            <a
+            <a href="/admin/prestazioni"
                 class="mt-4 inline-block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
                 Modifica Prestazioni
             </a>
@@ -43,7 +43,7 @@
                     Modifica e monitora i dati degli utenti registrati sulla piattaforma.
                 </p>
             </div>
-            <a
+            <a  href="/admin/utenti"
                 class="mt-4 inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
                 Modifica Utenti
             </a>
@@ -62,7 +62,7 @@
                     <li>Storico prestazioni di un utente</li>
                 </ul>
             </div>
-            <a
+            <a href="/admin/statistiche"
                 class="mt-4 inline-block text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded w-1/2 mx-auto">
                 Visualizza Statistiche
             </a>

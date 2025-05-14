@@ -15,7 +15,7 @@
                     Inserisci nuove prestazioni da associare al personale e ai dipartimenti.
                 </p>
             </div>
-            <a
+            <a href="/staff/prestazioni"
                 class="mt-4 inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
                 Inserisci
             </a>
@@ -29,7 +29,7 @@
                     Accedi alla gestione delle agende delle prenotazioni per ciascuna prestazione.
                 </p>
             </div>
-            <a
+            <a href="/staff/agende"
                 class="mt-4 inline-block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
                 Modifica Agende
             </a>
@@ -43,7 +43,7 @@
                     Consulta le agende delle prestazioni ancora da erogare, filtrando per giorno e visualizzando i dettagli degli appuntamenti e degli utenti.
                 </p>
             </div>
-            <a 
+            <a href="/staff/agende"
                 class="mt-4 inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
                 Visualizza Agende
             </a>

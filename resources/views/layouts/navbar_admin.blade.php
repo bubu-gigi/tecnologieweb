@@ -12,7 +12,7 @@
         <x-link-navbar href="/admin/prestazioni">
             Prestazioni
         </x-link-navbar>
-        <x-link-navbar href="/admin/users">
+        <x-link-navbar href="/admin/utenti">
             Utenti
         </x-link-navbar>
         <x-link-navbar href="/admin/statistiche">
