@@ -42,6 +42,13 @@
                                 <strong>Stato:</strong> In attesa di approvazione
                             </p>
                         @endif
+
+                        <x-button
+                            type="submit"
+                            class="bg-red-500 mt-4 hover:bg-red-600 font-semibold py-2 px-4 rounded w-full transition"
+                        >
+                            Annulla
+                        </x-button>
                     </div>
                 </div>
             @endforeach

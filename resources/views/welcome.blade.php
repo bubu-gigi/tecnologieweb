@@ -62,18 +62,6 @@
         </x-card>
     </section>
 
-    <!-- CONTATTI -->
-    <section id="contatti" class="my-6">
-        <x-card class="bg-white border-l-4 border-blue-500 shadow">
-            <div class="p-4">
-                <h2 class="text-2xl text-indigo-800 font-bold mb-4">Contatti e Dove Trovarci</h2>
-                <p class="text-gray-700 text-sm">📍 Via della Salute, 123 - 00100 Roma (RM)</p>
-                <p class="text-gray-700 text-sm">📞 Telefono: <a href="tel:+390612345678" class="text-blue-600 underline">06 123 45678</a></p>
-                <p class="text-gray-700 text-sm">✉️ Email: <a href="mailto:info@strutturasanitaria.it" class="text-blue-600 underline">info@strutturasanitaria.it</a></p>
-            </div>
-        </x-card>
-    </section>
-
     <!-- DIPARTIMENTI -->
     <section id="dipartimenti" class="my-6">
         <x-card class="bg-white shadow border border-indigo-200">
@@ -117,15 +105,19 @@
                                 @endforelse
                             </ul>
                         </div>
-
-                        <a
-                            href="{{ auth()->check() ? route('customers.dipartimento', ['id' => $department->id]) : route('login') }}"
-                            class="inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded w-full transition"
-                        >
-                            Scopri di più
-                        </a>
                     </x-card>
                 @endforeach
+            </div>
+        </x-card>
+    </section>
+
+    <section id="contatti" class="my-6">
+        <x-card class="bg-white border-l-4 border-blue-500 shadow">
+            <div class="p-4">
+                <h2 class="text-2xl text-indigo-800 font-bold mb-4">Contatti e Dove Trovarci</h2>
+                <p class="text-gray-700 text-sm">📍 Via della Salute, 123 - 00100 Roma (RM)</p>
+                <p class="text-gray-700 text-sm">📞 Telefono: <a href="tel:+390612345678" class="text-blue-600 underline">06 123 45678</a></p>
+                <p class="text-gray-700 text-sm">✉️ Email: <a href="mailto:info@strutturasanitaria.it" class="text-blue-600 underline">info@strutturasanitaria.it</a></p>
             </div>
         </x-card>
     </section>
