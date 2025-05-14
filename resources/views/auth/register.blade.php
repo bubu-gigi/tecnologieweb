@@ -22,7 +22,7 @@
             @endif
 
             <div class="grid grid-cols-2 gap-4">
-                <x-input name="nome" label="Nome" placeholder="Inserisci il tuo nome" />
+                <x-input name="nome" label="Nome" placeholder="Inserisci il tuo nome" autofocus />
                 <x-input name="cognome" label="Cognome" placeholder="Inserisci il tuo cognome" />
                 <x-input name="indirizzo" label="Indirizzo" placeholder="Via, numero civico" />
                 <x-input name="citta" label="Città" placeholder="Città di residenza" />
@@ -43,7 +43,7 @@
                     Registrati
                 </x-button>
             </div>
-            
+
             {{ html()->form()->close() }}
         </div>
     </x-card>

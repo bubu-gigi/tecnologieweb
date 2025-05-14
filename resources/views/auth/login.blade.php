@@ -20,6 +20,7 @@
                     name="username"
                     placeholder="Inserisci username"
                     class="w-full"
+                    autofocus
                 />
 
                 <x-input

@@ -20,7 +20,7 @@
         id="{{ $name }}"
         value="{{ old($name, $value) }}"
         placeholder="{{ $placeholder }}"
-        class="w-full rounded-md px-4 py-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm {{ $class }}"
+        {{ $attributes->merge(['class' => 'w-full rounded-md px-4 py-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm ' . $class]) }}
     >
 
     <x-errors :field="$name" />
