@@ -10,7 +10,7 @@
         <div class="absolute inset-0 flex flex-col justify-center items-start px-12">
             <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-md">STRUTTURA SANITARIA</h1>
             <p class="text-white text-lg mt-2">La tua salute, la nostra missione</p>
-            <a href="#dipartimenti" class="mt-6 inline-block bg-white text-indigo-700 font-semibold py-2 px-4 rounded-lg shadow hover:bg-indigo-100 transition">Scopri i dipartimenti</a>
+            <a href="#contatti" class="mt-6 inline-block bg-white text-indigo-700 font-semibold py-2 px-4 rounded-lg shadow hover:bg-indigo-100 transition">Scopri dove siamo</a>
         </div>
     </header>
 
@@ -33,6 +33,7 @@
             <div class="p-4">
                 <h2 class="text-xl font-semibold text-indigo-700 mb-3">Organizzazione Interna dei Servizi</h2>
                 <ul class="list-disc pl-5 space-y-2 text-gray-800 text-sm">
+                    <br>
                     <li>Servizio Accoglienza e Segreteria</li>
                     <li>Ambulatori per visite specialistiche</li>
                     <li>Laboratorio analisi</li>
@@ -49,6 +50,7 @@
             <div class="p-4">
                 <h2 class="text-xl font-semibold text-indigo-700 mb-3">Funzionalità del Sito</h2>
                 <ul class="list-disc pl-5 space-y-2 text-gray-800 text-sm">
+                    <br>
                     <li>Registrazione utenti con inserimento dati personali per accedere ai servizi online.</li>
                     <li>Visualizzazione dei dipartimenti specialistici con informazioni su staff e prestazioni offerte.</li>
                     <li>Catalogo delle prestazioni sanitarie consultabile per dipartimento o parola chiave.</li>

@@ -14,8 +14,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'min:2', 'max:255'],
-            'cognome' => ['required', 'string', 'min:2', 'max:255'],
+            'nome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[^\d]*$/'],
+            'cognome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[^\d]*$/'],
             'indirizzo' => ['required', 'string', 'min:4', 'max:255'],
             'citta' => ['required', 'string', 'min:2', 'max:100'],
             'dataNascita' => ['required', 'date', 'before:today'],
@@ -40,6 +40,8 @@ class RegisterRequest extends FormRequest
             'dataNascita.before' => 'La data di nascita deve essere precedente a oggi.',
             'password.confirmed' => 'Le password non coincidono.',
             'username.unique' => 'Questo username è già in uso.',
+            'nome.regex' => 'Il nome non può contenere numeri.',
+            'nome.regex' => 'Il cognome non può contenere numeri.',
         ];
     }
 }

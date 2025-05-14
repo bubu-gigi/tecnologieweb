@@ -3,11 +3,11 @@
         <x-link-navbar href="#struttura">
             Struttura
         </x-link-navbar>
-        <x-link-navbar href="#dipartimenti">
-            Dipartimenti
-        </x-link-navbar>
         <x-link-navbar href="#funzionalita">
             Funzionalita
+        </x-link-navbar>
+        <x-link-navbar href="#dipartimenti">
+            Dipartimenti
         </x-link-navbar>
     </x-left-navbar>
     <x-right-navbar>
