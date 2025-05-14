@@ -3,27 +3,51 @@
 @section('title', 'Area Staff')
 
 @section('content')
-<div class="user-area-container">
-    <h2>Benvenuto {{ Auth::user()->username }}</h2>
+<div class="flex flex-col gap-6">
+    <h2 class="text-2xl font-bold text-indigo-700 text-center">Benvenuto {{ Auth::user()->username }}</h2>
 
-    <section class="search-prestazioni">
-        <h3>Inserimento Prestazioni</h3>
-        <p>Puoi inserire nuove prestazioni</p>
-        <a class="btn">Inserisci</a>
-    </section>
+    <div class="grid grid-cols-3 gap-6">
+        <!-- Inserimento Prestazioni -->
+        <x-card class="bg-indigo-100 p-4 rounded-lg shadow-sm flex flex-col justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-indigo-800">Inserimento Prestazioni</h3>
+                <p class="text-sm text-gray-700 mt-2">
+                    Inserisci nuove prestazioni da associare al personale e ai dipartimenti.
+                </p>
+            </div>
+            <a
+                class="mt-4 inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
+                Inserisci
+            </a>
+        </x-card>
 
-    <section class="search-prestazioni">
-        <h3>Modifica Agende</h3>
-        <p>Puoi modificare le agende delle prenotazioni</p>
-        <a class="btn">Modifica Agende</a>
-    </section>
+        <!-- Modifica Agende -->
+        <x-card class="bg-green-100 p-4 rounded-lg shadow-sm flex flex-col justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-green-800">Modifica Agende</h3>
+                <p class="text-sm text-gray-700 mt-2">
+                    Accedi alla gestione delle agende delle prenotazioni per ciascuna prestazione.
+                </p>
+            </div>
+            <a
+                class="mt-4 inline-block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
+                Modifica Agende
+            </a>
+        </x-card>
 
-    <section class="search-prestazioni">
-        <h3>Visualizzazioni Agende</h3>
-        <p>Puoi modificare le agende di ciascuna prestazione, solo per prestazioni ancora da
-            erogare, con l’indicazione, specificando un giorno, dei singoli appuntamenti di quel giorno e degli utenti
-            a cui verranno erogati;</p>
-        <a class="btn">Modifica Agende</a>
-    </section>
+        <!-- Visualizzazione Agende -->
+        <x-card class="bg-yellow-100 p-4 rounded-lg shadow-sm flex flex-col justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-yellow-800">Visualizzazioni Agende</h3>
+                <p class="text-sm text-gray-700 mt-2">
+                    Consulta le agende delle prestazioni ancora da erogare, filtrando per giorno e visualizzando i dettagli degli appuntamenti e degli utenti.
+                </p>
+            </div>
+            <a 
+                class="mt-4 inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
+                Visualizza Agende
+            </a>
+        </x-card>
+    </div>
 </div>
 @endsection
