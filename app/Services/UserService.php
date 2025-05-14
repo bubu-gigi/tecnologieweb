@@ -17,6 +17,11 @@ class UserService
         return User::find($id);
     }
 
+    public function getByRuolo(string $ruolo): Collection
+    {
+        return User::where('ruolo', $ruolo)->get();
+    }
+
     public function create(array $data): User
     {
         return User::create($data);

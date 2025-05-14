@@ -39,7 +39,11 @@ Route::middleware(['auth', 'check.role:admin,staff'])->group(function () {
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/utenti', [AdminController::class, 'users'])->name('admin.users');
+    Route::delete('/admin/utenti/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+    Route::get('/admin/utenti/nuovo', [AdminController::class, 'createUser'])->name(name: 'admin.users.create');
+    Route::get('/admin/utenti/{id}', [AdminController::class, 'editUser'])->name(name: 'admin.users.edit');
 });
 
 require __DIR__.'/auth.php';
