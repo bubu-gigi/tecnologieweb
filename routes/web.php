@@ -44,6 +44,9 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::delete('/admin/utenti/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
     Route::get('/admin/utenti/nuovo', [AdminController::class, 'createUser'])->name(name: 'admin.users.create');
     Route::get('/admin/utenti/{id}', [AdminController::class, 'editUser'])->name(name: 'admin.users.edit');
+    Route::get('/admin/dipartimenti', [AdminController::class, 'dipartimenti'])->name('admin.dipartimenti');
+        Route::get('/admin/dipartimenti/nuovo', [AdminController::class, 'createDipartimento'])->name(name: 'admin.dipartimenti.create');
+    Route::get('/admin/dipartimenti/{id}', [AdminController::class, 'editDipartimento'])->name(name: 'admin.dipartimenti.edit');
 });
 
 require __DIR__.'/auth.php';
