@@ -41,7 +41,7 @@ class RegisterRequest extends FormRequest
             'password.confirmed' => 'Le password non coincidono.',
             'username.unique' => 'Questo username è già in uso.',
             'nome.regex' => 'Il nome non può contenere numeri.',
-            'nome.regex' => 'Il cognome non può contenere numeri.',
+            'cognome.regex' => 'Il cognome non può contenere numeri.',
         ];
     }
 }
