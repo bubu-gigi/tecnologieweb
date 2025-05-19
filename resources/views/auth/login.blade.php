@@ -12,8 +12,8 @@
         <div class="flex flex-col gap-6">
             <h2 class="text-center text-2xl font-bold text-indigo-700">Login</h2>
 
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
+            {{ html()->form('POST', url('login'))->open() }}
+                {{ csrf_field() }}
 
                 <x-input
                     label="Username"
@@ -42,8 +42,8 @@
                         Accedi
                     </x-button>
                 </div>
-                
-            </form>
+
+            {{ html()->form()->close() }}
         </div>
     </x-card>
 
