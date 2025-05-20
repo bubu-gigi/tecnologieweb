@@ -24,9 +24,9 @@
             <div class="grid grid-cols-2 gap-4">
                 <x-input name="nome" label="Nome" placeholder="Inserisci il tuo nome" autofocus />
                 <x-input name="cognome" label="Cognome" placeholder="Inserisci il tuo cognome" />
+                <x-input name="dataNascita" label="Data di nascita" type="date" />
                 <x-input name="indirizzo" label="Indirizzo" placeholder="Via, numero civico" />
                 <x-input name="citta" label="Città" placeholder="Città di residenza" />
-                <x-input name="dataNascita" label="Data di nascita" type="date" />
                 <x-input name="username" label="Username" placeholder="Scegli un username" />
                 <x-input name="password" label="Password" type="password" placeholder="Crea una password" />
                 <x-input name="password_confirmation" label="Conferma Password" type="password" placeholder="Ripeti la password" />

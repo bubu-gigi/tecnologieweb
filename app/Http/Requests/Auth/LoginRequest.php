@@ -15,11 +15,12 @@ class LoginRequest extends FormRequest
     {
         return true;
     }
+
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string', 'min:4'],
-            'password' => ['required', 'string', 'min:6'],
+            'username' => ['required', 'string', 'min:6', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
         ];
     }
 
@@ -66,14 +67,15 @@ class LoginRequest extends FormRequest
         ]);
     }
 
-
     public function messages(): array
     {
         return [
             'username.required' => 'Inserisci il tuo username.',
-            'username.min' => 'Lo username deve contenere almeno 4 caratteri.',
+            'username.min' => 'Lo username deve contenere almeno 6 caratteri.',
+            'username.max' => 'Lo username è troppo lungo.',
+
             'password.required' => 'Inserisci la password.',
-            'password.min' => 'La password deve contenere almeno 6 caratteri.',
+            'password.min' => 'La password deve contenere almeno 8 caratteri.',
         ];
     }
 
