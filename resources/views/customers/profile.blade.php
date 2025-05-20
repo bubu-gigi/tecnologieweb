@@ -12,22 +12,25 @@
 
         <div class="grid grid-cols-2 gap-4">
             <x-input
-                name="username"
-                label="Username"
-                placeholder="Modifica il tuo username"
-                value="{{ old('username', auth()->user()->username) }}"
-            />
-            <x-input
                 name="nome"
                 label="Nome"
                 placeholder="Modifica il tuo nome"
                 value="{{ old('nome', auth()->user()->nome) }}"
+                readonly
             />
             <x-input
                 name="cognome"
                 label="Cognome"
                 placeholder="Modifica il tuo cognome"
                 value="{{ old('cognome', auth()->user()->cognome) }}"
+                readonly
+            />
+            <x-input
+                name="dataNascita"
+                label="Data di nascita"
+                type="date"
+                value="{{ old('dataNascita', auth()->user()->dataNascita) }}"
+                readonly
             />
             <x-input
                 name="indirizzo"
@@ -42,10 +45,11 @@
                 value="{{ old('citta', auth()->user()->citta_nascita) }}"
             />
             <x-input
-                name="dataNascita"
-                label="Data di nascita"
-                type="date"
-                value="{{ old('dataNascita', auth()->user()->dataNascita) }}"
+                name="username"
+                label="Username"
+                placeholder="Modifica il tuo username"
+                value="{{ old('username', auth()->user()->username) }}"
+                readonly
             />
             <x-input
                 name="password"

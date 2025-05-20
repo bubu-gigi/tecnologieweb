@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
                 'indirizzo' => 'Via Medica 10',
                 'citta_nascita' => 'Milano',
                 'username' => 'f.verdi',
-                'password' => Hash::make('staff1'),
-                'ruolo' => 'staff',
+                'password' => Hash::make('passwordfv'),
+                'ruolo' => 'user',
             ],
             [
                 'nome' => 'Lorenzo',
