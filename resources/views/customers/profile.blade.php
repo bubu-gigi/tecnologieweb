@@ -16,22 +16,18 @@
                 label="Nome"
                 placeholder="Modifica il tuo nome"
                 value="{{ old('nome', auth()->user()->nome) }}"
-                readonly
             />
             <x-input
                 name="cognome"
                 label="Cognome"
                 placeholder="Modifica il tuo cognome"
                 value="{{ old('cognome', auth()->user()->cognome) }}"
-                readonly
             />
             <x-input
                 name="dataNascita"
                 label="Data di nascita"
                 type="date"
-                value="{{ old('dataNascita', auth()->user()->dataNascita) }}"
-                readonly
-            />
+                value="{{ old('dataNascita', auth()->user()->dataNascita) }}"            />
             <x-input
                 name="indirizzo"
                 label="Indirizzo"
@@ -48,9 +44,7 @@
                 name="username"
                 label="Username"
                 placeholder="Modifica il tuo username"
-                value="{{ old('username', auth()->user()->username) }}"
-                readonly
-            />
+                value="{{ old('username', auth()->user()->username) }}"            />
             <x-input
                 name="password"
                 label="Nuova Password"
