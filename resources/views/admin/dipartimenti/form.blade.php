@@ -28,10 +28,19 @@
         <x-textarea
             label="Descrizione"
             name="descrizione"
-        >{{ old('descrizione', $dipartimento->descrizione ?? '') }}</x-textarea>
+            :value="old('descrizione', $dipartimento->descrizione ?? '')"
+        />
 
-        <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 mt-4">
-            {{ $isEdit ? 'Aggiorna' : 'Crea' }}
-        </x-button>
+        <div class="flex justify-center gap-4 mt-4">
+            <x-button type="button"
+                onclick="window.location.href='{{ route('admin.dipartimenti') }}'"
+                class="w-1/2 bg-gray-400 hover:bg-gray-500 text-white font-semibold">
+                Torna indietro
+            </x-button>
+            <x-button type="submit"
+                class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                {{ $isEdit ? 'Aggiorna' : 'Crea' }}
+            </x-button>
+        </div>
     </form>
 </x-card>

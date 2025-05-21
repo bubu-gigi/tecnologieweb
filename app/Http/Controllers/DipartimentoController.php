@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\DipartimentoService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\GestioneDipartimentiRequest;
 
 class DipartimentoController extends Controller
 {
@@ -39,18 +39,19 @@ class DipartimentoController extends Controller
         return response()->json($dipartimento);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(GestioneDipartimentiRequest $request): JsonResponse
     {
-        $data = $request->only(['nome', 'descrizione']);
+        $data = $request->validated();
         $dipartimento = $this->dipartimentoService->create($data);
 
         return response()->json($dipartimento, 201);
     }
 
-    public function update(Request $request, string $id): JsonResponse
+    public function update(GestioneDipartimentiRequest $request, string $id): JsonResponse
     {
-        $data = $request->only(['nome', 'descrizione']);
+        $data = $request->validated();
         $dipartimento = $this->dipartimentoService->update($id, $data);
+
         return response()->json($dipartimento);
     }
 

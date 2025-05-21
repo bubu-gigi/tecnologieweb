@@ -9,7 +9,6 @@
         id="{{ $name }}"
         rows="{{ $rows }}"
         {{ $attributes->merge(['class' => 'mt-1 block w-full border-gray-300 rounded-md shadow-sm ' . $class]) }}
-    >{{ old($name, $value) }}
-    </textarea>
+    >{{ trim(old($name, $value)) }}</textarea>
     <x-errors :field="$name" />
 </div>
