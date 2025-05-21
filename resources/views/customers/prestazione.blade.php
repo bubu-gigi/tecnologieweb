@@ -16,9 +16,13 @@
                         <input
                             type="text"
                             name="prestazione"
+                            value="{{ old('prestazione') }}"
                             placeholder="es. Visita, Radiografia o R*"
                             class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         >
+                        @error('prestazione')
+                            <p class="text-red-600 text-sm">{{ $message }}</p>
+                        @enderror
                         <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold mt-2">
                             Cerca
                         </x-button>
@@ -32,9 +36,13 @@
                         <input
                             type="text"
                             name="dipartimento"
+                            value="{{ old('dipartimento') }}"
                             placeholder="es. Cardiologia o C*"
                             class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         >
+                        @error('dipartimento')
+                            <p class="text-red-600 text-sm">{{ $message }}</p>
+                        @enderror
                         <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold mt-2">
                             Cerca
                         </x-button>

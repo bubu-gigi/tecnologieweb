@@ -37,7 +37,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username' => "Credenziali errate",
+                'username' => "Username o password errati.",
             ]);
         }
 

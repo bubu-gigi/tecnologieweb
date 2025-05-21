@@ -6,6 +6,8 @@ use App\Services\PrestazioneService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Requests\SearchPrestazioneRequest;
+use App\Http\Requests\SearchDipartimentoRequest;
 
 class PrestazioneController extends Controller
 {
@@ -30,13 +32,14 @@ class PrestazioneController extends Controller
 
     public function search(Request $request): View
     {
-        $prestazione = $request->input('prestazione');
-        $dipartimento = $request->input('dipartimento');
+        $prestazioni = [];
 
-        if ($prestazione) {
-            $prestazioni = $this->prestazioneService->searchByPrestazione($prestazione);
-        } elseif ($dipartimento) {
-            $prestazioni = $this->prestazioneService->searchByDipartimento($dipartimento);
+        if ($request->has('prestazione')) {
+            $validated = app(SearchPrestazioneRequest::class)->validated();
+            $prestazioni = $this->prestazioneService->searchByPrestazione($validated['prestazione']);
+        } elseif ($request->has('dipartimento')) {
+            $validated = app(SearchDipartimentoRequest::class)->validated();
+            $prestazioni = $this->prestazioneService->searchByDipartimento($validated['dipartimento']);
         }
 
         return view('customers.prestazione', compact('prestazioni'));

@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
         User::create([
             'nome' => 'Admin',
             'cognome' => 'System',
-            'username' => 'admin',
+            'username' => 'admin00',
             'password' => Hash::make('password'),
             'ruolo' => 'admin',
         ]);
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 'indirizzo' => 'Viale Ospedale 5',
                 'citta_nascita' => 'Napoli',
                 'username' => 'l.rossi',
-                'password' => Hash::make('staff2'),
+                'password' => Hash::make('passwordlr'),
                 'ruolo' => 'staff',
             ],
             [
