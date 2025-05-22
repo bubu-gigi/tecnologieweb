@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Services\DipartimentoService;
 use App\Services\UserService;
 use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\GestioneDipartimentiRequest;
 
 class AdminController extends Controller
 {
@@ -63,4 +65,30 @@ class AdminController extends Controller
         return view('admin.dipartimenti.edit', data: compact('dipartimento'));
     }
 
+    public function storeDipartimento(GestioneDipartimentiRequest $request)
+    {
+        $data = $request->validated();
+        $this->dipartimentoService->create($data);
+
+        return redirect()->route('admin.dipartimenti')->with('success', 'Dipartimento creato con successo.');
+    }
+
+    public function updateDipartimento(GestioneDipartimentiRequest $request, string $id)
+    {
+        $data = $request->validated();
+        $this->dipartimentoService->update($id, $data);
+
+        return redirect()->route('admin.dipartimenti')->with('success', 'Dipartimento aggiornato con successo.');
+    }
+
+    public function deleteDipartimento(string $id): JsonResponse
+    {
+        $deleted = $this->dipartimentoService->delete($id);
+
+        if ($deleted) {
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Errore durante l\'eliminazione'], 500);
+    }
 }

@@ -3,8 +3,8 @@
 @php
     $isEdit = $dipartimento !== null;
     $action = $isEdit
-        ? route('admin.dipartimenti.edit', $dipartimento->id)
-        : route('admin.dipartimenti.create');
+        ? route('admin.dipartimenti.update', $dipartimento->id)
+        : route('admin.dipartimenti.store');
     $method = $isEdit ? 'PUT' : 'POST';
 @endphp
 
@@ -23,6 +23,7 @@
             label="Nome"
             name="nome"
             value="{{ old('nome', $dipartimento->nome ?? '') }}"
+            autofocus
         />
 
         <x-textarea

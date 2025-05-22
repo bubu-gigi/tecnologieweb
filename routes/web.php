@@ -47,6 +47,10 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::get('/admin/dipartimenti', [AdminController::class, 'dipartimenti'])->name('admin.dipartimenti');
     Route::get('/admin/dipartimenti/nuovo', [AdminController::class, 'createDipartimento'])->name(name: 'admin.dipartimenti.create');
     Route::get('/admin/dipartimenti/{id}', [AdminController::class, 'editDipartimento'])->name(name: 'admin.dipartimenti.edit');
+
+    Route::post('/admin/dipartimenti', [AdminController::class, 'storeDipartimento'])->name('admin.dipartimenti.store');
+    Route::put('/admin/dipartimenti/{id}', [AdminController::class, 'updateDipartimento'])->name('admin.dipartimenti.update');
+    Route::delete('/admin/dipartimenti/{id}', [AdminController::class, 'deleteDipartimento'])->name('admin.dipartimenti.destroy');
 });
 
 require __DIR__.'/auth.php';
