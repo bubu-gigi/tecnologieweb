@@ -7,8 +7,11 @@
 <x-card class="bg-white p-4 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Gestione Utenti</h3>
-        <x-button class="bg-indigo-600 hover:bg-indigo-700">
-            <a href="/admin/utenti/nuovo">Nuovo</a>
+        <x-button
+            onclick="window.location.href='{{ route('admin.users.create') }}'"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+        >
+            Nuovo
         </x-button>
     </div>
 

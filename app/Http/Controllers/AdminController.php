@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Services\DipartimentoService;
 use App\Services\UserService;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\GestioneDipartimentiRequest;
+use App\Http\Requests\GestioneUtentiRequest;
 
 class AdminController extends Controller
 {
@@ -25,6 +27,11 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function users(): View
+    {
+        $users = $this->userService->getByRuolo('staff');
+        return view('admin.utenti', compact('users'));
+    }
 
     public function createUser(): View
     {
@@ -37,10 +44,21 @@ class AdminController extends Controller
         return view('admin.utenti.edit', data: compact('user'));
     }
 
-    public function users(): View
+    public function storeUser(GestioneUtentiRequest $request)
     {
-        $users = $this->userService->getByRuolo('staff');
-        return view('admin.utenti', compact('users'));
+        $data = $request->validated();
+        $data['ruolo'] = 'staff';
+        $this->userService->create($data);
+
+        return redirect()->route('admin.users')->with('success', 'Utente creato con successo.');
+    }
+
+    public function updateUser(GestioneUtentiRequest $request, string $id)
+    {
+        $data = $request->validated();
+        $this->userService->update($id, $data);
+
+        return redirect()->route('admin.users')->with('success', 'Utente aggiornato con successo.');
     }
 
     public function deleteUser(string $id)

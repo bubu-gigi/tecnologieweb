@@ -3,8 +3,8 @@
 @php
     $isEdit = $user !== null;
     $action = $isEdit
-        ? route('admin.users.edit', $user->id)
-        : route('admin.users.create');
+        ? route('admin.users.update', $user->id)
+        : route('admin.users.store');
     $method = $isEdit ? 'PUT' : 'POST';
 @endphp
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -24,14 +25,28 @@ class UserService
 
     public function create(array $data): User
     {
+        // Cripta la password
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
         return User::create($data);
     }
 
     public function update(string $id, array $data): User
     {
-        $dip = User::findOrFail($id);
-        $dip->update($data);
-        return $dip;
+        $user = User::findOrFail($id);
+
+        // Se password non presente o vuota, la rimuovo dai dati per non sovrascriverla
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($data);
+
+        return $user;
     }
 
     public function delete(string $id): int
