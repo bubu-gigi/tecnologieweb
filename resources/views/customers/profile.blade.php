@@ -24,10 +24,10 @@
                 value="{{ old('cognome', auth()->user()->cognome) }}"
             />
             <x-input
-                name="dataNascita"
+                name="data_nascita"
                 label="Data di nascita"
                 type="date"
-                value="{{ old('dataNascita', auth()->user()->dataNascita) }}"            />
+                value="{{ old('data_nascita', auth()->user()->data_nascita) }}"            />
             <x-input
                 name="indirizzo"
                 label="Indirizzo"
@@ -38,7 +38,7 @@
                 name="citta"
                 label="Città"
                 placeholder="Modifica la tua città"
-                value="{{ old('citta', auth()->user()->citta_nascita) }}"
+                value="{{ old('citta', auth()->user()->citta) }}"
             />
             <x-input
                 name="username"

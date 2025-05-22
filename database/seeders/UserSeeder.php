@@ -22,8 +22,9 @@ class UserSeeder extends Seeder
             [
                 'nome' => 'Francesca',
                 'cognome' => 'Verdi',
-                'indirizzo' => 'Via Medica 10',
-                'citta_nascita' => 'Milano',
+                'indirizzo' => 'Via Medica, 10',
+                'citta' => 'Milano',
+                'data_nascita' => '1990-05-15',
                 'username' => 'f.verdi',
                 'password' => Hash::make('passwordfv'),
                 'ruolo' => 'user',
@@ -31,8 +32,6 @@ class UserSeeder extends Seeder
             [
                 'nome' => 'Lorenzo',
                 'cognome' => 'Rossi',
-                'indirizzo' => 'Viale Ospedale 5',
-                'citta_nascita' => 'Napoli',
                 'username' => 'l.rossi',
                 'password' => Hash::make('passwordlr'),
                 'ruolo' => 'staff',
@@ -40,10 +39,8 @@ class UserSeeder extends Seeder
             [
                 'nome' => 'Chiara',
                 'cognome' => 'Bianchi',
-                'indirizzo' => 'Via Salute 8',
-                'citta_nascita' => 'Torino',
                 'username' => 'c.bianchi',
-                'password' => Hash::make('staff3'),
+                'password' => Hash::make('passwordcb'),
                 'ruolo' => 'staff',
             ],
         ];

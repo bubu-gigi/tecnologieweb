@@ -13,7 +13,8 @@ return new class extends Migration
             $table->string('nome');
             $table->string('cognome');
             $table->string('indirizzo')->nullable();
-            $table->string('citta_nascita')->nullable();
+            $table->string('citta')->nullable();
+            $table->date('data_nascita')->nullable();
             $table->string('username')->unique();
             $table->string('password');
             $table->string('ruolo')->default('paziente');

@@ -16,7 +16,7 @@ class RegisterRequest extends FormRequest
         return [
             'nome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[A-Za-zÀ-ÿ\'\-\s]+$/u'],
             'cognome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[A-Za-zÀ-ÿ\'\-\s]+$/u'],
-            'dataNascita' => ['required', 'date', 'before:today'],
+            'data_nascita' => ['required', 'date', 'before:today'],
             'indirizzo' => ['required', 'string', 'min:4', 'max:255'],
             'citta' => ['required', 'string', 'min:2', 'max:100'],
             'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users,username'],
@@ -35,8 +35,8 @@ class RegisterRequest extends FormRequest
             'cognome.min' => 'Il cognome è troppo corto.',
             'cognome.regex' => 'Il cognome può contenere solo lettere, spazi e apostrofi.',
 
-            'dataNascita.required' => 'La data di nascita è obbligatoria.',
-            'dataNascita.before' => 'La data di nascita deve essere precedente a oggi.',
+            'data_nascita.required' => 'La data di nascita è obbligatoria.',
+            'data_nascita.before' => 'La data di nascita deve essere precedente a oggi.',
 
             'indirizzo.required' => 'L\'indirizzo è obbligatorio.',
             'indirizzo.min' => 'L\'indirizzo è troppo corto.',

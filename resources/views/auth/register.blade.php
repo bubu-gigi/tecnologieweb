@@ -24,7 +24,7 @@
             <div class="grid grid-cols-2 gap-4">
                 <x-input name="nome" label="Nome" placeholder="Inserisci il tuo nome" autofocus />
                 <x-input name="cognome" label="Cognome" placeholder="Inserisci il tuo cognome" />
-                <x-input name="dataNascita" label="Data di nascita" type="date" />
+                <x-input name="data_nascita" label="Data di nascita" type="date" />
                 <x-input name="indirizzo" label="Indirizzo" placeholder="Via, numero civico" />
                 <x-input name="citta" label="Città" placeholder="Città di residenza" />
                 <x-input name="username" label="Username" placeholder="Scegli un username" />

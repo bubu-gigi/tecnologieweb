@@ -34,8 +34,8 @@ class ProfiloController extends Controller
             'cognome' => $request->cognome,
             'password' => Hash::make($request->password),
             'indirizzo' => $request->indirizzo,
-            'citta_nascita' => $request->citta,
-            'data_nascita' => $request->dataNascita,
+            'citta' => $request->citta,
+            'data_nascita' => $request->data_nascita,
             'username' => $request->username,
             'ruolo' => 'user',
         ];
