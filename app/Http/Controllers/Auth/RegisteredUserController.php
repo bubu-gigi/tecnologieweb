@@ -13,11 +13,14 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
+        $previousUrl = url()->previous();
+
+        if (!session()->has('register_referrer') && $previousUrl !== url()->current()) {
+            session(['register_referrer' => $previousUrl]);
+        }
+
         return view('auth.register');
     }
 
@@ -40,6 +43,8 @@ class RegisteredUserController extends Controller
         ]);
 
         Auth::login($user);
+
+        $request->session()->forget('register_referrer');
 
         return redirect(RouteServiceProvider::CUSTOMERS);
     }

@@ -13,6 +13,12 @@ class AuthenticatedSessionController extends Controller
 {
     public function create(): View
     {
+        $previousUrl = url()->previous();
+
+        if (!session()->has('login_referrer') && $previousUrl !== url()->current()) {
+            session(['login_referrer' => $previousUrl]);
+        }
+
         return view('auth.login');
     }
 
@@ -29,6 +35,8 @@ class AuthenticatedSessionController extends Controller
             'username' => $user->username,
             'role' => $user->ruolo,
         ]);
+
+        $request->session()->forget('login_referrer');
 
         switch (Auth::user()->ruolo) {
             case 'admin': return redirect()->route('admin.dashboard');

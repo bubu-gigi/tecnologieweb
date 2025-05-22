@@ -32,12 +32,16 @@
                 <x-input name="password_confirmation" label="Conferma Password" type="password" placeholder="Ripeti la password" />
             </div>
 
+            @php
+                $backUrl = session('register_referrer', url('/'));
+            @endphp
+
             <div class="flex justify-center gap-4">
                 <x-button type="button"
-                        onclick="window.history.back()"
-                        class="w-1/2 bg-gray-400 hover:bg-gray-500 text-black font-semibold">
-                    Torna indietro
-                </x-button>
+                    onclick="window.location.href='{{ $backUrl }}'"
+                    class="w-1/2 bg-gray-400 hover:bg-gray-500 text-black font-semibold">
+                Torna indietro
+            </x-button>
                 <x-button type="submit"
                         class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
                     Registrati

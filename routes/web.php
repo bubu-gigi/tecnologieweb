@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
+Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.dashboard');
     Route::get('/customers/profilo', [ProfiloController::class, 'edit'])->name('profile.edit');
     Route::post('/customers/profilo', [ProfiloController::class, 'update'])->name('profile.update');
@@ -34,20 +34,18 @@ Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
     Route::get('/dipartimenti/{id}', [DipartimentoController::class, 'showPage'])->name('customers.dipartimento');
 });
 
-Route::middleware(['auth', 'check.role:admin,staff'])->group(function () {
+Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-
     Route::get('/admin/utenti', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/admin/utenti/nuovo', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/admin/utenti', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/admin/utenti/{id}', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/admin/utenti/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/utenti/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
-
     Route::get('/admin/dipartimenti', [AdminController::class, 'dipartimenti'])->name('admin.dipartimenti');
     Route::get('/admin/dipartimenti/nuovo', [AdminController::class, 'createDipartimento'])->name(name: 'admin.dipartimenti.create');
     Route::get('/admin/dipartimenti/{id}', [AdminController::class, 'editDipartimento'])->name(name: 'admin.dipartimenti.edit');
