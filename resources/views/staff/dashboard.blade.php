@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="flex flex-col gap-6">
-    <h2 class="text-2xl font-bold text-indigo-700 text-center">Benvenuto {{ Auth::user()->username }}</h2>
+    <h2 class="text-2xl font-bold text-indigo-700 text-center">Benvenuto {{ Auth::user()->nome }}</h2>
 
     <div class="grid grid-cols-3 gap-6">
         <!-- Inserimento Prestazioni -->

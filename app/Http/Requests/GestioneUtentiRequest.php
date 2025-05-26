@@ -17,8 +17,8 @@ class GestioneUtentiRequest extends FormRequest
         $userId = $this->route('id'); // prende l'id dalla rotta (per escluderlo nell'unicità dello username)
 
         return [
-            'nome' => ['required', 'string', 'max:255'],
-            'cognome' => ['required', 'string', 'max:255'],
+            'nome' => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s]+$/u'],
+            'cognome' => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s]+$/u'],
             'username' => [
                 'required',
                 'string',
@@ -39,7 +39,9 @@ class GestioneUtentiRequest extends FormRequest
     {
         return [
             'nome.required' => 'Il campo nome è obbligatorio.',
+            'nome.regex' => 'Il campo nome può contenere solo lettere',
             'cognome.required' => 'Il campo cognome è obbligatorio.',
+            'cognome.regex' => 'Il campo cognome può contenere solo lettere',
             'username.required' => 'Il campo username è obbligatorio.',
             'username.unique' => 'Questo username è già in uso.',
             'password.required' => 'La password è obbligatoria.',

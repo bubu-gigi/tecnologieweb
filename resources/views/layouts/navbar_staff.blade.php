@@ -1,9 +1,9 @@
 <x-wrapper-navbar>
     <x-left-navbar>
-        <x-link-navbar href="/">
+        <x-link-navbar href="{{ url('/') }}">
             Home
         </x-link-navbar>
-        <x-link-navbar href="/staff">
+        <x-link-navbar href="{{ route('staff.dashboard') }}">
             Dashboard
         </x-link-navbar>
         <x-link-navbar href="/staff/prestazioni">

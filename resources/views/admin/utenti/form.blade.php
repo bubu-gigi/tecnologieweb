@@ -49,9 +49,13 @@
         />
 
         <div class="col-span-2 flex justify-center gap-4 mt-4">
+            @php
+                $previousUrl = session('previous_url', route('admin.users'));
+            @endphp
+
             <x-button
                 type="button"
-                onclick="window.history.back()"
+                onclick="window.location.href='{{ $previousUrl }}'"
                 class="w-1/2 bg-gray-400 hover:bg-gray-500 text-black font-semibold">
                 Indietro
             </x-button>

@@ -35,7 +35,7 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
 });
 
 Route::middleware(['auth', 'check.role:staff'])->group(function () {
-    Route::get('/staff', [StaffController::class, 'index'])->name('staff');
+    Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {

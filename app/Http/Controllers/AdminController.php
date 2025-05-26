@@ -29,6 +29,8 @@ class AdminController extends Controller
 
     public function users(): View
     {
+        session(['previous_url' => url()->current()]);
+
         $users = $this->userService->getByRuolo('staff');
         return view('admin.utenti', compact('users'));
     }
