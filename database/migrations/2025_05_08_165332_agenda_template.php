@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('giorno');
             $table->string('fascia_oraria');
             $table->timestamps();
-            $table->unique(['prestazione_id', 'giorno_settimana', 'fascia_oraria'], 'agenda_template_unique');
+            $table->unique(['prestazione_id', 'giorno', 'fascia_oraria'], 'agenda_template_unique');
         });
     }
 
