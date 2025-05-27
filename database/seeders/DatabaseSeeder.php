@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             MedicoSeeder::class,
             PrestazioneSeeder::class,
             UserSeeder::class,
+            AgendaTemplateSeeder::class,
         ]);
     }
 }

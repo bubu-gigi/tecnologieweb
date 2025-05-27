@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('prestazione_id')->constrained('prestazioni');
             $table->unsignedTinyInteger('giorno');
             $table->string('fascia_oraria');
-            $table->timestamps();
             $table->unique(['prestazione_id', 'giorno', 'fascia_oraria'], 'agenda_template_unique');
         });
     }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId(column: 'prenotazione_id')->constrained('prenotazioni');
             $table->date('data');
             $table->string('orario');
-            $table->timestamps();
             $table->unique(['prestazione_id', 'data', 'orario'], 'agenda_giornaliera_unique');
         });
     }
