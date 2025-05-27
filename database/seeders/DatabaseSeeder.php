@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             PrestazioneSeeder::class,
             UserSeeder::class,
             AgendaTemplateSeeder::class,
+            AgendaGiornalieraSeeder::class,
         ]);
     }
 }
