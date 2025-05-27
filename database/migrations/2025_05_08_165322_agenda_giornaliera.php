@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('agenda_giornaliera', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prestazione_id')->constrained('prestazioni');
-            $table->foreignId(column: 'prenotazione_id')->nullable()->constrained('prenotazioni')->nullOnDelete();
+            $table->foreignId(column: 'prenotazione_id')->constrained('prenotazioni');
             $table->date('data');
             $table->string('orario');
             $table->timestamps();
