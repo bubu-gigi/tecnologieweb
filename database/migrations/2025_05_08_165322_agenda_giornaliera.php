@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('agenda_giornaliera', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prestazione_id')->constrained('prestazioni');
+            $table->foreignId(column: 'prenotazione_id')->nullable()->constrained('prenotazioni')->nullOnDelete();
             $table->date('data');
-            $table->time('orario');
-            $table->boolean('disponibile')->default(true);
-            $table->foreignId('prenotazione_id')->nullable()->constrained('prenotazioni')->nullOnDelete();
+            $table->string('orario');
             $table->timestamps();
-
-            $table->unique(['prestazione_id', 'data', 'orario']);
+            $table->unique(['prestazione_id', 'data', 'orario'], 'agenda_giornaliera_unique');
         });
     }
 

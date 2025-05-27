@@ -14,16 +14,12 @@ return new class extends Migration
         Schema::create('agenda_template', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prestazione_id')->constrained('prestazioni');
-            $table->unsignedTinyInteger('giorno_settimana'); // 1 = lunedì, 6 = sabato
-            $table->time('orario_inizio');
-            $table->unsignedInteger('numero_slot');
+            $table->unsignedTinyInteger('giorno');
+            $table->string('fascia_oraria');
             $table->timestamps();
-
-            $table->unique(['prestazione_id', 'giorno_settimana', 'orario_inizio'], 'agenda_template_unique');
+            $table->unique(['prestazione_id', 'giorno_settimana', 'fascia_oraria'], 'agenda_template_unique');
         });
     }
-
-
 
     /**
      * Reverse the migrations.
