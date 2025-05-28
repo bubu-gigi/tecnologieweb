@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\AgendaService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
@@ -18,5 +19,34 @@ class AgendaController extends Controller
     {
         $data = $this->agendaService->getAgendaTemplateByPrestazione($prestazioneId);
         return response()->json(['success' => true, 'data' => $data]);
+    }
+
+    public function getSlotDisponibilitaGiugno(int $prestazioneId): JsonResponse
+    {
+        $data = $this->agendaService->getSlotDisponibilitaGiugno($prestazioneId);
+        return response()->json(['success' => true, 'data' => $data]);
+    }
+
+    public function getTabellaOccupazioneGiugno(int $prestazioneId): JsonResponse
+    {
+        $data = $this->agendaService->getTabellaOccupazioneGiugno($prestazioneId);
+        return response()->json(['success' => true, 'data' => $data]);
+    }
+
+    public function assegnaSlot(Request $request, int $procedure): JsonResponse
+    {
+        $data = $request->validate([
+            'prenotazione_id' => 'required|integer',
+            'data' => 'required|date',
+            'slot_orario' => 'required|string',
+        ]);
+
+        $ok = $this->agendaService->assegnaSlot($data['prenotazione_id'], $data['data'], $data['slot_orario']);
+
+        if (!$ok) {
+            return response()->json(['success' => false, 'message' => 'Slot non disponibile'], 409);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Slot assegnato']);
     }
 }

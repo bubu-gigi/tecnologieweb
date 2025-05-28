@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AgendaGiornaliera extends Model
 {
     protected $table = 'agenda_giornaliera';
-    public $timestamps = false; // se non usi created_at e updated_at
+    public $timestamps = false;
 
     protected $fillable = [
         'prestazione_id',
