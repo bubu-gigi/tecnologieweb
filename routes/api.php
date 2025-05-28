@@ -44,11 +44,10 @@ Route::controller(PrestazioneController::class)->group(function () {
 });
 
 Route::controller(AgendaController::class)->group(function () {
+    Route::get('/procedures/{procedure}/agenda-template', [AgendaController::class, 'getTemplate']);
     Route::get('/procedures/schedules', 'index');
     Route::get('/procedures/{procedure}/schedules', 'show')->name('procedures.schedules.show');
     Route::post('/procedures/{procedure}/schedules', action: 'store')->name('procedures.schedules.save');
     Route::put('/procedures/{procedure}/schedules', 'update');
     Route::delete('/procedures/{procedure}/schedules', 'destroy');
 });
-
-
