@@ -34,15 +34,11 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::get('/dipartimenti/{id}', [DipartimentoController::class, 'showPage'])->name('customers.dipartimento');
 });
 
-//Route::middleware(['auth', 'check.role:staff'])->group(function () {
-//    Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
-//    Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
-//    });
-
-Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
-Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'dettagliPrenotazione']);
-
-
+Route::middleware(['auth', 'check.role:staff'])->group(function () {
+    Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
+    Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
+    Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'dettagliPrenotazione']);    
+});
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');

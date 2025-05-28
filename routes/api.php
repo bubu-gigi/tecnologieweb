@@ -48,6 +48,8 @@ Route::controller(AgendaController::class)->group(function () {
     Route::get('/procedures/{procedure}/schedules/slots-giugno', [AgendaController::class, 'getSlotDisponibilitaGiugno']);
     Route::get('/procedures/{procedure}/schedules/occupazione-giugno', [AgendaController::class, 'getTabellaOccupazioneGiugno']);
     Route::post('/procedures/{procedure}/assign-slot', [AgendaController::class, 'assegnaSlot']);
+    Route::put('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'updatePrenotazione']);
+    Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'destroyPrenotazione']);
     Route::get('/procedures/schedules', 'index');
     Route::get('/procedures/{procedure}/schedules', 'show')->name('procedures.schedules.show');
     Route::post('/procedures/{procedure}/schedules', action: 'store')->name('procedures.schedules.save');
