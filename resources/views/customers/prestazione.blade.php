@@ -76,10 +76,8 @@
                         <x-button
                             class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
                             data-id="{{ $prestazione->id }}"
-                            onclick="prenotaPrestazione('{{ $prestazione->id }}')">
-                            Prenota
+                            onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">                            Prenota
                         </x-button>
-                        <div id="user-data" data-user-id="{{ auth()->id() }}"></div>
                     </div>
                 @endforeach
             </div>
@@ -94,20 +92,19 @@
 
 @push('scripts')
 <script>
-    function prenotaPrestazione(prestazioneId) {
-        const userId = document.querySelector('#user-data').dataset.userId;
-
+    function prenotaPrestazione(prestazioneId, userId) {
         $.ajax({
-            url: "{{ route('reservations.store') }}",
+            url: "{{ route('customers.reservation.store') }}",
             type: 'POST',
             data: JSON.stringify({
                 user_id: userId,
                 prestazione_id: prestazioneId,
+                //giorno_escluso: giorno_escluso
             }),
             contentType: 'application/json',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
+            }, 
             success: function (response) {
                 alert('Prenotazione effettuata con successo!');
             },

@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DipartimentoController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\PrenotazioniController;
 use App\Http\Controllers\PrestazioneController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfiloController;
@@ -32,12 +34,13 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::get('/customers/searchPrestazioni', [PrestazioneController::class, 'search'])->name('customers.prestazioni.search');
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name(name: 'customers.prenotazioni');
     Route::get('/dipartimenti/{id}', [DipartimentoController::class, 'showPage'])->name('customers.dipartimento');
+    Route::post('/reservations', [PrenotazioniController::class,  'store'])->name('customers.reservation.store');
 });
 
 Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
     Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
-    Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'dettagliPrenotazione']);    
+    Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'dettagliPrenotazione']);
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {
@@ -54,6 +57,20 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::post('/admin/dipartimenti', [AdminController::class, 'storeDipartimento'])->name('admin.dipartimenti.store');
     Route::put('/admin/dipartimenti/{id}', [AdminController::class, 'updateDipartimento'])->name('admin.dipartimenti.update');
     Route::delete('/admin/dipartimenti/{id}', [AdminController::class, 'deleteDipartimento'])->name('admin.dipartimenti.destroy');
+});
+
+Route::controller(AgendaController::class)->group(function () {
+    Route::get('/procedures/{procedure}/agenda-template', [AgendaController::class, 'getTemplate']);
+    Route::get('/procedures/{procedure}/schedules/slots-giugno', [AgendaController::class, 'getSlotDisponibilitaGiugno']);
+    Route::get('/procedures/{procedure}/schedules/occupazione-giugno', [AgendaController::class, 'getTabellaOccupazioneGiugno']);
+    Route::post('/procedures/{procedure}/assign-slot', [AgendaController::class, 'assegnaSlot']);
+    Route::put('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'updatePrenotazione']);
+    Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'destroyPrenotazione']);
+    Route::get('/procedures/schedules', 'index');
+    Route::get('/procedures/{procedure}/schedules', 'show')->name('procedures.schedules.show');
+    Route::post('/procedures/{procedure}/schedules', action: 'store')->name('procedures.schedules.save');
+    Route::put('/procedures/{procedure}/schedules', 'update');
+    Route::delete('/procedures/{procedure}/schedules', 'destroy');
 });
 
 require __DIR__.'/auth.php';
