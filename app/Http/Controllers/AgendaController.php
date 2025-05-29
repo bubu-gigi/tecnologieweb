@@ -35,11 +35,7 @@ class AgendaController extends Controller
 
     public function assegnaSlot(Request $request, int $procedure): JsonResponse
     {
-        $data = $request->validate([
-            'prenotazione_id' => 'required|integer',
-            'data' => 'required|date',
-            'slot_orario' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
         $ok = $this->agendaService->assegnaSlot($data['prenotazione_id'], $data['data'], $data['slot_orario']);
 

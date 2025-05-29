@@ -79,10 +79,10 @@ class AgendaService
             $dataStr = $data->format('Y-m-d');
             $tabella[$dataStr] = [];
 
-            foreach ($template[$giornoSettimana] as $fascia) {
+            foreach ($template[$giornoSettimana] as $slot) {
                 $tabella[$dataStr][] = [
-                    'orario' => $fascia,
-                    'occupato' => $mappaSlot[$dataStr][$fascia] ?? false
+                    'orario' => $slot,
+                    'occupato' => $mappaSlot[$dataStr][$slot] ?? false
                 ];
             }
         }
