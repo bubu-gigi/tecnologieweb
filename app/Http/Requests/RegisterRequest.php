@@ -19,7 +19,7 @@ class RegisterRequest extends FormRequest
             'data_nascita' => ['required', 'date', 'before:today'],
             'indirizzo' => ['required', 'string', 'min:4', 'max:255'],
             'citta' => ['required', 'string', 'min:2', 'max:100'],
-            'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users,username'],
+            'username' => ['required', 'string', 'min:4', 'max:255', 'unique:users,username'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
@@ -45,7 +45,7 @@ class RegisterRequest extends FormRequest
             'citta.min' => 'La città è troppo corta.',
 
             'username.required' => 'Lo username è obbligatorio.',
-            'username.min' => 'Lo username deve contenere almeno 6 caratteri.',
+            'username.min' => 'Lo username deve contenere almeno 4 caratteri.',
             'username.unique' => 'Questo username è già in uso.',
 
             'password.required' => 'La password è obbligatoria.',
