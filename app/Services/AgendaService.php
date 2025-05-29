@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Prestazione;
 use Illuminate\Support\Facades\DB;
 use App\Models\AgendaGiornaliera;
 use App\Models\Prenotazione;
+use Carbon\Carbon;
+use Illuminate\View\View;
 
 class AgendaService
 {
@@ -25,28 +28,33 @@ class AgendaService
 
         return $agenda;
     }
-
     public function getSlotDisponibilitaGiugno(int $prestazioneId): array
-    {
-        $entries = DB::table('agenda_giornaliera')
-            ->select('data', 'orario', 'prenotazione_id')
-            ->where('prestazione_id', $prestazioneId)
-            ->whereBetween('data', ['2025-06-01', '2025-06-30'])
-            ->orderBy('data')
-            ->orderBy('orario')
-            ->get();
+        {
+            $entries = AgendaGiornaliera::select('data', 'orario', 'prenotazione_id')
+                ->where('prestazione_id', $prestazioneId)
+                ->whereBetween('data', ['2025-06-01', '2025-06-30'])
+                ->orderBy('data')
+                ->orderBy('orario')
+                ->get();
 
-        $slots = [];
+            $slots = [];
 
-        foreach ($entries as $entry) {
-            $slots[$entry->data][] = [
-                'orario' => $entry->orario,
-                'occupato' => $entry->prenotazione_id !== null,
+            $prestazione = Prestazione::findOrFail($prestazioneId);
+
+            foreach ($entries as $entry) {
+                $slots[$entry->data][] = [
+                    'data' => $entry->data,
+                    'orario' => $entry->orario,
+                    'occupato' => $entry->prenotazione_id !== null,
+                ];
+            }
+
+            return [
+                'prestazione' => $prestazione,
+                'slots' => $slots,
             ];
         }
 
-        return $slots;
-    }
 
     public function getTabellaOccupazioneGiugno(int $prestazioneId): array
     {
@@ -90,7 +98,7 @@ class AgendaService
         return $tabella;
     }
 
-    public function assegnaSlot(int $prenotazioneId, string $data, string $slotOrario): bool
+    public function assegnaSlot(int $prenotazioneId, Carbon $data, string $slotOrario): bool
     {
         $prenotazione = Prenotazione::findOrFail($prenotazioneId);
         $prestazioneId = $prenotazione->prestazione_id;

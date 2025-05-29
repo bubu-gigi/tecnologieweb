@@ -8,7 +8,7 @@
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Gestione Utenti</h3>
         <x-button
-            onclick="window.location.href='{{ route('admin.users.create')}}'"
+            id="btn-nuovo-utente"
             class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
         >
             Nuovo
@@ -51,6 +51,11 @@
 @endsection
 
 @push('scripts')
+<script>
+    document.getElementById('btn-nuovo-utente').addEventListener('click', function () {
+        window.location.href = "{{ route('admin.users.create') }}";
+    });
+</script>
 <script>
     function eliminaUtente(userId) {
         if (!confirm('Sei sicuro di voler eliminare questo utente?')) return;

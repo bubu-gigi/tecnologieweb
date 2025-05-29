@@ -24,19 +24,9 @@ class Prestazione extends Model
         return $this->belongsTo(Medico::class);
     }
 
-    public function erogazioni(): HasMany
-    {
-        return $this->hasMany(Erogazione::class);
-    }
-
     public function prenotazioni(): HasMany
     {
         return $this->hasMany(Prenotazione::class);
-    }
-
-    public function monitoraggi(): HasMany
-    {
-        return $this->hasMany(Monitoraggio::class);
     }
 
 }

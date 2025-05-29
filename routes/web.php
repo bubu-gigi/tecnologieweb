@@ -7,7 +7,6 @@ use App\Http\Controllers\DipartimentoController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PrenotazioniController;
 use App\Http\Controllers\PrestazioneController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfiloController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +41,7 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prenotazioni', [StaffController::class, 'prenotazioni'])->name('staff.prenotazioni');
     
     Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
-    Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'dettagliPrenotazione']);
+    Route::get('/staff/prenotazioni/{id}', [AgendaController::class, 'getSlotDisponibilitaGiugno']);
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {

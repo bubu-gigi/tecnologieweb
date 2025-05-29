@@ -106,9 +106,10 @@
             contentType: 'application/json',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }, 
+            },
             success: function (response) {
                 alert('Prenotazione effettuata con successo!');
+                window.location.href = "{{ route('customers.prenotazioni') }}";
             },
             error: function (error) {
                 console.error('Errore durante la prenotazione:', error.responseText);

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\AgendaService;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AgendaController extends Controller
 {
@@ -20,12 +22,16 @@ class AgendaController extends Controller
         $data = $this->agendaService->getAgendaTemplateByPrestazione($prestazioneId);
         return response()->json(['success' => true, 'data' => $data]);
     }
-
-    public function getSlotDisponibilitaGiugno(int $prestazioneId): JsonResponse
+    public function getSlotDisponibilitaGiugno(int $prestazioneId): View
     {
         $data = $this->agendaService->getSlotDisponibilitaGiugno($prestazioneId);
-        return response()->json(['success' => true, 'data' => $data]);
+
+        return view('prestazioni_agenda', [
+            'prestazione' => $data['prestazione'],
+            'slots' => $data['slots'],
+        ]);
     }
+
 
     public function getTabellaOccupazioneGiugno(int $prestazioneId): JsonResponse
     {
@@ -37,7 +43,7 @@ class AgendaController extends Controller
     {
         $validated = $request->validated();
 
-        $ok = $this->agendaService->assegnaSlot($data['prenotazione_id'], $data['data'], $data['slot_orario']);
+        $ok = $this->agendaService->assegnaSlot($data['prenotazione_id'], Carbon::parse($request->input('data')), $data['slot_orario']);
 
         if (!$ok) {
             return response()->json(['success' => false, 'message' => 'Slot non disponibile'], 409);
