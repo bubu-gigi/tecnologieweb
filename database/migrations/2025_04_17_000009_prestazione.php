@@ -8,16 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('erogazioni', function (Blueprint $table) {
+        Schema::create('prestazioni', function (Blueprint $table) {
             $table->id();
+            $table->string('descrizione');
+            $table->string('prescrizioni');
             $table->foreignId('medico_id')->references('id')->on('medici')->onDelete('cascade');
-            $table->foreignId('prestazione_id')->references('id')->on('prestazioni')->onDelete('cascade');
+            $table->foreignId('staff_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists(table: 'erogazioni');
+        Schema::dropIfExists(table: 'prestazioni');
     }
 };

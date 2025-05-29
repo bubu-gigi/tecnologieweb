@@ -32,7 +32,6 @@ class PrenotazioniController extends Controller
     {
         $data = $request->only(keys: ['user_id', 'prestazione_id', 'giorno_escluso', 'data_prenotazione']);
         $prenotazione = $this->prenotazioneService->create($data);
-
         return response()->json($prenotazione, 201);
     }
 
