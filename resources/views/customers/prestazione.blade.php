@@ -14,6 +14,7 @@
                     <div class="flex flex-col gap-2">
                         <label for="prestazione" class="text-sm font-medium text-gray-700">Ricerca per prestazione:</label>
                         <input
+                            id="prestazione"
                             type="text"
                             name="prestazione"
                             value="{{ old('prestazione') }}"
@@ -34,6 +35,7 @@
                     <div class="flex flex-col gap-2">
                         <label for="dipartimento" class="text-sm font-medium text-gray-700">Ricerca per dipartimento:</label>
                         <input
+                            id="dipartimento"
                             type="text"
                             name="dipartimento"
                             value="{{ old('dipartimento') }}"

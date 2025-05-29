@@ -27,7 +27,8 @@
                 name="data_nascita"
                 label="Data di nascita"
                 type="date"
-                value="{{ old('data_nascita', auth()->user()->data_nascita) }}"            />
+                value="{{ old('data_nascita', auth()->user()->data_nascita) }}"            
+            />
             <x-input
                 name="indirizzo"
                 label="Indirizzo"
