@@ -28,74 +28,32 @@ class AgendaService
 
         return $agenda;
     }
+    
     public function getSlotDisponibilitaGiugno(int $prestazioneId): array
-        {
-            $entries = AgendaGiornaliera::select('data', 'orario', 'prenotazione_id')
-                ->where('prestazione_id', $prestazioneId)
-                ->whereBetween('data', ['2025-06-01', '2025-06-30'])
-                ->orderBy('data')
-                ->orderBy('orario')
-                ->get();
+    {
+        $entries = AgendaGiornaliera::select('data', 'orario', 'prenotazione_id')
+            ->where('prestazione_id', $prestazioneId)
+            ->whereBetween('data', ['2025-06-01', '2025-06-30'])
+            ->orderBy('data')
+            ->orderBy('orario')
+            ->get();
 
-            $slots = [];
+        $slots = [];
 
-            $prestazione = Prestazione::findOrFail($prestazioneId);
+        $prestazione = Prestazione::findOrFail($prestazioneId);
 
-            foreach ($entries as $entry) {
-                $slots[$entry->data][] = [
-                    'data' => $entry->data,
-                    'orario' => $entry->orario,
-                    'occupato' => $entry->prenotazione_id !== null,
-                ];
-            }
-
-            return [
-                'prestazione' => $prestazione,
-                'slots' => $slots,
+        foreach ($entries as $entry) {
+            $slots[$entry->data][] = [
+                'data' => $entry->data,
+                'orario' => $entry->orario,
+                'occupato' => $entry->prenotazione_id !== null,
             ];
         }
 
-
-    public function getTabellaOccupazioneGiugno(int $prestazioneId): array
-    {
-        $template = $this->getAgendaTemplateByPrestazione($prestazioneId);
-
-        $slots = DB::table('agenda_giornaliera')
-            ->select('data', 'orario', 'prenotazione_id')
-            ->where('prestazione_id', $prestazioneId)
-            ->whereBetween('data', ['2025-06-01', '2025-06-30'])
-            ->get();
-
-        // Prepara una mappa veloce per lookup
-        $mappaSlot = [];
-        foreach ($slots as $slot) {
-            $mappaSlot[$slot->data][$slot->orario] = $slot->prenotazione_id !== null;
-        }
-
-        // Costruisci la tabella finale
-        $tabella = [];
-
-        $inizio = new \DateTime('2025-06-01');
-        $fine = new \DateTime('2025-06-30');
-
-        for ($data = clone $inizio; $data <= $fine; $data->modify('+1 day')) {
-            $giornoSettimana = $data->format('w'); // 0 (domenica) ... 6 (sabato)
-            if ($giornoSettimana == 0 || !isset($template[$giornoSettimana])) {
-                continue; // Skip domenica o giorni non nel template
-            }
-
-            $dataStr = $data->format('Y-m-d');
-            $tabella[$dataStr] = [];
-
-            foreach ($template[$giornoSettimana] as $slot) {
-                $tabella[$dataStr][] = [
-                    'orario' => $slot,
-                    'occupato' => $mappaSlot[$dataStr][$slot] ?? false
-                ];
-            }
-        }
-
-        return $tabella;
+        return [
+            'prestazione' => $prestazione,
+            'slots' => $slots,
+        ];
     }
 
     public function assegnaSlot(int $prenotazioneId, Carbon $data, string $slotOrario): bool

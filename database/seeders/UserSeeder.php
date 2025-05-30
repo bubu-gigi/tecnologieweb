@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             ]
         ];
 
-        foreach ($staff as $utente) {
+        foreach ($users as $utente) {
             User::create($utente);
         }
     }

@@ -22,6 +22,7 @@ class AgendaController extends Controller
         $data = $this->agendaService->getAgendaTemplateByPrestazione($prestazioneId);
         return response()->json(['success' => true, 'data' => $data]);
     }
+    
     public function getSlotDisponibilitaGiugno(int $prestazioneId): View
     {
         $data = $this->agendaService->getSlotDisponibilitaGiugno($prestazioneId);
@@ -30,13 +31,6 @@ class AgendaController extends Controller
             'prestazione' => $data['prestazione'],
             'slots' => $data['slots'],
         ]);
-    }
-
-
-    public function getTabellaOccupazioneGiugno(int $prestazioneId): JsonResponse
-    {
-        $data = $this->agendaService->getTabellaOccupazioneGiugno($prestazioneId);
-        return response()->json(['success' => true, 'data' => $data]);
     }
 
     public function assegnaSlot(Request $request, int $procedure): JsonResponse

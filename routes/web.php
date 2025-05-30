@@ -32,7 +32,6 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::get('/customers/prestazioni', [CustomerController::class, 'prestazioni'])->name(name: 'customers.prestazioni');
     Route::get('/customers/searchPrestazioni', [PrestazioneController::class, 'search'])->name('customers.prestazioni.search');
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name(name: 'customers.prenotazioni');
-    Route::get('/dipartimenti/{id}', [DipartimentoController::class, 'showPage'])->name('customers.dipartimento');
     Route::post('/reservations', [PrenotazioniController::class,  'store'])->name('customers.reservation.store');
 });
 
@@ -63,15 +62,11 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
 Route::controller(AgendaController::class)->group(function () {
     Route::get('/procedures/{procedure}/agenda-template', [AgendaController::class, 'getTemplate']);
     Route::get('/procedures/{procedure}/schedules/slots-giugno', [AgendaController::class, 'getSlotDisponibilitaGiugno']);
-    Route::get('/procedures/{procedure}/schedules/occupazione-giugno', [AgendaController::class, 'getTabellaOccupazioneGiugno']);
     Route::post('/procedures/{procedure}/assign-slot', [AgendaController::class, 'assegnaSlot']);
+
     Route::put('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'updatePrenotazione']);
     Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'destroyPrenotazione']);
-    Route::get('/procedures/schedules', 'index');
-    Route::get('/procedures/{procedure}/schedules', 'show')->name('procedures.schedules.show');
-    Route::post('/procedures/{procedure}/schedules', action: 'store')->name('procedures.schedules.save');
-    Route::put('/procedures/{procedure}/schedules', 'update');
-    Route::delete('/procedures/{procedure}/schedules', 'destroy');
+    Route::delete('/customer/prenotazioni/{prenotazione}', [PrenotazioneUtenteController::class, 'annullaPrenotazione']);
 });
 
 require __DIR__.'/auth.php';
