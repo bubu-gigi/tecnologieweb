@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Services\PrenotazioneService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Http\RedirectResponse;
 
 class PrenotazioniController extends Controller
 {
@@ -42,9 +44,14 @@ class PrenotazioniController extends Controller
         return response()->json($prenotazione);
     }
 
-    public function destroy(string $id): JsonResponse
+    public function destroy(string $id): RedirectResponse
     {
-        $prenotazione = $this->prenotazioneService->delete($id);
-        return response()->json($prenotazione);
+        $success = $this->prenotazioneService->annullaPrenotazione($id);
+
+        if (!$success) {
+            return redirect()->back()->withErrors(['La prestazione è già stata erogata e non può essere annullata.']);
+        }
+
+        return redirect()->route('customers.prenotazioni')->with('success', 'Prenotazione annullata con successo.');
     }
 }

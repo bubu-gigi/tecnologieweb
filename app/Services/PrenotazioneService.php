@@ -34,8 +34,15 @@ class PrenotazioneService
         return $dip;
     }
 
-    public function delete(string $id): int
+    public function annullaPrenotazione(string $id): bool
     {
-        return Prenotazione::destroy($id);
+        $prenotazione = Prenotazione::findOrFail($id);
+
+        if ($prenotazione->data_prenotazione !== null && Carbon::parse($prenotazione->data_prenotazione)->isPast()) {
+            return false;
+        }
+
+        $prenotazione->delete();
+        return true;
     }
 }

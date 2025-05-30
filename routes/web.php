@@ -32,7 +32,8 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::get('/customers/prestazioni', [CustomerController::class, 'prestazioni'])->name(name: 'customers.prestazioni');
     Route::get('/customers/searchPrestazioni', [PrestazioneController::class, 'search'])->name('customers.prestazioni.search');
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name(name: 'customers.prenotazioni');
-    Route::post('/reservations', [PrenotazioniController::class,  'store'])->name('customers.reservation.store');
+    Route::post('/customers/prenotazioni', [PrenotazioniController::class,  'store'])->name('customers.prenotazione.store');
+    Route::delete('/customers/prenotazioni/{prenotazione}', [PrenotazioniController::class, 'destroy'])->name('customers.prenotazioni.destroy');
 });
 
 Route::middleware(['auth', 'check.role:staff'])->group(function () {
@@ -66,7 +67,6 @@ Route::controller(AgendaController::class)->group(function () {
 
     Route::put('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'updatePrenotazione']);
     Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'destroyPrenotazione']);
-    Route::delete('/customer/prenotazioni/{prenotazione}', [PrenotazioneUtenteController::class, 'annullaPrenotazione']);
 });
 
 require __DIR__.'/auth.php';
