@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Prenotazione;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class PrenotazioneService
 {
@@ -44,5 +45,18 @@ class PrenotazioneService
 
         $prenotazione->delete();
         return true;
+    }
+
+    public function getByIdWithRelations(string $id): ?Prenotazione
+    {
+        return Prenotazione::with(['prestazione', 'user'])->find($id);
+    }
+
+    public function getInAttesa(): Collection
+    {
+        return Prenotazione::with(['user', 'prestazione'])
+            ->whereNull('data_prenotazione')
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 }

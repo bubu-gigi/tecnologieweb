@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\PrenotazioneService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\Prenotazione;
 
 class StaffController extends Controller
 {
@@ -27,11 +26,9 @@ class StaffController extends Controller
         return view('staff.prenotazioni', compact('prenotazioni'));
     }
 
-    
-
     public function dettagliPrenotazione($id)
     {
-        $prenotazione = Prenotazione::with('prestazione', 'user')->find($id);
+        $prenotazione = $this->prenotazioneService->getByIdWithRelations($id);
 
         if (!$prenotazione) {
             return response()->json([
@@ -48,10 +45,7 @@ class StaffController extends Controller
 
     public function prenotazioniInAttesa()
     {
-        $prenotazioni = Prenotazione::with(['user', 'prestazione'])
-            ->whereNull('data_prenotazione')
-            ->orderBy('created_at', 'asc')
-            ->get();
+        $prenotazioni = $this->prenotazioneService->getInAttesa();
 
         return response()->json([
             'success' => true,
