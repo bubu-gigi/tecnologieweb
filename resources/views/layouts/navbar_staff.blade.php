@@ -7,7 +7,13 @@
             Dashboard
         </x-link-navbar>
         <x-link-navbar href="/staff/prestazioni">
-            Prestazioni
+            Inserisci
+        </x-link-navbar>
+        <x-link-navbar href="/staff/prestazioni">
+            Modifica
+        </x-link-navbar>
+        <x-link-navbar href="/staff/prestazioni">
+            Visualizza
         </x-link-navbar>
     </x-left-navbar>
     <x-right-navbar>

@@ -41,8 +41,9 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot']);
     Route::get('/procedures/{procedure}/schedules/slots-giugno', [StaffController::class, 'getSlot']);
     Route::post('/procedures/{procedure}/assign-slot', [StaffController::class, 'assegnaSlot']);
-    //Route::put('/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'updatePrenotazione']);
-    //Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'destroyPrenotazione']);
+    
+    Route::put('/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'updatePrenotazione']);
+    Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'destroyPrenotazione']);
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {
