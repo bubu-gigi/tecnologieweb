@@ -19,7 +19,7 @@ class ProfileUpdateRequest extends FormRequest
             'cognome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[A-Za-zÀ-ÿ\'\-\s]+$/u'],
             'data_nascita' => ['required', 'date', 'before:today'],
             'indirizzo' => ['required', 'string', 'min:4', 'max:255'],
-            'citta' => ['required', 'string', 'min:2', 'max:100'],
+            'citta' => ['required', 'string', 'min:2', 'max:100', 'regex:/^[A-Za-zÀ-ÿ\'\-\s]+$/u'],
             'username' => ['required', 'string', 'min:6', 'max:255', Rule::unique('users', 'username')->ignore($this->user()->id),],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];
@@ -44,6 +44,7 @@ class ProfileUpdateRequest extends FormRequest
 
             'citta.required' => 'La città è obbligatoria.',
             'citta.min' => 'La città è troppo corta.',
+            'citta.regex' => 'La città può contenere solo lettere, spazi e apostrofi.',
 
             'username.required' => 'Lo username è obbligatorio.',
             'username.min' => 'Lo username deve contenere almeno 6 caratteri.',

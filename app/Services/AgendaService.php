@@ -28,8 +28,8 @@ class AgendaService
 
         return $agenda;
     }
-    
-    public function getSlotDisponibilitaGiugno(int $prestazioneId): array
+
+    public function getSlot(int $prestazioneId): array
     {
         $entries = AgendaGiornaliera::select('data', 'orario', 'prenotazione_id')
             ->where('prestazione_id', $prestazioneId)
