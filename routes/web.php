@@ -29,8 +29,8 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::get('/customers/prestazioni', [CustomerController::class, 'prestazioni'])->name(name: 'customers.prestazioni');
     Route::get('/customers/searchPrestazioni', [CustomerController::class, 'searchPrestazione'])->name('customers.prestazioni.search');
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name(name: 'customers.prenotazioni');
-    Route::post('/customers/prenotazioni', [PrenotazioniController::class,  'store'])->name('customers.prenotazione.store');
-    Route::delete('/customers/prenotazioni/{prenotazione}', [PrenotazioniController::class, 'destroy'])->name('customers.prenotazioni.destroy');
+    Route::post('/customers/prenotazioni', [CustomerController::class,  'storePrenotazione'])->name('customers.prenotazione.store');
+    Route::delete('/customers/prenotazioni/{prenotazione}', [CustomerController::class, 'destroyPrenotazione'])->name('customers.prenotazioni.destroy');
 });
 
 Route::middleware(['auth', 'check.role:staff'])->group(function () {
@@ -41,8 +41,8 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot']);
     Route::get('/procedures/{procedure}/schedules/slots-giugno', [StaffController::class, 'getSlot']);
     Route::post('/procedures/{procedure}/assign-slot', [StaffController::class, 'assegnaSlot']);
-    Route::put('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'updatePrenotazione']);
-    Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [AgendaController::class, 'destroyPrenotazione']);
+    //Route::put('/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'updatePrenotazione']);
+    //Route::delete('/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'destroyPrenotazione']);
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {

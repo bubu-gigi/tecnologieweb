@@ -81,4 +81,11 @@ class StaffController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Slot assegnato']);
     }
+
+    public function updatePrenotazione(Request $request, string $id): JsonResponse
+    {
+        $data = $request->only(keys: ['user_id', 'prestazione_id', 'giorno_escluso', 'data_prenotazione']);
+        $prenotazione = $this->prenotazioneService->update($id, $data);
+        return response()->json($prenotazione);
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Services\PrenotazioneService;
 use App\Services\UserService;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\SearchPrestazioneRequest;
+use App\Http\Requests\SearchDipartimentoRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -99,5 +101,36 @@ class CustomerController extends Controller
         }
 
         return view('customers.prestazione', compact('prestazioni'));
+    }
+
+    public function storePrenotazione(Request $request): JsonResponse
+    {
+        $data = $request->only(keys: ['user_id', 'prestazione_id', 'giorno_escluso', 'data_prenotazione']);
+        $prenotazione = $this->prenotazioneService->create($data);
+        return response()->json($prenotazione, 201);
+    }
+
+    public function destroyPrenotazione(string $id): RedirectResponse
+    {
+        $success = $this->prenotazioneService->annullaPrenotazione($id);
+
+        if (!$success) {
+            return redirect()->back()->withErrors(['La prestazione è già stata erogata e non può essere annullata.']);
+        }
+
+        return redirect()->route('customers.prenotazioni')->with('success', 'Prenotazione annullata con successo.');
+    }
+
+    // prenotazioni controller
+    public function indexPrenotazioni(): JsonResponse
+    {
+        $prenotazione = $this->prenotazioneService->getAll();
+        return response()->json($prenotazione);
+    }
+
+    public function show(string $id): JsonResponse
+    {
+        $prenotazione = $this->prenotazioneService->getById($id);
+        return response()->json($prenotazione);
     }
 }
