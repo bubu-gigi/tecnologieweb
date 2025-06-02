@@ -27,7 +27,7 @@ Route::middleware(['auth', 'check.role:user'])->group(function () {
     Route::post('/customers/profilo', [CustomerController::class, 'updateProfilo'])->name('profile.update');
     Route::delete('/customers/profilo', [CustomerController::class, 'destroyProfilo'])->name('profile.destroy');
     Route::get('/customers/prestazioni', [CustomerController::class, 'prestazioni'])->name(name: 'customers.prestazioni');
-    Route::get('/customers/searchPrestazioni', [PrestazioneController::class, 'search'])->name('customers.prestazioni.search');
+    Route::get('/customers/searchPrestazioni', [CustomerController::class, 'searchPrestazione'])->name('customers.prestazioni.search');
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name(name: 'customers.prenotazioni');
     Route::post('/customers/prenotazioni', [PrenotazioniController::class,  'store'])->name('customers.prenotazione.store');
     Route::delete('/customers/prenotazioni/{prenotazione}', [PrenotazioniController::class, 'destroy'])->name('customers.prenotazioni.destroy');

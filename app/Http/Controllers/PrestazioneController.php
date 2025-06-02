@@ -30,21 +30,6 @@ class PrestazioneController extends Controller
         return response()->json($prestazione);
     }
 
-    public function search(Request $request): View
-    {
-        $prestazioni = [];
-
-        if ($request->has('prestazione')) {
-            $validated = app(SearchPrestazioneRequest::class)->validated();
-            $prestazioni = $this->prestazioneService->searchByPrestazione($validated['prestazione']);
-        } elseif ($request->has('dipartimento')) {
-            $validated = app(SearchDipartimentoRequest::class)->validated();
-            $prestazioni = $this->prestazioneService->searchByDipartimento($validated['dipartimento']);
-        }
-
-        return view('customers.prestazione', compact('prestazioni'));
-    }
-
     public function store(Request $request): JsonResponse
     {
         $data = $request->only(keys: ['descrizione', 'prescrizioni', 'medico_id']);

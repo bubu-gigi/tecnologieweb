@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Services\PrenotazioneService;
-use Illuminate\View\View;
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Services\UserService;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Redirect;
 class CustomerController extends Controller
 {
     protected PrenotazioneService $prenotazioneService;
+    protected UserService $userService;
 
-    public function __construct(PrenotazioneService $prenotazioneService)
+    public function __construct(PrenotazioneService $prenotazioneService, UserService $userService)
     {
         $this->prenotazioneService = $prenotazioneService;
+        $this->userService = $userService;
     }
 
     public function index(): View
@@ -44,18 +46,22 @@ class CustomerController extends Controller
             'user' => $request->user(),
         ]);
     }
+
     public function updateProfilo(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = [
             'nome' => $request->nome,
             'cognome' => $request->cognome,
-            'password' => Hash::make($request->password),
             'indirizzo' => $request->indirizzo,
             'citta' => $request->citta,
             'data_nascita' => $request->data_nascita,
             'username' => $request->username,
             'ruolo' => 'user',
         ];
+
+        if (!empty($request->password)) {
+            $user['password'] = $request->password; // non hashare qui
+        }
 
         $this->userService->update($request->user()->id, $user);
 
@@ -78,5 +84,20 @@ class CustomerController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function searchPrestazione(Request $request): View
+    {
+        $prestazioni = [];
+
+        if ($request->has('prestazione')) {
+            $validated = app(SearchPrestazioneRequest::class)->validated();
+            $prestazioni = $this->prestazioneService->searchByPrestazione($validated['prestazione']);
+        } elseif ($request->has('dipartimento')) {
+            $validated = app(SearchDipartimentoRequest::class)->validated();
+            $prestazioni = $this->prestazioneService->searchByDipartimento($validated['dipartimento']);
+        }
+
+        return view('customers.prestazione', compact('prestazioni'));
     }
 }
