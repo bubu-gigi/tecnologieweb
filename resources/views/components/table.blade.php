@@ -1,5 +1,5 @@
 @props([
-    'headers' => [], 
+    'headers' => [],
 ])
 
 <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200">
@@ -7,7 +7,7 @@
         <thead class="bg-indigo-100">
             <tr>
                 @foreach($headers as $header)
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-indigo-800 uppercase tracking-wider">
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-indigo-800 uppercase tracking-wider">
                         {{ $header }}
                     </th>
                 @endforeach
