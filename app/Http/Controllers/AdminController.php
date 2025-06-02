@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use App\Services\DipartimentoService;
 use App\Services\PrestazioneService;
-use App\Services\UserService;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchPrestazioneRequest;
@@ -17,13 +16,14 @@ use App\Http\Requests\GestioneUtentiRequest;
 class AdminController extends Controller
 {
     protected UserService $userService;
-
     protected DipartimentoService $dipartimentoService;
+    protected PrestazioneService $prestazioneService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
+        $this->prestazioneService = $prestazioneService;
     }
 
     public function index(): View

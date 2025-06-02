@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PrenotazioneService;
 use App\Services\UserService;
+use App\Services\PrenotazioneService;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\SearchPrestazioneRequest;
 use App\Http\Requests\SearchDipartimentoRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
 class CustomerController extends Controller
 {
-    protected PrenotazioneService $prenotazioneService;
     protected UserService $userService;
+    protected PrenotazioneService $prenotazioneService;
 
-    public function __construct(PrenotazioneService $prenotazioneService, UserService $userService)
+    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService)
     {
-        $this->prenotazioneService = $prenotazioneService;
         $this->userService = $userService;
+        $this->prenotazioneService = $prenotazioneService;
     }
 
     public function index(): View
@@ -62,7 +62,7 @@ class CustomerController extends Controller
         ];
 
         if (!empty($request->password)) {
-            $user['password'] = $request->password; // non hashare qui
+            $user['password'] = $request->password;
         }
 
         $this->userService->update($request->user()->id, $user);
