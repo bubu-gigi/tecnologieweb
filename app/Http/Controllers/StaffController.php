@@ -91,4 +91,10 @@ class StaffController extends Controller
         $prenotazione = $this->prenotazioneService->update($id, $data);
         return response()->json($prenotazione);
     }
+
+    public function destroyPrenotazione(string $prenotazione): JsonResponse
+    {
+        $this->prenotazioneService->delete($prenotazione);
+        return response()->json(null, 204);
+    }
 }
