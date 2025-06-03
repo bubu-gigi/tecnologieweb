@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\PrenotazioneService;
+use App\Http\Requests\ModificaSlotRequest;
 use Illuminate\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
@@ -84,9 +85,9 @@ class StaffController extends Controller
         return response()->json(['success' => true, 'message' => 'Slot assegnato']);
     }
 
-    public function updatePrenotazione(Request $request, string $id): JsonResponse
+    public function updatePrenotazione(ModificaSlotRequest $request, string $id): JsonResponse
     {
-        $data = $request->only(keys: ['user_id', 'prestazione_id', 'giorno_escluso', 'data_prenotazione']);
+        $data = $request->only(['data_prenotazione']);
         $prenotazione = $this->prenotazioneService->update($id, $data);
         return response()->json($prenotazione);
     }
