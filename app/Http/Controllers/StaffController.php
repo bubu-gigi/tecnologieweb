@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\PrenotazioneService;
+use App\Services\NotificationService;
 use App\Http\Requests\ModificaSlotRequest;
 use Illuminate\View\View;
 use Illuminate\Support\Carbon;
@@ -12,10 +13,12 @@ use Illuminate\Http\JsonResponse;
 class StaffController extends Controller
 {
     protected PrenotazioneService $prenotazioneService;
+    private NotificationService $notificationService;
 
-    public function __construct(PrenotazioneService $prenotazioneService)
+    public function __construct(PrenotazioneService $prenotazioneService, NotificationService $notificationService) 
     {
         $this->prenotazioneService = $prenotazioneService;
+        $this->notificationService = $notificationService;
     }
 
     public function index(): View
@@ -89,12 +92,28 @@ class StaffController extends Controller
     {
         $data = $request->only(['data_prenotazione']);
         $prenotazione = $this->prenotazioneService->update($id, $data);
+
+        $this->notificationService->creaNotifica(
+            userId: $prenotazione->user_id,
+            prenotazioneId: $prenotazione->id,
+            azione: 'modified',
+            descrizione: 'La data della tua prenotazione è stata modificata dallo staff.'
+        );
+
         return response()->json($prenotazione);
     }
 
     public function destroyPrenotazione(string $prenotazione): JsonResponse
     {
         $this->prenotazioneService->delete($prenotazione);
+
+        $this->notificationService->creaNotifica(
+            userId: $prenotazioneModel->user_id,
+            prenotazioneId: $prenotazioneModel->id,
+            azione: 'deleted',
+            descrizione: 'La tua prenotazione è stata cancellata dallo staff.'
+        );
+
         return response()->json(null, 204);
     }
 }
