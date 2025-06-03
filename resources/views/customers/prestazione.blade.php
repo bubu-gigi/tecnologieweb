@@ -14,6 +14,7 @@
                     <div class="flex flex-col gap-2">
                         <label for="prestazione" class="text-sm font-medium text-gray-700">Ricerca per prestazione:</label>
                         <input
+                            id="prestazione"
                             type="text"
                             name="prestazione"
                             value="{{ old('prestazione') }}"
@@ -34,6 +35,7 @@
                     <div class="flex flex-col gap-2">
                         <label for="dipartimento" class="text-sm font-medium text-gray-700">Ricerca per dipartimento:</label>
                         <input
+                            id="dipartimento"
                             type="text"
                             name="dipartimento"
                             value="{{ old('dipartimento') }}"
@@ -76,10 +78,8 @@
                         <x-button
                             class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
                             data-id="{{ $prestazione->id }}"
-                            onclick="prenotaPrestazione('{{ $prestazione->id }}')">
-                            Prenota
+                            onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">                            Prenota
                         </x-button>
-                        <div id="user-data" data-user-id="{{ auth()->id() }}"></div>
                     </div>
                 @endforeach
             </div>
@@ -94,15 +94,14 @@
 
 @push('scripts')
 <script>
-    function prenotaPrestazione(prestazioneId) {
-        const userId = document.querySelector('#user-data').dataset.userId;
-
+    function prenotaPrestazione(prestazioneId, userId) {
         $.ajax({
-            url: "{{ route('reservations.store') }}",
+            url: "{{ route('customers.prenotazione.store') }}",
             type: 'POST',
             data: JSON.stringify({
                 user_id: userId,
                 prestazione_id: prestazioneId,
+                //giorno_escluso: giorno_escluso
             }),
             contentType: 'application/json',
             headers: {
@@ -110,6 +109,7 @@
             },
             success: function (response) {
                 alert('Prenotazione effettuata con successo!');
+                window.location.href = "{{ route('customers.prenotazioni') }}";
             },
             error: function (error) {
                 console.error('Errore durante la prenotazione:', error.responseText);

@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\DipartimentoService;
 use App\Services\UserService;
+use App\Services\DipartimentoService;
+use App\Services\PrestazioneService;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Http\Requests\SearchPrestazioneRequest;
+use App\Http\Requests\SearchDipartimentoRequest;
 use App\Http\Requests\GestioneDipartimentiRequest;
 use App\Http\Requests\GestioneUtentiRequest;
 
 class AdminController extends Controller
 {
     protected UserService $userService;
-
     protected DipartimentoService $dipartimentoService;
+    protected PrestazioneService $prestazioneService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
+        $this->prestazioneService = $prestazioneService;
     }
 
     public function index(): View
@@ -110,5 +114,39 @@ class AdminController extends Controller
         }
 
         return response()->json(['success' => false, 'message' => 'Errore durante l\'eliminazione'], 500);
+    }
+
+    // gestione prestazioni
+    public function indexPrestazioni(): JsonResponse
+    {
+        $prestazioni = $this->prestazioneService->getAll();
+        return response()->json($prestazioni);
+    }
+
+    public function show(string $id): JsonResponse
+    {
+        $prestazione = $this->prestazioneService->getById($id);
+        return response()->json($prestazione);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        $data = $request->only(keys: ['descrizione', 'prescrizioni', 'medico_id']);
+        $prestazione = $this->prestazioneService->create($data);
+
+        return response()->json($prestazione, 201);
+    }
+
+    public function update(Request $request, string $id): JsonResponse
+    {
+        $data = $request->only(keys: ['descrizione', 'prescrizioni', 'medico_id']);
+        $prestazione = $this->prestazioneService->update($id, $data);
+        return response()->json($prestazione);
+    }
+
+    public function destroy(string $id): JsonResponse
+    {
+        $prestazione = $this->prestazioneService->delete($id);
+        return response()->json($prestazione);
     }
 }

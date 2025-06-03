@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Str;
 
+//require (/.../include/connect.php)
+
 return [
 
     /*
