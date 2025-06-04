@@ -6,7 +6,7 @@
 <div class="welcome-container">
     <!-- HERO HEADER -->
     <header class="relative">
-        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class="h-96 w-full object-cover opacity-80">
+        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class="h-96 w-full object-cover opacity-80 rounded-xl">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-12">
             <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-md">STRUTTURA SANITARIA</h1>
             <p class="text-white text-lg mt-2">La tua salute, la nostra missione</p>
@@ -29,7 +29,7 @@
 
     <!-- ORGANIZZAZIONE -->
     <section id="organizzazione" class="my-6">
-        <x-card class="bg-blue-50 shadow border-l-4 border-blue-500">
+        <x-card class="bg-white shadow border-l-4 border-blue-500">
             <div class="p-4">
                 <h2 class="text-xl font-semibold text-indigo-700 mb-3">Organizzazione Interna dei Servizi</h2>
                 <ul class="list-disc pl-5 space-y-2 text-gray-800 text-sm">
@@ -45,7 +45,7 @@
 
     <!-- FUNZIONALITÀ -->
     <section id="funzionalita" class="my-6">
-        <x-card class="bg-blue-50 shadow border-l-4 border-indigo-400">
+        <x-card class="bg-white shadow border-l-4 border-indigo-400">
             <div class="p-4">
                 <h2 class="text-xl font-semibold text-indigo-700 mb-3">Funzionalità del Sito</h2>
                 <ul class="list-disc pl-5 space-y-2 text-gray-800 text-sm">
