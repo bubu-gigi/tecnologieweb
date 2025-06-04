@@ -26,7 +26,7 @@ class AgendaController extends Controller
     {
         $data = $this->agendaService->getSlotDisponibilitaGiugno($prestazioneId);
 
-        return view('prestazioni_agenda', [
+        return view('staff.prestazioni_agenda', [
             'prestazione' => $data['prestazione'],
             'slots' => $data['slots'],
         ]);
@@ -39,16 +39,4 @@ class AgendaController extends Controller
         return response()->json(['success' => true, 'data' => $data]);
     }
 
-    public function assegnaSlot(Request $request, int $procedure): JsonResponse
-    {
-        $validated = $request->validated();
-
-        $ok = $this->agendaService->assegnaSlot($data['prenotazione_id'], Carbon::parse($request->input('data')), $data['slot_orario']);
-
-        if (!$ok) {
-            return response()->json(['success' => false, 'message' => 'Slot non disponibile'], 409);
-        }
-
-        return response()->json(['success' => true, 'message' => 'Slot assegnato']);
-    }
 }
