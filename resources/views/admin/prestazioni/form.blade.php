@@ -32,20 +32,24 @@
             :value="old('prescrizioni', $prestazione->prescrizioni ?? '')"
         />
 
-        <x-select
-            label="Medico"
-            name="medico_id"
-            :options="$medici->pluck('full_name', 'id')"
-            :selected="old('medico_id', $prestazione->medico_id ?? '')"
-        />
+        <label class="block font-semibold text-gray-700" for="medico_id">Medico</label>
+            <select name="medico_id" id="medico_id" class="w-full border border-gray-300 rounded px-3 py-2">
+                @foreach($medici as $medico)
+                    <option value="{{ $medico->id }}" {{ old('medico_id', $prestazione->medico_id ?? '') == $medico->id ? 'selected' : '' }}>
+                        {{ $medico->nome }} {{ $medico->cognome }}
+                    </option>
+                @endforeach
+            </select>
 
-        <x-select
-            label="Staff (opzionale)"
-            name="staff_id"
-            :options="$staff->pluck('full_name', 'id')"
-            :selected="old('staff_id', $prestazione->staff_id ?? '')"
-            :nullable="true"
-        />
+            <label class="block font-semibold text-gray-700 mt-4" for="staff_id">Staff (opzionale)</label>
+            <select name="staff_id" id="staff_id" class="w-full border border-gray-300 rounded px-3 py-2">
+                <option value="">-- Nessuno --</option>
+                @foreach($staff as $membro)
+                    <option value="{{ $membro->id }}" {{ old('staff_id', $prestazione->staff_id ?? '') == $membro->id ? 'selected' : '' }}>
+                        {{ $membro->nome }} {{ $membro->cognome }}
+                    </option>
+                @endforeach
+            </select>
 
         <div class="flex justify-center gap-4 mt-4">
             <x-button type="button"

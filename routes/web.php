@@ -58,11 +58,11 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::delete('/admin/utenti/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
     Route::get('/admin/prestazioni', [AdminController::class, 'gestionePrestazioni'])->name('admin.prestazioni');
-    Route::get('/prestazioni/nuova', [AdminController::class, 'createPrestazione'])->name('prestazioni.create');
-    Route::post('/prestazioni', [AdminController::class, 'storePrestazione'])->name('prestazioni.store');
-    Route::get('/prestazioni/{id}', [AdminController::class, 'editPrestazione'])->name('prestazioni.edit');
-    Route::put('/prestazioni/{id}', [AdminController::class, 'updatePrestazione'])->name('prestazioni.update');
-    Route::delete('/prestazioni/{id}', [AdminController::class, 'deletePrestazione'])->name('prestazioni.delete');
+    Route::get('/admin/prestazioni/nuova', [AdminController::class, 'createPrestazione'])->name('admin.prestazioni.create');
+    Route::post('/admin/prestazioni', [AdminController::class, 'storePrestazione'])->name('admin.prestazioni.store');
+    Route::get('/admin/prestazioni/{id}', [AdminController::class, 'editPrestazione'])->name('admin.prestazioni.edit');
+    Route::put('/admin/prestazioni/{id}', [AdminController::class, 'updatePrestazione'])->name('admin.prestazioni.update');
+    Route::delete('/admin/prestazioni/{id}', [AdminController::class, 'deletePrestazione'])->name('admin.prestazioni.delete');
 
     Route::get('/admin/dipartimenti', [AdminController::class, 'dipartimenti'])->name('admin.dipartimenti');
     Route::get('/admin/dipartimenti/nuovo', [AdminController::class, 'createDipartimento'])->name(name: 'admin.dipartimenti.create');
