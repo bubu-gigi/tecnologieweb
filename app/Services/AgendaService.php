@@ -5,16 +5,15 @@ namespace App\Services;
 use App\Models\Prestazione;
 use Illuminate\Support\Facades\DB;
 use App\Models\AgendaGiornaliera;
+use App\Models\AgendaTemplate;
 use App\Models\Prenotazione;
 use Carbon\Carbon;
-use Illuminate\View\View;
 
 class AgendaService
 {
     public function getAgendaTemplateByPrestazione(int $prestazioneId): array
     {
-        $entries = DB::table('agenda_template')
-            ->select('giorno', 'fascia_oraria')
+        $entries = AgendaTemplate::select('giorno', 'fascia_oraria')
             ->where('prestazione_id', $prestazioneId)
             ->orderBy('giorno')
             ->orderBy('fascia_oraria')
@@ -44,7 +43,6 @@ class AgendaService
 
         foreach ($entries as $entry) {
             $slots[$entry->data][] = [
-                'data' => $entry->data,
                 'orario' => $entry->orario,
                 'occupato' => $entry->prenotazione_id !== null,
             ];

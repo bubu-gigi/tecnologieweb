@@ -15,6 +15,12 @@
         <x-link-navbar href="/staff/prestazioni">
             Visualizza
         </x-link-navbar>
+        <x-link-navbar href="/staff/modifica_agende">
+            Modifica Agende
+        </x-link-navbar>
+        <x-link-navbar href="/staff/visualizza_agende">
+            Visualizza Agende
+        </x-link-navbar>
     </x-left-navbar>
     <x-right-navbar>
         <x-button-navbar href="/logout">

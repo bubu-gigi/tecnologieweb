@@ -45,7 +45,8 @@
                 name="username"
                 label="Username"
                 placeholder="Modifica il tuo username"
-                value="{{ old('username', auth()->user()->username) }}"            />
+                value="{{ old('username', auth()->user()->username) }}"            
+            />
             <x-input
                 name="password"
                 label="Nuova Password"

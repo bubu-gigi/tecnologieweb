@@ -15,7 +15,7 @@
                     Inserisci nuove prestazioni da associare al personale e ai dipartimenti.
                 </p>
             </div>
-            <a href="/staff/prestazioni"
+            <a href="/staff/prenotazioni"
                 class="mt-4 inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded">
                 Inserisci
             </a>

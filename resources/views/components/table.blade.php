@@ -1,5 +1,5 @@
 @props([
-    'headers' => [],
+    'headers' => []
 ])
 
 <div class="overflow-x-auto rounded-lg shadow-sm border border-gray-200">
