@@ -118,73 +118,66 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('fasce-container');
-        const btnAggiungi = document.getElementById('aggiungi-fascia-btn');
-        const template = document.getElementById('template-fascia');
+    $(function () {
+        const $container = $('#fasce-container');
+        const $btnAggiungi = $('#aggiungi-fascia-btn');
+        const $template = $('#template-fascia');
 
         let fasciaInCompilazione = false;
 
-        btnAggiungi.addEventListener('click', function () {
+        $btnAggiungi.on('click', function () {
             if (fasciaInCompilazione) return;
 
-            const clone = template.content.cloneNode(true);
-            const newCard = clone.querySelector('div');
+            const $clone = $($template.html());
+            const $startInput = $clone.find('input[name="start_time[]"]');
+            const $endInput = $clone.find('input[name="end_time[]"]');
 
-            const startInput = newCard.querySelector('input[name="start_time[]"]');
-            const endInput = newCard.querySelector('input[name="end_time[]"]');
+            $startInput.attr({ min: "08:00", max: "20:00" }).val('');
+            $endInput.attr({ min: "08:00", max: "20:00" }).val('');
 
-            [startInput, endInput].forEach(input => {
-                input.min = "08:00";
-                input.max = "20:00";
-                input.value = "";
-            });
-
-            const btnConferma = newCard.querySelector('.conferma-fascia-btn');
-            btnConferma.addEventListener('click', function () {
-                const giornoSelect = newCard.querySelector('select[name="giorno[]"]');
-                const giorno = giornoSelect.value;
-                const giornoText = giornoSelect.selectedOptions[0]?.text ?? '';
-                const start = startInput.value;
-                const end = endInput.value;
+            $clone.find('.conferma-fascia-btn').on('click', function () {
+                const $giornoSelect = $clone.find('select[name="giorno[]"]');
+                const giorno = $giornoSelect.val();
+                const giornoText = $giornoSelect.find('option:selected').text();
+                const start = $startInput.val();
+                const end = $endInput.val();
 
                 if (!giorno || !start || !end) {
                     alert("Compila tutti i campi della fascia oraria.");
                     return;
                 }
 
-                const fasciaConfermata = document.createElement('div');
-                fasciaConfermata.className = "p-4 border rounded bg-white shadow-sm grid grid-cols-4 gap-4 items-center";
-                fasciaConfermata.innerHTML = `
-                    <input type="hidden" name="giorno[]" value="${giorno}">
-                    <input type="hidden" name="start_time[]" value="${start}">
-                    <input type="hidden" name="end_time[]" value="${end}">
-                    <div><strong>Giorno:</strong> ${giornoText}</div>
-                    <div><strong>Inizio:</strong> ${start}</div>
-                    <div><strong>Fine:</strong> ${end}</div>
-                    <button type="button" class="rimuovi-fascia-btn px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm">Rimuovi</button>
-                `;
+                const $fascia = $(`
+                    <div class="p-4 border rounded bg-white shadow-sm grid grid-cols-4 gap-4 items-center">
+                        <input type="hidden" name="giorno[]" value="${giorno}">
+                        <input type="hidden" name="start_time[]" value="${start}">
+                        <input type="hidden" name="end_time[]" value="${end}">
+                        <div><strong>Giorno:</strong> ${giornoText}</div>
+                        <div><strong>Inizio:</strong> ${start}</div>
+                        <div><strong>Fine:</strong> ${end}</div>
+                        <button type="button" class="rimuovi-fascia-btn px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm">Rimuovi</button>
+                    </div>
+                `);
 
-                fasciaConfermata.querySelector('.rimuovi-fascia-btn').addEventListener('click', function () {
-                    fasciaConfermata.remove();
+                $fascia.find('.rimuovi-fascia-btn').on('click', function () {
+                    $fascia.remove();
                 });
 
-                container.appendChild(fasciaConfermata);
-                newCard.remove();
+                $container.append($fascia);
+                $clone.remove();
                 fasciaInCompilazione = false;
-                btnAggiungi.style.display = 'inline-block';
+                $btnAggiungi.show();
             });
 
-            const btnAnnulla = newCard.querySelector('.annulla-fascia-btn');
-            btnAnnulla.addEventListener('click', function () {
-                newCard.remove();
+            $clone.find('.annulla-fascia-btn').on('click', function () {
+                $clone.remove();
                 fasciaInCompilazione = false;
-                btnAggiungi.style.display = 'inline-block';
+                $btnAggiungi.show();
             });
 
-            container.appendChild(newCard);
+            $container.append($clone);
             fasciaInCompilazione = true;
-            btnAggiungi.style.display = 'none';
+            $btnAggiungi.hide();
         });
     });
 </script>
