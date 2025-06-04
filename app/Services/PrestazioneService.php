@@ -35,14 +35,68 @@ class PrestazioneService
 
     public function create(array $data): Prestazione
     {
-        return Prestazione::create($data);
+        $fasce = [
+            'giorno' => $data['giorno'] ?? [],
+            'start_time' => $data['start_time'] ?? [],
+            'end_time' => $data['end_time'] ?? []
+        ];
+
+        // Rimuovi le fasce dal data principale per non creare errori nel modello Prestazione
+        unset($data['giorno'], $data['start_time'], $data['end_time']);
+
+        $prestazione = Prestazione::create($data);
+
+        foreach ($fasce['giorno'] as $index => $giorno) {
+            if (empty($giorno) || empty($fasce['start_time'][$index]) || empty($fasce['end_time'][$index])) {
+                continue; // salta fasce incomplete
+            }
+
+            // Inserisci nella tabella agenda_template, adattando i nomi delle colonne
+            \DB::table('agenda_template')->insert([
+                'prestazione_id' => $prestazione->id,
+                'giorno' => $giorno,
+                'start_time' => $fasce['start_time'][$index],
+                'end_time' => $fasce['end_time'][$index],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        return $prestazione;
     }
 
     public function update(string $id, array $data): Prestazione
     {
-        $dip = Prestazione::findOrFail($id);
-        $dip->update($data);
-        return $dip;
+        $fasce = [
+            'giorno' => $data['giorno'] ?? [],
+            'start_time' => $data['start_time'] ?? [],
+            'end_time' => $data['end_time'] ?? []
+        ];
+
+        unset($data['giorno'], $data['start_time'], $data['end_time']);
+
+        $prestazione = Prestazione::findOrFail($id);
+        $prestazione->update($data);
+
+        // Elimina fasce esistenti per questa prestazione e ricrea
+        \DB::table('agenda_template')->where('prestazione_id', $id)->delete();
+
+        foreach ($fasce['giorno'] as $index => $giorno) {
+            if (empty($giorno) || empty($fasce['start_time'][$index]) || empty($fasce['end_time'][$index])) {
+                continue;
+            }
+
+            \DB::table('agenda_template')->insert([
+                'prestazione_id' => $prestazione->id,
+                'giorno' => $giorno,
+                'start_time' => $fasce['start_time'][$index],
+                'end_time' => $fasce['end_time'][$index],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        return $prestazione;
     }
 
     public function delete(string $id): int
