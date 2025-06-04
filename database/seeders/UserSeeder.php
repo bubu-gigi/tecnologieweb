@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'ruolo' => 'admin',
         ]);
 
-        $staff = [
+        $users = [
             [
                 'nome' => 'Francesca',
                 'cognome' => 'Verdi',
@@ -43,9 +43,34 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('passwordcb'),
                 'ruolo' => 'staff',
             ],
+            //utenti per la consegna del progetto
+            [
+                'nome' => 'pazi',
+                'cognome' => 'pazi',
+                'indirizzo' => 'Via ',
+                'citta' => 'Milano',
+                'data_nascita' => '1990-05-15',
+                'username' => 'pazipazi',
+                'password' => Hash::make('ha5nha5n'),
+                'ruolo' => 'user',
+            ],
+            [
+                'nome' => 'staff',
+                'cognome' => 'staff',
+                'username' => 'staffstaff',
+                'password' => Hash::make('ha5nha5n'),
+                'ruolo' => 'staff',
+            ],
+            [
+                'nome' => 'admin',
+                'cognome' => 'admin',
+                'username' => 'adminadmin',
+                'password' => Hash::make('ha5nha5n'),
+                'ruolo' => 'admin',
+            ]
         ];
 
-        foreach ($staff as $utente) {
+        foreach ($users as $utente) {
             User::create($utente);
         }
     }

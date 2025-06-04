@@ -18,5 +18,4 @@ class GuestController extends Controller
         $departments = $this->dipartimentoService->getAll();
         return view('welcome', compact('departments'));
     }
-
 }

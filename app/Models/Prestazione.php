@@ -17,8 +17,8 @@ class Prestazione extends Model
         'descrizione',
         'prescrizioni',
         'medico_id',
-    ];
-
+    ]; 
+    
     public function medico(): BelongsTo
     {
         return $this->belongsTo(Medico::class);
@@ -29,4 +29,8 @@ class Prestazione extends Model
         return $this->hasMany(Prenotazione::class);
     }
 
+    public function staff(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'staff_id');
+    }
 }

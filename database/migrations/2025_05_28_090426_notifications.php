@@ -13,8 +13,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('prenotazione_id')->constrained('prenotazioni')->onDelete('cascade');
             $table->enum('action', ['modified', 'deleted']);
-            $table->text('descrizione')->nullable();
-            $table->boolean('notificata')->default(false);
             $table->timestamps();
         });
     }

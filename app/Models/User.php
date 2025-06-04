@@ -38,9 +38,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Prenotazione::class);
     }
-
-    public function monitoraggi(): HasMany
-    {
-        return $this->hasMany(Monitoraggio::class);
-    }
 }

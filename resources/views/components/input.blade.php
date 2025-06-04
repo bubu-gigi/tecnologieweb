@@ -10,9 +10,7 @@
 
 <div class=" flex flex-col mb-4">
     @if($label)
-        <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 mb-1">
-            {{ $label }}
-        </label>
+        <x-label :for="$name">{{ $label }}</x-label>
     @endif
 
     <input

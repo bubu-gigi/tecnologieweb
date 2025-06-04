@@ -96,7 +96,7 @@
 <script>
     function prenotaPrestazione(prestazioneId, userId) {
         $.ajax({
-            url: "{{ route('customers.reservation.store') }}",
+            url: "{{ route('customers.prenotazione.store') }}",
             type: 'POST',
             data: JSON.stringify({
                 user_id: userId,

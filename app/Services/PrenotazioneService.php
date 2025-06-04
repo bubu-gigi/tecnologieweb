@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Prenotazione;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class PrenotazioneService
 {
@@ -29,13 +31,47 @@ class PrenotazioneService
 
     public function update(string $id, array $data): Prenotazione
     {
-        $dip = Prenotazione::findOrFail($id);
-        $dip->update($data);
-        return $dip;
+        $prenotazione = Prenotazione::findOrFail($id);
+
+        if (
+            $prenotazione->data_prenotazione !== null &&
+            Carbon::parse($prenotazione->data_prenotazione)->isPast()
+        ) {
+            throw new HttpResponseException(
+                response()->json(['error' => 'Impossibile modificare una prenotazione già passata.'], 400)
+            );
+        }
+
+        $prenotazione->update($data);
+        return $prenotazione;
     }
 
-    public function delete(string $id): int
+    public function delete(string $id): void
     {
-        return Prenotazione::destroy($id);
+        $prenotazione = Prenotazione::findOrFail($id);
+
+        if (
+            $prenotazione->data_prenotazione !== null &&
+            Carbon::parse($prenotazione->data_prenotazione)->isPast()
+        ) {
+            throw new HttpResponseException(
+                response()->json(['error' => 'Impossibile cancellare una prenotazione già passata.'], 400)
+            );
+        }
+
+        $prenotazione->delete();
+    }
+
+    public function getByIdWithRelations(string $id): ?Prenotazione
+    {
+        return Prenotazione::with(['prestazione', 'user'])->find($id);
+    }
+
+    public function getInAttesa(): Collection
+    {
+        return Prenotazione::with(['user', 'prestazione'])
+            ->whereNull('data_prenotazione')
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 }

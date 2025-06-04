@@ -3,6 +3,27 @@
 @section('title', 'Area Utente Registrato')
 
 @section('content')
+@if(isset($notifications) && $notifications->count())
+    <div class="flex flex-col gap-4 mb-6">
+        @foreach ($notifications as $notification)
+            <div id="{{ $notification->id }}" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative">
+                <span class="block sm:inline">
+                    @if($notification->action === 'modified')
+                        La tua prenotazione per la prestazione <b>{{ $notification->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
+                        è stata spostata in data <b>{{ $notification->prenotazione->data_prenotazione ?? 'N/D' }}</b>.
+                    @else($notification->action === 'deleted')
+                        La tua prenotazione per la prestazione <b>{{ $notification->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
+                        in data <b>{{ $notification->prenotazione->data_prenotazione ?? 'N/D' }}</b>
+                        è stata cancellata.
+                    @endif
+                </span>
+                <button onclick="deleteNotification('{{ $notification->id }}')" class="absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3" data-id="{{ $notification->id }}">
+                     &times;
+                </button>
+            </div>
+        @endforeach
+    </div>
+@endif
 <div class="flex flex-col gap-6">
     <h2 class="text-2xl font-bold text-indigo-700 text-center">Benvenuto nella tua Area Personale, {{ Auth::user()->nome }}</h2>
 
@@ -46,3 +67,20 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script>
+    function deleteNotification(notificationId) {
+        $(`#${notificationId}`).remove();
+        $.ajax({
+            url: `/customers/notifications/${notificationId}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            error: function () {
+                alert('Errore nella cancellazione della notifica.');
+            }
+        });
+    }
+</script>
+@endpush

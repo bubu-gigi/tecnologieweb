@@ -1,7 +1,11 @@
 /* === GENERAL STYLES === */
 body {
     font-family: 'Figtree', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #ece9e6, #ffffff);
+    background-image: url('../images/medical-vector.jpg');
+    background-size: centre;
+    background-attachment: fixed;
+    background-position: contain;
+   /* background-repeat: no-repeat; */
     margin: 0;
     padding: 0;
     display: flex;
@@ -12,6 +16,23 @@ body {
 header, footer {
     width: 100%;
 }
+
+.image-gallery {
+    display: flex; /* Usa Flexbox per il layout delle immagini */
+    justify-content: space-between; /* Distribuisce lo spazio uniformemente tra le immagini */
+    flex-wrap: wrap; /* Permette alle immagini di andare a capo se necessario */
+    gap: 20px; /* Spaziatura di 10px tra le immagini */
+    padding: 10px; /* Padding intorno alla galleria */
+}
+
+.image-gallery img {
+    width: calc(16.66% - 10px); /* Ogni immagine occupa circa un sesto della larghezza del contenitore meno la spaziatura */
+    max-width: 100%; /* Assicura che l'immagine non superi la larghezza del contenitore */
+    height: auto; /* Mantiene l'aspect ratio originale delle immagini */
+    border-radius: 8px; /* Aggiunge angoli arrotondati alle immagini */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiunge una leggera ombra per un effetto di profondità */
+}
+
 
 /* === HEADER === */
 .header-container,
