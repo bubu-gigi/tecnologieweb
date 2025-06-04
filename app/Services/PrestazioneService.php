@@ -38,10 +38,9 @@ class PrestazioneService
         $fasce = [
             'giorno' => $data['giorno'] ?? [],
             'start_time' => $data['start_time'] ?? [],
-            'end_time' => $data['end_time'] ?? []
+            'end_time' => $data['end_time'] ?? [],
         ];
 
-        // Rimuovi le fasce dal data principale per non creare errori nel modello Prestazione
         unset($data['giorno'], $data['start_time'], $data['end_time']);
 
         $prestazione = Prestazione::create($data);
@@ -51,14 +50,9 @@ class PrestazioneService
                 continue; // salta fasce incomplete
             }
 
-            // Inserisci nella tabella agenda_template, adattando i nomi delle colonne
-            \DB::table('agenda_template')->insert([
-                'prestazione_id' => $prestazione->id,
+            $prestazione->agendaTemplates()->create([
                 'giorno' => $giorno,
-                'start_time' => $fasce['start_time'][$index],
-                'end_time' => $fasce['end_time'][$index],
-                'created_at' => now(),
-                'updated_at' => now(),
+                'fascia_oraria' => $fasce['start_time'][$index] . '-' . $fasce['end_time'][$index],
             ]);
         }
 
@@ -70,7 +64,7 @@ class PrestazioneService
         $fasce = [
             'giorno' => $data['giorno'] ?? [],
             'start_time' => $data['start_time'] ?? [],
-            'end_time' => $data['end_time'] ?? []
+            'end_time' => $data['end_time'] ?? [],
         ];
 
         unset($data['giorno'], $data['start_time'], $data['end_time']);
@@ -78,21 +72,16 @@ class PrestazioneService
         $prestazione = Prestazione::findOrFail($id);
         $prestazione->update($data);
 
-        // Elimina fasce esistenti per questa prestazione e ricrea
-        \DB::table('agenda_template')->where('prestazione_id', $id)->delete();
+        $prestazione->agendaTemplates()->delete();
 
         foreach ($fasce['giorno'] as $index => $giorno) {
             if (empty($giorno) || empty($fasce['start_time'][$index]) || empty($fasce['end_time'][$index])) {
                 continue;
             }
 
-            \DB::table('agenda_template')->insert([
-                'prestazione_id' => $prestazione->id,
+            $prestazione->agendaTemplates()->create([
                 'giorno' => $giorno,
-                'start_time' => $fasce['start_time'][$index],
-                'end_time' => $fasce['end_time'][$index],
-                'created_at' => now(),
-                'updated_at' => now(),
+                'fascia_oraria' => $fasce['start_time'][$index] . '-' . $fasce['end_time'][$index],
             ]);
         }
 

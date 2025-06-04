@@ -19,4 +19,9 @@ class AgendaTemplate extends Model
     {
         return $this->belongsTo(Prestazione::class);
     }
+
+    public function agendaTemplates()
+    {
+        return $this->hasMany(AgendaTemplate::class);
+    }
 }
