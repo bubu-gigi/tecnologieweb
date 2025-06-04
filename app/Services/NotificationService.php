@@ -11,7 +11,7 @@ class NotificationService
     {
         return Notification::where('user_id', $userId)->get();
     }
-    public function creaNotifica(array $data): Notification
+    public function create(array $data): Notification
     {
         return Notification::create($data);
     }

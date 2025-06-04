@@ -46,6 +46,14 @@ class PrenotazioneService
         return $prenotazione;
     }
 
+    public function aggiornaDataPrenotazione(int $id, \Carbon\Carbon $dataPrenotazione): void
+    {
+        $prenotazione = Prenotazione::findOrFail($id);
+        $prenotazione->data_prenotazione = $dataPrenotazione;
+        $prenotazione->save();
+    }
+
+
     public function delete(string $id): void
     {
         $prenotazione = Prenotazione::findOrFail($id);

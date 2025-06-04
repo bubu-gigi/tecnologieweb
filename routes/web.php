@@ -1,25 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminPrestazioniController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GuestController;
-use App\Http\Controllers\PrenotazioniController;
-use App\Http\Controllers\PrestazioneController;
 use App\Http\Controllers\StaffController;
-use App\Http\Controllers\AdminStatisticheController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
@@ -42,8 +27,7 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
     Route::get('staff/procedures/{procedure}/agenda-template', [StaffController::class, 'getTemplate']);
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot']);
-    Route::get('staff/procedures/{procedure}/schedules/slots-giugno', [StaffController::class, 'getSlot']);
-    Route::post('staff/procedures/{procedure}/assign-slot', [StaffController::class, 'assegnaSlot']);
+    Route::put('/staff/prenotazioni/{id}', [StaffController::class, 'assegnaSlot'])->name('staff.prenotazioni.assegnaSlot');
     Route::put('/staff/schedules/{prenotazione}', [StaffController::class, 'updatePrenotazione']);
     Route::delete('staff/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'destroyPrenotazione']);
 });
