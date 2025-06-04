@@ -136,7 +136,7 @@ class AdminController extends Controller
 
     public function editPrestazione(string $id)
     {
-        $prestazione = $this->prestazioneService->findById($id);
+        $prestazione = $this->prestazioneService->getById($id);
         $medici = $this->medicoService->getAll();
         $staff = $this->userService->getByRuolo('staff');
 
