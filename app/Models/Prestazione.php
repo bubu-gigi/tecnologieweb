@@ -17,12 +17,8 @@ class Prestazione extends Model
         'descrizione',
         'prescrizioni',
         'medico_id',
-        'titolo',
-        'dipartimento',
-        'giorno',
-        'fascia_oraria',
     ]; 
-//da rivedere aggiunta (sopra da Titolo a fascia_oraria)
+    
     public function medico(): BelongsTo
     {
         return $this->belongsTo(Medico::class);
