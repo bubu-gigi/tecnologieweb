@@ -7,6 +7,9 @@ use App\Services\PrenotazioneService;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\SearchPrestazioneRequest;
 use App\Http\Requests\SearchDipartimentoRequest;
+use App\Services\NotificationService;
+use App\Services\PrestazioneService;
+use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,16 +21,30 @@ class CustomerController extends Controller
 {
     protected UserService $userService;
     protected PrenotazioneService $prenotazioneService;
+    protected NotificationService $notificationService;
+    protected PrestazioneService $prestazioneService;
 
-    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService)
+    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService, NotificationService $notificationService, PrestazioneService $prestazioneService)
     {
         $this->userService = $userService;
         $this->prenotazioneService = $prenotazioneService;
+        $this->notificationService = $notificationService;
+        $this->prestazioneService = $prestazioneService;
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('customers.dashboard');
+        if($request->query('showNotifications')){
+            $notifications = $this->notificationService->getNotificationsByUserId(auth()->id())->map(function ($notification) {
+            if ($notification->prenotazione && $notification->prenotazione->data_prenotazione) {
+                $notification->prenotazione->data_prenotazione = Carbon::parse($notification->prenotazione->data_prenotazione)->format('d/m/Y H:i');
+            }
+            return $notification;
+        });;
+            return view('customers.dashboard', compact('notifications'));
+        } else {
+            return view('customers.dashboard');
+        }
     }
 
     public function prestazioni(): View
@@ -112,7 +129,7 @@ class CustomerController extends Controller
 
     public function destroyPrenotazione(string $id): RedirectResponse
     {
-        $success = $this->prenotazioneService->annullaPrenotazione($id);
+        $success = $this->prenotazioneService->delete($id);
 
         if (!$success) {
             return redirect()->back()->withErrors(['La prestazione è già stata erogata e non può essere annullata.']);
@@ -132,5 +149,10 @@ class CustomerController extends Controller
     {
         $prenotazione = $this->prenotazioneService->getById($id);
         return response()->json($prenotazione);
+    }
+
+    public function destroyNotification(string $id)
+    {
+        $this->notificationService->delete($id);
     }
 }

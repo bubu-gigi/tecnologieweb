@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/ 
+*/
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
@@ -33,6 +33,7 @@ Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name(name: 'customers.prenotazioni');
     Route::post('/customers/prenotazioni', [CustomerController::class,  'storePrenotazione'])->name('customers.prenotazione.store');
     Route::delete('/customers/prenotazioni/{prenotazione}', [CustomerController::class, 'destroyPrenotazione'])->name('customers.prenotazioni.destroy');
+    Route::delete('/customers/notifications/{id}', [CustomerController::class, 'destroyNotification'])->name('customers.notifications.destroy');
 });
 
 Route::middleware(['auth', 'check.role:staff'])->group(function () {
@@ -60,7 +61,7 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Parte nuova 
+// Parte nuova
 
 Route::prefix('admin')->group(function () {
     Route::get('/prestazioni', [AdminPrestazioniController::class, 'index'])->name('admin.prestazioni.index');
