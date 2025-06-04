@@ -116,37 +116,9 @@ class AdminController extends Controller
         return response()->json(['success' => false, 'message' => 'Errore durante l\'eliminazione'], 500);
     }
 
-    // gestione prestazioni
-    public function indexPrestazioni(): JsonResponse
+    public function gestionePrestazioni(PrestazioneService $prestazioneService)
     {
-        $prestazioni = $this->prestazioneService->getAll();
-        return response()->json($prestazioni);
-    }
-
-    public function show(string $id): JsonResponse
-    {
-        $prestazione = $this->prestazioneService->getById($id);
-        return response()->json($prestazione);
-    }
-
-    public function store(Request $request): JsonResponse
-    {
-        $data = $request->only(keys: ['descrizione', 'prescrizioni', 'medico_id']);
-        $prestazione = $this->prestazioneService->create($data);
-
-        return response()->json($prestazione, 201);
-    }
-
-    public function update(Request $request, string $id): JsonResponse
-    {
-        $data = $request->only(keys: ['descrizione', 'prescrizioni', 'medico_id']);
-        $prestazione = $this->prestazioneService->update($id, $data);
-        return response()->json($prestazione);
-    }
-
-    public function destroy(string $id): JsonResponse
-    {
-        $prestazione = $this->prestazioneService->delete($id);
-        return response()->json($prestazione);
+        $prestazioni = $prestazioneService->getAll();
+        return view('admin.prestazioni', compact('prestazioni'));
     }
 }

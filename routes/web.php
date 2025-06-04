@@ -55,7 +55,7 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::get('/admin/utenti/nuovo', [AdminController::class, 'createUser'])->name(name: 'admin.users.create');
     Route::get('/admin/utenti/{id}', [AdminController::class, 'editUser'])->name(name: 'admin.users.edit');
 
-    Route::get('/admin/prestazioni', [PrestazioneController::class, 'index'])->name('admin.prestazioni');
+    Route::get('/admin/prestazioni', [AdminController::class, 'gestionePrestazioni'])->name('admin.prestazioni');
 
     Route::get('/admin/dipartimenti', [AdminController::class, 'dipartimenti'])->name('admin.dipartimenti');
     Route::get('/admin/dipartimenti/nuovo', [AdminController::class, 'createDipartimento'])->name(name: 'admin.dipartimenti.create');

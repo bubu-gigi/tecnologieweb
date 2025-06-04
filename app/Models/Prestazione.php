@@ -29,4 +29,8 @@ class Prestazione extends Model
         return $this->hasMany(Prenotazione::class);
     }
 
+    public function staff(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'staff_id');
+    }
 }

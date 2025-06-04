@@ -9,7 +9,7 @@ class PrestazioneService
 {
     public function getAll(): Collection
     {
-        return Prestazione::all();
+        return Prestazione::with(['medico', 'staff'])->get();
     }
 
     public function getById(string $id): Prestazione
