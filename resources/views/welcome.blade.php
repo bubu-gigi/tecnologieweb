@@ -123,7 +123,7 @@
     </section>
 
 
-    <!-- Dipartimenti Specializzati -->
+    <!-- IMMAGINI -->
 
 <head>
     <meta charset="UTF-8">
@@ -131,36 +131,33 @@
     <style>
         .image-gallery {
             display: grid;
-            justify-content: space-between; /* Spaziatura uniforme tra le immagini */
-            grid-template-columns: repeat(3, 1fr); /* Adatta le immagini in base alla larghezza disponibile */
-            /*flex-wrap: wrap; / Permette di andare a capo se lo spazio non è sufficiente */
-
-            gap: 10px; /* Spaziatura tra le immagini */
+            justify-content: space-between;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             padding: 10px;
         }
+
         .image-gallery img {
-            width: 100%;         /*calc(16.66% - 10px)/* /* Calcola la larghezza in modo che 6 immagini si adattino in una riga */
-            max-width: 100%;
-            height: auto;
-            /*border-radius: 8px; / Aggiunge angoli arrotondati */
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
             display: block;
-           /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  Aggiunge una leggera ombra */
         }
     </style>
-    <title> Dipartimenti Specializzati</title>
+    <title>Dipartimenti Specializzati</title>
 </head>
+
 
 
 <body>
 
 <div class="image-gallery">
-     <img src="{{asset('images/visita cardiologia.webp')}}" alt="Immagine 1">
-        <img src="{{asset('images/visita generale.avif')}}" alt="Immagine 2">
-        <img src="{{asset('images/visita neurologica.jpg')}}" alt="Immagine 3">
-        <img src="{{asset('images/visita occulistica.jpg')}}" alt="Immagine 4">
-        <img src="{{asset('images/visita oncologica.jpg')}}" alt="Immagine 5">
-        <img src="{{asset('images/visita radiologia.webp')}}" alt="Immagine 6">
-
+    <img src="{{asset('images/visita-cardiologia.jpg')}}" alt="Immagine 1">
+    <img src="{{asset('images/visita-generale.jpg')}}" alt="Immagine 2">
+    <img src="{{asset('images/visita-neurologica.jpg')}}" alt="Immagine 3">
+    <img src="{{asset('images/visita-oculistica.jpg')}}" alt="Immagine 4">
+    <img src="{{asset('images/visita-oncologica.jpg')}}" alt="Immagine 5">
+    <img src="{{asset('images/visita-radiologia.jpg')}}" alt="Immagine 6">
 </div>
 
 </body>
