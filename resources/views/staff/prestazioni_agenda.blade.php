@@ -4,7 +4,7 @@
 
 @section('content')
 <x-card class="bg-white p-4 rounded-lg shadow-md">
-    
+
     @php
     // Genera orari interi da 8 a 20
     $orari = collect(range(8, 20))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
@@ -15,16 +15,22 @@
         @foreach($slots as $data => $fasce)
             <tr>
                 <th class="px-4 py-2 font-medium text-left">
-                    {{ \Carbon\Carbon::parse($data)->format('d/m/Y') }}
+                    {{ \Carbon\Carbon::parse(time: $data)->format('d/m/Y') }}
                 </th>
-            
+
                 @foreach($orari as $orario)
                     @php
-                        $slot = collect($fasce)->firstWhere('orario', $orario);
+                        $fascia = collect($fasce)->first(fn($f) => $f['orario'] . ':00' === $orario);
                     @endphp
-                    <td class="px-4 py-2 text-center {{ $slot && $slot['occupato'] ? 'bg-yellow-300' : 'bg-green-100' }}">
-                        {{ $slot ? ($slot[$data]['occupato'] ? 'O' : 'L') : '-' }}
+                    <td
+                        class="px-4 py-2 text-center {{ $fascia ? ($fascia['occupato'] ? 'bg-yellow-300' : 'cursor-pointer bg-green-100') : 'bg-gray-100' }}"
+                        @if($fascia && !$fascia['occupato'])
+                            onclick="sendSlot('{{ $data }}', '{{ $orario }}')"
+                        @endif
+                    >
+                        {{ $fascia ? ($fascia['occupato'] ? 'O' : 'L') : '-' }}
                     </td>
+
                 @endforeach
             </tr>
         @endforeach
@@ -32,7 +38,7 @@
 
     <x-card class="bg-white mt-4 w-full max-w-sm">
         <h2 class="text-lg font-semibold mb-2 text-gray-800">Legenda orari:</h2>
-        
+
         <ul class="space-y-2 text-sm text-gray-700">
             <li class="flex items-center gap-2">
                 <span class="w-4 h-4 rounded-full bg-green-500 inline-block"></span>
@@ -47,3 +53,25 @@
 
 </x-card>
 @endsection
+@push('scripts')
+<script>
+    function sendSlot(date, time) {
+        $.ajax({
+            url: '{{ route("staff.prenotazioni.assegnaSlot", ["id" => $prenotazioneId]) }}',
+            method: 'PUT',
+            data: {
+                date: date,
+                time: time,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function (response) {
+                alert('Slot inviato con successo!');
+                window.location.href = '{{ route("staff.prenotazioni") }}';
+            },
+            error: function (xhr) {
+                alert('Errore durante l\'invio dello slot.');
+            }
+        });
+    }
+</script>
+@endpush

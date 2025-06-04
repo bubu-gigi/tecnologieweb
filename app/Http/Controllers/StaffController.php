@@ -68,23 +68,31 @@ class StaffController extends Controller
         return response()->json(['success' => true, 'data' => $data]);
     }
 
-    public function getSlot(int $prestazioneId): View
+    public function getSlot(int $prenotazioneId): View
     {
-        $data = $this->agendaService->getSlot($prestazioneId);
+        $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
+        $data = $this->agendaService->getSlot(1);
 
         return view('staff.prestazioni_agenda', [
+            'prenotazioneId' => $prenotazioneId,
             'prestazione' => $data['prestazione'],
             'slots' => $data['slots'],
         ]);
     }
 
-    public function assegnaSlot(Request $request, object $slot): JsonResponse
+    public function assegnaSlot(Request $request, int $prenotazioneId)
     {
-        $ok = $this->agendaService->assegnaSlot($slot['prenotazione_id'], Carbon::parse($request->input('data')), $slot['orario']);
+         $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i',
+        ]);
 
-        if (!$ok) {
-            return response()->json(['success' => false, 'message' => 'Slot non disponibile'], 409);
-        }
+        $datetime = \Carbon\Carbon::parse($request->input('date') . ' ' . $request->input('time'));
+
+        $this->prenotazioneService->aggiornaDataPrenotazione(
+            $prenotazioneId,
+            $datetime
+        );
 
         return response()->json(['success' => true, 'message' => 'Slot assegnato']);
     }
