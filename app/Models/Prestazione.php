@@ -17,7 +17,8 @@ class Prestazione extends Model
         'descrizione',
         'prescrizioni',
         'medico_id',
-    ]; 
+        'staff_id'
+    ];
     
     public function medico(): BelongsTo
     {
