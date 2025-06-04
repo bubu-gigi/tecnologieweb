@@ -24,7 +24,7 @@ class AgendaController extends Controller
     }
     public function getSlotDisponibilitaGiugno(int $prestazioneId): View
     {
-        $data = $this->agendaService->getSlotDisponibilitaGiugno($prestazioneId);
+        $data = $this->agendaService->getSlot($prestazioneId);
 
         return view('staff.prestazioni_agenda', [
             'prestazione' => $data['prestazione'],
