@@ -84,6 +84,10 @@
                 @endforeach
             </div>
         </x-card>
+    @elseif(isset($prestazioni) && count($prestazioni) === 0)
+        <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg text-center text-gray-600">
+            Non ci sono prestazioni/dipartimenti che corrispondono alla ricerca.
+        </x-card>
     @endif
 
     <x-card class="w-full max-w-4xl p-4 bg-white shadow rounded-lg text-sm text-gray-600 mt-6">
