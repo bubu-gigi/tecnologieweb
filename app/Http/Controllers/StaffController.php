@@ -72,7 +72,7 @@ class StaffController extends Controller
     {
         $data = $this->agendaService->getSlot($prestazioneId);
 
-        return view('prestazioni_agenda', [
+        return view('staff.prestazioni_agenda', [
             'prestazione' => $data['prestazione'],
             'slots' => $data['slots'],
         ]);
