@@ -11,7 +11,7 @@ class PrenotazioneService
 {
     public function getAll(): Collection
     {
-        return Prenotazione::all();
+        return Prenotazione::where('deleted', false)->get();
     }
 
     public function getById(string $id): Prenotazione
