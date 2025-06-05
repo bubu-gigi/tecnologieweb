@@ -1,5 +1,4 @@
-@props(['prestazione' => null])
-
+@props(['prestazione' => null, 'orari' => []])
 @php
     $isEdit = $prestazione !== null;
     $action = $isEdit
@@ -68,7 +67,7 @@
                 + Aggiungi Orario
             </button>
         </div>
-        
+
         <template id="template-fascia">
             <div class="p-4 border rounded bg-gray-50 grid grid-cols-3 gap-4 items-end">
                 <div>
@@ -128,7 +127,9 @@
         </div>
     </form>
 </x-card>
-
+<script id="orari-data" type="application/json">
+    {!! json_encode($orari) !!}
+</script>
 @push('scripts')
 <script>
     $(function () {
@@ -191,6 +192,42 @@
             $container.append($clone);
             fasciaInCompilazione = true;
             $btnAggiungi.hide();
+        });
+
+        const orariRaw = document.getElementById("orari-data").textContent;
+        const orariJson = JSON.parse(orariRaw);
+
+        Object.entries(orariJson).forEach(([giorno, fasce]) => {
+            fasce.forEach(fascia => {
+                const [start, end] = fascia.split("-");
+                const giornoText = {
+                    "1": "Lunedì",
+                    "2": "Martedì",
+                    "3": "Mercoledì",
+                    "4": "Giovedì",
+                    "5": "Venerdì",
+                    "6": "Sabato"
+                }[giorno];
+
+                const $fascia = $(`
+                    <div class="p-4 border rounded bg-white shadow-sm grid grid-cols-4 gap-4 items-center">
+                        <input type="hidden" name="giorno[]" value="${giorno}">
+                        <input type="hidden" name="start_time[]" value="${start}:00">
+                        <input type="hidden" name="end_time[]" value="${end}:00">
+                        <div><strong>Giorno:</strong> ${giornoText}</div>
+                        <div><strong>Inizio:</strong> ${start}:00</div>
+                        <div><strong>Fine:</strong> ${end}:00</div>
+                        <button type="button" class="rimuovi-fascia-btn px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm">Rimuovi</button>
+                    </div>
+                `);
+                console.log(fascia);
+
+                $fascia.find('.rimuovi-fascia-btn').on('click', function () {
+                    $fascia.remove();
+                });
+
+                $container.append($fascia);
+            });
         });
     });
 </script>
