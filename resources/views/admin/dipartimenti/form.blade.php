@@ -3,8 +3,8 @@
 @php
     $isEdit = $dipartimento !== null;
     $action = $isEdit
-        ? route('admin.dipartimenti.update', $dipartimento->id)
-        : route('admin.dipartimenti.store');
+        ? route('admin.departments.update', $dipartimento->id)
+        : route('admin.departments.store');
     $method = $isEdit ? 'PUT' : 'POST';
 @endphp
 
@@ -34,7 +34,7 @@
 
         <div class="flex justify-center gap-4 mt-4">
             <x-button type="button"
-                onclick="window.location.href='{{ route('admin.dipartimenti') }}'"
+                onclick="window.location.href='{{ route('admin.departments.index') }}'"
                 class="w-1/2 bg-gray-400 hover:bg-gray-500 text-white font-semibold">
                 Torna indietro
             </x-button>

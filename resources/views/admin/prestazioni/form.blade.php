@@ -2,8 +2,8 @@
 @php
     $isEdit = $prestazione !== null;
     $action = $isEdit
-        ? route('admin.prestazioni.update', $prestazione->id)
-        : route('admin.prestazioni.store');
+        ? route('admin.services.update', $prestazione->id)
+        : route('admin.services.store');
     $method = $isEdit ? 'PUT' : 'POST';
 @endphp
 
@@ -116,7 +116,7 @@
 
         <div class="col-span-2 flex justify-center gap-4 mt-6">
             <x-button type="button"
-                onclick="window.location.href='{{ route('admin.prestazioni') }}'"
+                onclick="window.location.href='{{ route('admin.services.index') }}'"
                 class="w-1/2 bg-gray-400 hover:bg-gray-500 text-white font-semibold">
                 Torna indietro
             </x-button>
