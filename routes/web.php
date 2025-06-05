@@ -27,7 +27,9 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot'])->name('staff.bookings.getSlot');
     Route::put('/staff/prenotazioni/{id}', [StaffController::class, 'assegnaSlot'])->name('staff.bookings.assignSlot');
     Route::delete('/staff/prenotazioni/{id}', [StaffController::class, 'deletePrenotazione'])->name('staff.bookings.delete');
+    
     Route::get('/staff/prestazioni', [StaffController::class, 'prestazioni'])->name('staff.services.index');
+    Route::get('/staff/prestazioni/{id}', [StaffController::class, 'prenotazioniPrestazione']);
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {

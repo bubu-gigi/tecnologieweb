@@ -8,7 +8,7 @@
         <x-table :headers="['Utente', 'Prestazione', 'Data Prenotazione', 'Azioni']">
             @foreach($prenotazioni as $prenotazione)
                 <tr id="{{ $prenotazione->id }}" class="hover:bg-indigo-50 transition">
-                    <td class="px-6 py-3">{{ $prenotazione->user->cognome }} {{ $prenotazione->user->nome }}</td>
+                    <td class="px-6 py-3 capitalize">{{ $prenotazione->user->cognome }} {{ $prenotazione->user->nome }}</td>
                     <td class="px-6 py-3 capitalize">{{ $prenotazione->prestazione->descrizione }}</td>
                     <td class="px-6 py-3">
                         {{ $prenotazione->data_prenotazione ?? 'Prenotazione non assegnata' }}

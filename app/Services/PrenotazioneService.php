@@ -19,6 +19,11 @@ class PrenotazioneService
         return Prenotazione::find($id);
     }
 
+    public function getPrenotazioniByPrestazioneId(string $id): Collection
+    {
+        return Prenotazione::where('prestazione_id', $id)->get();
+    }
+
     public function getByStaffId(string $id): Collection
     {
         return Prenotazione::whereRelation('prestazione', 'staff_id', $id)->get();
