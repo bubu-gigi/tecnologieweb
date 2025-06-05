@@ -6,31 +6,38 @@
 <x-card class="bg-white p-4 rounded-lg shadow-md">
 
     @php
-    $orari = collect(range(8, 19))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
-    $headers = array_merge(['Data'], $orari->toArray());
+        $orari = collect(range(8, 19))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
+        $headers = array_merge(['Data'], $orari->toArray());
     @endphp
 
     <x-table :headers="$headers">
         @foreach($slots as $data => $fasce)
+            @php
+                $giornoSettimana = \Carbon\Carbon::parse($data)->locale('it')->isoFormat('dddd');
+                $isGiornoEscluso = Str::lower($giornoSettimana) === Str::lower($giornoEscluso);
+            @endphp
             <tr>
                 <th class="px-4 py-2 font-medium text-left">
-                    {{ \Carbon\Carbon::parse(time: $data)->format('d/m/Y') }}
+                    {{ \Carbon\Carbon::parse($data)->format('d/m/Y') }}
                 </th>
 
                 @foreach($orari as $orario)
                     @php
-                        $fascia = collect($fasce)->first(fn($f) => (int) $f['orario'] === (int) explode(':', $orario)[0]);
+                        $oraInt = (int) explode(':', $orario)[0];
+                        $fascia = collect($fasce)->first(fn($f) => (int) $f['orario'] === $oraInt);
                     @endphp
+
                     <td
                         class="px-4 py-2 text-center
-                            {{ $fascia
+                            {{ $isGiornoEscluso ? 'bg-red-400 text-white font-bold' :
+                               ($fascia
                                 ? ($fascia['occupato'] ? 'bg-yellow-300' : 'cursor-pointer bg-green-100')
-                                : 'bg-gray-100' }}"
-                        @if($fascia && !$fascia['occupato'])
-                            onclick="sendSlot('{{ $data }}', '{{ (int) explode(':', $orario)[0] }}')"
+                                : 'bg-gray-100') }}"
+                        @if($fascia && !$fascia['occupato'] && !$isGiornoEscluso)
+                            onclick="sendSlot('{{ $data }}', '{{ $oraInt }}')"
                         @endif
                     >
-                        {{ $fascia ? ($fascia['occupato'] ? 'O' : 'L') : '-' }}
+                        {{ $isGiornoEscluso ? 'X' : ($fascia ? ($fascia['occupato'] ? 'O' : 'L') : '-') }}
                     </td>
                 @endforeach
             </tr>
@@ -49,11 +56,16 @@
                 <span class="w-4 h-4 rounded-full bg-yellow-500 inline-block"></span>
                 Orario occupato
             </li>
+             <li class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-red-500 inline-block"></span>
+                Giorno escluso dal paziente
+            </li>
         </ul>
     </x-card>
 
 </x-card>
 @endsection
+
 @push('scripts')
 <script>
     function sendSlot(date, time) {

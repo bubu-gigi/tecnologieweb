@@ -49,6 +49,7 @@ class StaffController extends Controller
 
         return view('staff.prestazioni_agenda', [
             'prenotazioneId' => $prenotazioneId,
+            'giornoEscluso' => $prenotazione->giorno_escluso,
             'prestazione' => $data['prestazione'],
             'slots' => $data['slots'],
         ]);

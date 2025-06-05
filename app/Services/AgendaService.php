@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Prestazione;
 use App\Models\AgendaGiornaliera;
 use App\Models\AgendaTemplate;
-use App\Models\Notification;
+use App\Models\Notifica;
 use App\Models\Prenotazione;
 use Carbon\Carbon;
 
@@ -67,7 +67,7 @@ class AgendaService
                 ->where('orario', $vecchioOrario)
                 ->where('prenotazione_id', $prenotazione->id)
                 ->update(['prenotazione_id' => null]);
-            Notification::create(["user_id" => $prenotazione->user->id, "prenotazione_id" => $prenotazione->id, "action" => "modified" ]);
+            Notifica::create(["user_id" => $prenotazione->user->id, "prenotazione_id" => $prenotazione->id, "action" => "modified" ]);
         }
 
         $datetime = Carbon::parse($date . ' ' . $time . ':00');
