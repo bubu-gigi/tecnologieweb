@@ -9,11 +9,9 @@ use App\Http\Requests\SearchPrestazioneRequest;
 use App\Http\Requests\SearchDipartimentoRequest;
 use App\Services\NotificationService;
 use App\Services\PrestazioneService;
-use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -35,12 +33,7 @@ class CustomerController extends Controller
     public function index(Request $request): View
     {
         if($request->query('showNotifications')){
-            $notifications = $this->notificationService->getNotificationsByUserId(auth()->id())->map(function ($notification) {
-            if ($notification->prenotazione && $notification->prenotazione->data_prenotazione) {
-                $notification->prenotazione->data_prenotazione = Carbon::parse($notification->prenotazione->data_prenotazione)->format('d/m/Y H:i');
-            }
-            return $notification;
-        });;
+            $notifications = $this->notificationService->getNotificationsByUserId(auth()->id());
             return view('customers.dashboard', compact('notifications'));
         } else {
             return view('customers.dashboard');
@@ -120,37 +113,16 @@ class CustomerController extends Controller
         return view('customers.prestazione', compact('prestazioni'));
     }
 
-    public function storePrenotazione(Request $request): JsonResponse
+    public function storePrenotazione(Request $request)
     {
         $data = $request->only(keys: ['user_id', 'prestazione_id', 'giorno_escluso', 'data_prenotazione']);
-        $prenotazione = $this->prenotazioneService->create($data);
-        return response()->json($prenotazione, 201);
+        $this->prenotazioneService->create($data);
     }
 
-    public function destroyPrenotazione(string $id): RedirectResponse
+    public function destroyPrenotazione(string $id)
     {
-        $success = $this->prenotazioneService->delete($id);
-
-        if (!$success) {
-            return redirect()->back()->withErrors(['La prestazione è già stata erogata e non può essere annullata.']);
-        }
-
-        return redirect()->route('customers.prenotazioni')->with('success', 'Prenotazione annullata con successo.');
+        $this->prenotazioneService->delete($id);
     }
-
-    // prenotazioni controller
-    public function indexPrenotazioni(): JsonResponse
-    {
-        $prenotazione = $this->prenotazioneService->getAll();
-        return response()->json($prenotazione);
-    }
-
-    public function show(string $id): JsonResponse
-    {
-        $prenotazione = $this->prenotazioneService->getById($id);
-        return response()->json($prenotazione);
-    }
-
     public function destroyNotification(string $id)
     {
         $this->notificationService->delete($id);
