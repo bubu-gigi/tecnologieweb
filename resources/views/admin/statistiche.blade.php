@@ -16,6 +16,9 @@
                 <input type="date" name="data_inizio" id="data_inizio" 
                     value="{{ request('data_inizio') ?? '2025-06-01' }}"
                    class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                @error('data_inizio')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
@@ -23,6 +26,9 @@
                 <input type="date" name="data_fine" id="data_fine"
                     value="{{ request('data_fine') ?? '2025-06-30' }}"
                     class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                @error('data_fine')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 

@@ -32,5 +32,4 @@ class Medico extends Model
     {
         return $this->hasMany(Prestazione::class);
     }
-
 }
