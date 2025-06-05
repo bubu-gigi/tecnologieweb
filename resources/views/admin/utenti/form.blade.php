@@ -50,7 +50,7 @@
 
         <div class="col-span-2 flex justify-center gap-4 mt-4">
             @php
-                $previousUrl = session('previous_url', route('admin.users'));
+                $previousUrl = session('previous_url', route('admin.users.index'));
             @endphp
 
             <x-button
