@@ -10,10 +10,10 @@
                 <span class="block sm:inline">
                     @if($notification->action === 'modified')
                         La tua prenotazione per la prestazione <b>{{ $notification->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
-                        è stata spostata in data <b>{{ $notification->prenotazione->data_prenotazione ?? 'N/D' }}</b>.
+                        è stata spostata in data <b>{{ \Carbon\Carbon::parse(time: $notification->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>.
                     @else
                         La tua prenotazione per la prestazione <b>{{ $notification->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
-                        in data <b>{{ $notification->prenotazione->data_prenotazione ?? 'N/D' }}</b>
+                        in data <b>{{ \Carbon\Carbon::parse(time: $notification->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>
                         è stata cancellata.
                     @endif
                 </span>
