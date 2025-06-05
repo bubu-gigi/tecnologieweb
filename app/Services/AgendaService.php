@@ -77,4 +77,22 @@ class AgendaService
 
         return true;
     }
+
+    public function createTemplateRow(int $prestazioneId, string $giorno, string $fasciaOraria): AgendaTemplate
+    {
+        return AgendaTemplate::create([
+            'prestazione_id' => $prestazioneId,
+            'giorno' => $giorno,
+            'fascia_oraria' => $fasciaOraria,
+        ]);
+    }
+
+    public function createGiornalieraRow(int $prestazioneId, string $data, string $orario): AgendaGiornaliera
+    {
+        return AgendaGiornaliera::create([
+            'prestazione_id' => $prestazioneId,
+            'data' => $data,
+            'orario' => $orario,
+        ]);
+    }
 }

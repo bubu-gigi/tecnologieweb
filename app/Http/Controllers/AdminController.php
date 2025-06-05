@@ -14,6 +14,7 @@ use App\Http\Requests\SearchDipartimentoRequest;
 use App\Http\Requests\GestioneDipartimentiRequest;
 use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
+use App\Services\AgendaService;
 
 class AdminController extends Controller
 {
@@ -21,13 +22,15 @@ class AdminController extends Controller
     protected DipartimentoService $dipartimentoService;
     protected PrestazioneService $prestazioneService;
     protected MedicoService $medicoService;
+    protected AgendaService $agendaService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
         $this->prestazioneService = $prestazioneService;
         $this->medicoService = $medicoService;
+        $this->agendaService = $agendaService;
     }
 
     public function index(): View
@@ -142,13 +145,43 @@ class AdminController extends Controller
 
         return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff'));
     }
-
     public function storePrestazione(GestionePrestazioniRequest $request)
     {
-        $data = $request->validated();
-        $this->prestazioneService->create($data);
+        $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
+        $prestazione = $this->prestazioneService->create($data);
 
-        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione creata con successo.');
+        $giorni = $request->input('giorno', []);
+        $startTimes = $request->input('start_time', []);
+        $endTimes = $request->input('end_time', []);
+
+        foreach ($giorni as $index => $giornoSettimana) {
+            $start = $startTimes[$index];
+            $end = $endTimes[$index];
+
+            $startHour = \Carbon\Carbon::createFromFormat('H:i', $start);
+            $endHour = \Carbon\Carbon::createFromFormat('H:i', $end);
+
+            $fascia = $startHour->hour . '-' . $endHour->hour;
+            $this->agendaService->createTemplateRow($prestazione->id, $giornoSettimana, $fascia);
+
+            $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
+            $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
+
+            for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
+                if ($date->dayOfWeekIso == $giornoSettimana) {
+                    $ora = $startHour->copy();
+                    while ($ora < $endHour) {
+                        $this->agendaService->createGiornalieraRow(
+                            $prestazione->id,
+                            $date->format('Y-m-d'),
+                            $ora->hour
+                        );
+
+                        $ora->addHour();
+                    }
+                }
+            }
+        }
     }
 
     public function updatePrestazione(GestionePrestazioniRequest $request, string $id)

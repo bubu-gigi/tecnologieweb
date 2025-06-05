@@ -20,8 +20,8 @@
         @endif
 
         <div class="col-span-2">
-            <label for="descrizione">Descrizione</label>
             <x-input
+                label="Descrizione"
                 name="descrizione"
                 value="{{ old('descrizione', $prestazione->descrizione ?? '') }}"
                 autofocus
@@ -29,9 +29,9 @@
         </div>
 
         <div class="col-span-2">
-            <label for="prescrizioni">Prescrizioni</label>
             <x-textarea
                 name="prescrizioni"
+                label="Prescrizioni"
                 :value="old('prescrizioni', $prestazione->prescrizioni ?? '')"
             />
         </div>
@@ -62,14 +62,13 @@
         <div class="col-span-2">
             <label for="fasce_container">Orari</label>
             <div id="fasce-container" class="space-y-4">
-                <!-- Le fasce confermate verranno aggiunte qui -->
+
             </div>
             <button type="button" id="aggiungi-fascia-btn" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-semibold">
                 + Aggiungi Orario
             </button>
         </div>
-
-        <!-- Template nascosto per nuova fascia -->
+        
         <template id="template-fascia">
             <div class="p-4 border rounded bg-gray-50 grid grid-cols-3 gap-4 items-end">
                 <div>
