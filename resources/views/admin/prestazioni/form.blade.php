@@ -71,7 +71,7 @@
         <template id="template-fascia">
             <div class="p-4 border rounded bg-gray-50 grid grid-cols-3 gap-4 items-end">
                 <div>
-                    <label class="block font-semibold text-gray-700">Giorno</label>
+                    <label class="block text-gray-700">Giorno</label>
                     <select name="giorno[]" class="w-full border border-gray-300 rounded px-3 py-2">
                         <option value="">-- Seleziona giorno --</option>
                         <option value="1">Lunedì</option>
@@ -84,7 +84,7 @@
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700">Inizio</label>
+                    <label class="block text-gray-700">Inizio</label>
                     <select name="start_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
                         <option value="">-- Ora inizio --</option>
                         @for ($hour = 8; $hour <= 19; $hour++)
@@ -96,7 +96,7 @@
                 </div>
 
                 <div>
-                    <label class="block font-semibold text-gray-700">Fine</label>
+                    <label class="block text-gray-700">Fine</label>
                     <select name="end_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
                         <option value="">-- Ora fine --</option>
                         @for ($hour = 9; $hour <= 20; $hour++)

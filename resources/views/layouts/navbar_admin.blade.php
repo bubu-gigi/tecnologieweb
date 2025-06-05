@@ -15,7 +15,7 @@
         <x-link-navbar href="{{ route('admin.users.index') }}">
             Utenti
         </x-link-navbar>
-        <x-link-navbar href="#">
+        <x-link-navbar href="{{ url('/admin/statistiche') }}">
             Statistiche
         </x-link-navbar>
     </x-left-navbar>

@@ -1,112 +1,116 @@
 @extends('layouts.layout_admin')
 
+@section('title', 'Statistiche')
+
 @section('content')
-<div class="p-6 bg-white rounded shadow">
+<div class="min-h-screen bg-gray-50 flex flex-col items-center py-10 px-4 gap-6">
 
-    <h1 class="text-2xl font-bold mb-6">Statistiche</h1>
+    {{-- Form intervallo temporale --}}
+    <x-card class="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
+        <h3 class="text-lg font-semibold text-indigo-700 mb-4">Analisi Statistiche</h3>
 
-    <form method="GET" action="{{ route('admin.statistiche') }}" class="mb-6 space-y-4">
-        <div class="grid grid-cols-3 gap-4 items-end">
+        {!! html()->form('GET', route('admin.statistiche'))->open() !!}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label for="data_inizio" class="block font-semibold mb-1">Data Inizio</label>
-                <input type="date" id="data_inizio" name="data_inizio" value="{{ request('data_inizio') }}" class="w-full border rounded px-3 py-2">
+                <label for="data_inizio" class="block text-gray-700">Data Inizio</label>
+                <input type="date" name="data_inizio" id="data_inizio" value="{{ request('data_inizio') }}"
+                       class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
             </div>
 
             <div>
-                <label for="data_fine" class="block font-semibold mb-1">Data Fine</label>
-                <input type="date" id="data_fine" name="data_fine" value="{{ request('data_fine') }}" class="w-full border rounded px-3 py-2">
-            </div>
-
-            <div>
-                <label for="utente_esterno" class="block font-semibold mb-1">Utente Esterno (email)</label>
-                <input type="text" id="utente_esterno" name="utente_esterno" value="{{ request('utente_esterno') }}" placeholder="Email utente" class="w-full border rounded px-3 py-2">
+                <label for="data_fine" class="block text-gray-700">Data Fine</label>
+                <input type="date" name="data_fine" id="data_fine" value="{{ request('data_fine') }}"
+                       class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
             </div>
         </div>
 
-        <button type="submit" class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 font-semibold">
-            Filtra
-        </button>
-    </form>
+        <x-button type="submit" class="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold w-full md:w-auto">
+            Visualizza Statistiche
+        </x-button>
+        {!! html()->form()->close() !!}
+    </x-card>
 
     @isset($statistiche)
-        <div class="space-y-8">
+        {{-- Seconda card con risultati --}}
+        <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg space-y-8">
 
+            <h3 class="text-xl font-semibold text-indigo-700 mb-4">
+                Risultati dal {{ \Carbon\Carbon::parse(request('data_inizio'))->format('d/m/Y') }}
+                al {{ \Carbon\Carbon::parse(request('data_fine'))->format('d/m/Y') }}
+            </h3>
+
+            {{-- Statistiche per Prestazione --}}
             <section>
-                <h2 class="text-xl font-semibold mb-2">Numero di prestazioni erogate per tipo</h2>
+                <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per tipo</h4>
                 @if(count($statistiche['perPrestazione']) > 0)
-                    <table class="w-full border-collapse border">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border px-4 py-2 text-left">Prestazione</th>
-                                <th class="border px-4 py-2 text-right">Totale</th>
+                    <x-table :headers="['Prestazione', 'Totale']">
+                        @foreach($statistiche['perPrestazione'] as $descrizione => $totale)
+                            <tr>
+                                <td class="px-6 py-3">{{ $descrizione }}</td>
+                                <td class="px-6 py-3 text-right">{{ $totale }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($statistiche['perPrestazione'] as $descrizione => $totale)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $descrizione }}</td>
-                                    <td class="border px-4 py-2 text-right">{{ $totale }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        @endforeach
+                    </x-table>
                 @else
-                    <p class="italic">Nessuna prestazione trovata nell'intervallo selezionato.</p>
+                    <p class="italic text-sm text-gray-600">Nessuna prestazione trovata.</p>
                 @endif
             </section>
 
+            {{-- Statistiche per Dipartimento --}}
             <section>
-                <h2 class="text-xl font-semibold mb-2">Numero di prestazioni erogate per dipartimento</h2>
+                <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per dipartimento</h4>
                 @if(count($statistiche['perDipartimento']) > 0)
-                    <table class="w-full border-collapse border">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border px-4 py-2 text-left">Dipartimento</th>
-                                <th class="border px-4 py-2 text-right">Totale</th>
+                    <x-table :headers="['Dipartimento', 'Totale']">
+                        @foreach($statistiche['perDipartimento'] as $nome => $totale)
+                            <tr>
+                                <td class="px-6 py-3">{{ $nome }}</td>
+                                <td class="px-6 py-3 text-right">{{ $totale }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($statistiche['perDipartimento'] as $nome => $totale)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $nome }}</td>
-                                    <td class="border px-4 py-2 text-right">{{ $totale }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        @endforeach
+                    </x-table>
                 @else
-                    <p class="italic">Nessuna prestazione trovata nell'intervallo selezionato.</p>
+                    <p class="italic text-sm text-gray-600">Nessuna prestazione trovata.</p>
                 @endif
             </section>
 
-            @if(!empty($statistiche['perUtente']) && count($statistiche['perUtente']) > 0)
-                <section>
-                    <h2 class="text-xl font-semibold mb-2">Prestazioni erogate all'utente esterno {{ request('utente_esterno') }}</h2>
-                    <table class="w-full border-collapse border">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border px-4 py-2">Data</th>
-                                <th class="border px-4 py-2">Prestazione</th>
-                                <th class="border px-4 py-2">Dipartimento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            {{-- Filtro per utente esterno --}}
+            <section>
+                <h4 class="text-lg font-semibold mb-4">Prestazioni per utente esterno</h4>
+
+                {!! html()->form('GET', route('admin.statistiche'))->open() !!}
+                    <input type="hidden" name="data_inizio" value="{{ request('data_inizio') }}">
+                    <input type="hidden" name="data_fine" value="{{ request('data_fine') }}">
+
+                    <div class="flex gap-4 items-end">
+                        <div class="flex-1">
+                            <label for="utente_esterno" class="block text-sm font-medium text-gray-700">Username o email utente esterno</label>
+                            <input type="text" name="utente_esterno" id="utente_esterno" value="{{ request('utente_esterno') }}"
+                                   placeholder="es. mario.rossi@email.it"
+                                   class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                        </div>
+                        <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                            Cerca
+                        </x-button>
+                    </div>
+                {!! html()->form()->close() !!}
+
+                @if(request('utente_esterno'))
+                    @if(!empty($statistiche['perUtente']) && count($statistiche['perUtente']) > 0)
+                        <x-table :headers="['Data', 'Prestazione', 'Dipartimento']" class="mt-4">
                             @foreach ($statistiche['perUtente'] as $item)
                                 <tr>
-                                    <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
-                                    <td class="border px-4 py-2">{{ $item->prestazione }}</td>
-                                    <td class="border px-4 py-2">{{ $item->dipartimento }}</td>
+                                    <td class="px-6 py-3">{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
+                                    <td class="px-6 py-3">{{ $item->prestazione }}</td>
+                                    <td class="px-6 py-3">{{ $item->dipartimento }}</td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-                </section>
-            @elseif(request('utente_esterno'))
-                <p class="italic">Nessuna prestazione trovata per l'utente esterno specificato.</p>
-            @endif
-
-        </div>
+                        </x-table>
+                    @else
+                        <p class="italic text-sm text-gray-600 mt-4">Nessuna prestazione trovata per l'utente specificato.</p>
+                    @endif
+                @endif
+            </section>
+        </x-card>
     @endisset
-
 </div>
 @endsection
