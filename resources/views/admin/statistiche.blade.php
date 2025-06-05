@@ -91,7 +91,7 @@
                                 <option value="">-- Seleziona un utente --</option>
                                 @foreach($utentiEsterni as $utente)
                                     <option value="{{ $utente->username }}" @selected(request('utente_esterno') == $utente->username)>
-                                        {{ $utente->username }}
+                                        {{ $utente->cognome }} {{ $utente->nome }}
                                     </option>
                                 @endforeach
                             </select>
