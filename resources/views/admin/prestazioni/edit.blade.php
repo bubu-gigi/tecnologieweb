@@ -3,5 +3,8 @@
 @section('title', 'Modifica Prestazione')
 
 @section('content')
-    @include('admin.prestazioni.form', ['prestazione' => $prestazione])
+   @include('admin.prestazioni.form', [
+        'prestazione' => $prestazione,
+        'orari' => $orari
+    ])
 @endsection
