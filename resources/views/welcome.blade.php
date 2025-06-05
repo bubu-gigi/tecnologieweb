@@ -6,7 +6,7 @@
 <div class="welcome-container">
     <!-- HERO HEADER -->
     <header class="relative">
-        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class= h-96"w-full object-cover opacity-80">
+        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class="h-96 w-full object-cover opacity-80 rounded-xl">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-12">
             <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-md">STRUTTURA SANITARIA</h1>
             <p class="text-white text-lg mt-2">La tua salute, la nostra missione</p>
@@ -27,22 +27,12 @@
         </x-card>
     </section>
 
-    <!-- Sfondo Background -->
-
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <link rel="stylesheet" href="{{ asset('css/styles.css') }}"> <!-- Collega il file CSS -->
-       <title>@yield('title')</title>
-   </head>
-
     <!-- ORGANIZZAZIONE -->
     <section id="organizzazione" class="my-6">
-        <x-card class="bg-blue-50 shadow border-l-4 border-blue-500">
+        <x-card class="bg-white shadow border-l-4 border-blue-500">
             <div class="p-4">
                 <h2 class="text-xl font-semibold text-indigo-700 mb-3">Organizzazione Interna dei Servizi</h2>
                 <ul class="list-disc pl-5 space-y-2 text-gray-800 text-sm">
-                    <br>
                     <li>Servizio Accoglienza e Segreteria</li>
                     <li>Ambulatori per visite specialistiche</li>
                     <li>Laboratorio analisi</li>
@@ -55,11 +45,10 @@
 
     <!-- FUNZIONALITÀ -->
     <section id="funzionalita" class="my-6">
-        <x-card class="bg-blue-50 shadow border-l-4 border-indigo-400">
+        <x-card class="bg-white shadow border-l-4 border-indigo-400">
             <div class="p-4">
                 <h2 class="text-xl font-semibold text-indigo-700 mb-3">Funzionalità del Sito</h2>
                 <ul class="list-disc pl-5 space-y-2 text-gray-800 text-sm">
-                    <br>
                     <li>Registrazione utenti con inserimento dati personali per accedere ai servizi online.</li>
                     <li>Visualizzazione dei dipartimenti specialistici con informazioni su staff e prestazioni offerte.</li>
                     <li>Catalogo delle prestazioni sanitarie consultabile per dipartimento o parola chiave.</li>
@@ -122,50 +111,35 @@
         </x-card>
     </section>
 
+    <!-- IMMAGINI -->
+    <section id="immagini" class="my-6">
+        <style>
+            .image-gallery {
+                display: grid;
+                justify-content: space-between;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                padding: 10px;
+            }
 
-    <!-- Dipartimenti Specializzati -->
+            .image-gallery img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                display: block;
+            }
+        </style>
+        <div class="image-gallery">
+            <img src="{{ asset('images/visita-cardiologia.jpg') }}" alt="Immagine 1">
+            <img src="{{ asset('images/visita-generale.jpg') }}" alt="Immagine 2">
+            <img src="{{ asset('images/visita-neurologica.jpg') }}" alt="Immagine 3">
+            <img src="{{ asset('images/visita-oculistica.jpg') }}" alt="Immagine 4">
+            <img src="{{ asset('images/visita-oncologica.jpg') }}" alt="Immagine 5">
+            <img src="{{ asset('images/visita-radiologia.jpg') }}" alt="Immagine 6">
+        </div>
+    </section>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .image-gallery {
-            display: grid;
-            justify-content: space-between; /* Spaziatura uniforme tra le immagini */
-            grid-template-columns: repeat(3, 1fr); /* Adatta le immagini in base alla larghezza disponibile */
-            /*flex-wrap: wrap; / Permette di andare a capo se lo spazio non è sufficiente */
-
-            gap: 10px; /* Spaziatura tra le immagini */
-            padding: 10px;
-        }
-        .image-gallery img {
-            width: 100%;         /*calc(16.66% - 10px)/* /* Calcola la larghezza in modo che 6 immagini si adattino in una riga */
-            max-width: 100%;
-            height: auto;
-            /*border-radius: 8px; / Aggiunge angoli arrotondati */
-            display: block;
-           /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  Aggiunge una leggera ombra */
-        }
-    </style>
-    <title> Dipartimenti Specializzati</title>
-</head>
-
-
-<body>
-
-<div class="image-gallery">
-     <img src="{{asset('images/visita cardiologia.webp')}}" alt="Immagine 1">
-        <img src="{{asset('images/visita generale.avif')}}" alt="Immagine 2">
-        <img src="{{asset('images/visita neurologica.jpg')}}" alt="Immagine 3">
-        <img src="{{asset('images/visita occulistica.jpg')}}" alt="Immagine 4">
-        <img src="{{asset('images/visita oncologica.jpg')}}" alt="Immagine 5">
-        <img src="{{asset('images/visita radiologia.webp')}}" alt="Immagine 6">
-
-</div>
-
-</body>
-
-
+    <!-- CONTATTI -->
     <section id="contatti" class="my-6">
         <x-card class="bg-white border-l-4 border-blue-500 shadow">
             <div class="p-4">

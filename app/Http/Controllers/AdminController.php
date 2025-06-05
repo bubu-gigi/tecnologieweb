@@ -8,12 +8,10 @@ use App\Services\PrestazioneService;
 use App\Services\MedicoService;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\Http\Requests\SearchPrestazioneRequest;
-use App\Http\Requests\SearchDipartimentoRequest;
 use App\Http\Requests\GestioneDipartimentiRequest;
 use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
+use App\Services\AgendaService;
 
 class AdminController extends Controller
 {
@@ -21,13 +19,15 @@ class AdminController extends Controller
     protected DipartimentoService $dipartimentoService;
     protected PrestazioneService $prestazioneService;
     protected MedicoService $medicoService;
+    protected AgendaService $agendaService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
         $this->prestazioneService = $prestazioneService;
         $this->medicoService = $medicoService;
+        $this->agendaService = $agendaService;
     }
 
     public function index(): View
@@ -139,24 +139,105 @@ class AdminController extends Controller
         $prestazione = $this->prestazioneService->getById($id);
         $medici = $this->medicoService->getAll();
         $staff = $this->userService->getByRuolo('staff');
+        $orari = $this->agendaService->getAgendaTemplateByPrestazione($id);
 
-        return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff'));
+        return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff', 'orari'));
     }
-
+    
     public function storePrestazione(GestionePrestazioniRequest $request)
     {
-        $data = $request->validated();
-        $this->prestazioneService->create($data);
+        $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
+        $prestazione = $this->prestazioneService->create($data);
+
+        $giorni = $request->input('giorno', []);
+        $startTimes = $request->input('start_time', []);
+        $endTimes = $request->input('end_time', []);
+
+        foreach ($giorni as $index => $giornoSettimana) {
+            $start = $startTimes[$index];
+            $end = $endTimes[$index];
+
+            $startHour = \Carbon\Carbon::createFromFormat('H:i', $start);
+            $endHour = \Carbon\Carbon::createFromFormat('H:i', $end);
+
+            $fascia = $startHour->hour . '-' . $endHour->hour;
+            $this->agendaService->createTemplateRow($prestazione->id, $giornoSettimana, $fascia);
+
+            $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
+            $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
+
+            for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
+                if ($date->dayOfWeekIso == $giornoSettimana) {
+                    $ora = $startHour->copy();
+                    while ($ora < $endHour) {
+                        $this->agendaService->createGiornalieraRow(
+                            $prestazione->id,
+                            $date->format('Y-m-d'),
+                            $ora->hour
+                        );
+
+                        $ora->addHour();
+                    }
+                }
+            }
+        }
 
         return redirect()->route('admin.prestazioni')->with('success', 'Prestazione creata con successo.');
     }
 
-    public function updatePrestazione(GestionePrestazioniRequest $request, string $id)
+    public function updatePrestazione(GestionePrestazioniRequest $request, int $id)
     {
-        $data = $request->validated();
-        $this->prestazioneService->update($id, $data);
+        $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
+        $prestazione = $this->prestazioneService->update($id, $data);
 
-        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione aggiornata con successo.');
+        $this->agendaService->deleteTemplateByPrestazioneId($id);
+
+        $giorni = $request->input('giorno', []);
+        $startTimes = $request->input('start_time', []);
+        $endTimes = $request->input('end_time', []);
+
+        $fasceOrarieAttuali = [];
+
+        foreach ($giorni as $index => $giornoSettimana) {
+            $start = $startTimes[$index];
+            $end = $endTimes[$index];
+
+            $startHour = \Carbon\Carbon::createFromFormat('H:i', $start);
+            $endHour = \Carbon\Carbon::createFromFormat('H:i', $end);
+            $fascia = $startHour->hour . '-' . $endHour->hour;
+
+            $this->agendaService->createTemplateRow($id, $giornoSettimana, $fascia);
+
+            for ($h = $startHour->hour; $h < $endHour->hour; $h++) {
+                $fasceOrarieAttuali[$giornoSettimana][] = $h;
+            }
+        }
+
+        $oggi = now()->format('Y-m-d');
+        $this->agendaService->deleteGiornalieraByPrestazioneId($id, $oggi);
+
+        $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
+        $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
+
+        for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
+            if ($date->format('Y-m-d') < $oggi) continue;
+
+            $giornoSettimana = $date->dayOfWeekIso;
+
+            if (!isset($fasceOrarieAttuali[$giornoSettimana])) continue;
+
+            foreach ($fasceOrarieAttuali[$giornoSettimana] as $ora) {
+                $this->agendaService->createGiornalieraRow(
+                    $id,
+                    $date->format('Y-m-d'),
+                    $ora
+                );
+            }
+        }
+
+        $this->agendaService->deleteInvalidPrenotazioni($id, $fasceOrarieAttuali);
+
+        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione modificata con successo.');
     }
 
     public function deletePrestazione(string $id): JsonResponse

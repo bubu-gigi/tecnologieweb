@@ -1,5 +1,4 @@
-@props(['prestazione' => null])
-
+@props(['prestazione' => null, 'orari' => []])
 @php
     $isEdit = $prestazione !== null;
     $action = $isEdit
@@ -62,14 +61,13 @@
         <div class="col-span-2">
             <label for="fasce_container">Orari</label>
             <div id="fasce-container" class="space-y-4">
-                <!-- Le fasce confermate verranno aggiunte qui -->
+
             </div>
-            <button type="button" id="aggiungi-fascia-btn" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-semibold">
+            <button type="button" id="aggiungi-fascia-btn" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-semibold cursor-pointer">
                 + Aggiungi Orario
             </button>
         </div>
 
-        <!-- Template nascosto per nuova fascia -->
         <template id="template-fascia">
             <div class="p-4 border rounded bg-gray-50 grid grid-cols-3 gap-4 items-end">
                 <div>
@@ -87,12 +85,26 @@
 
                 <div>
                     <label class="block font-semibold text-gray-700">Inizio</label>
-                    <input type="time" name="start_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <select name="start_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                        <option value="">-- Ora inizio --</option>
+                        @for ($hour = 8; $hour <= 19; $hour++)
+                            <option value="{{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00">
+                                {{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00
+                            </option>
+                        @endfor
+                    </select>
                 </div>
 
                 <div>
                     <label class="block font-semibold text-gray-700">Fine</label>
-                    <input type="time" name="end_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <select name="end_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                        <option value="">-- Ora fine --</option>
+                        @for ($hour = 9; $hour <= 20; $hour++)
+                            <option value="{{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00">
+                                {{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00
+                            </option>
+                        @endfor
+                    </select>
                 </div>
 
                 <div class="col-span-3 flex justify-end mt-2 gap-2">
@@ -115,7 +127,9 @@
         </div>
     </form>
 </x-card>
-
+<script id="orari-data" type="application/json">
+    {!! json_encode($orari) !!}
+</script>
 @push('scripts')
 <script>
     $(function () {
@@ -129,11 +143,11 @@
             if (fasciaInCompilazione) return;
 
             const $clone = $($template.html());
-            const $startInput = $clone.find('input[name="start_time[]"]');
-            const $endInput = $clone.find('input[name="end_time[]"]');
+            const $startInput = $clone.find('select[name="start_time[]"]');
+            const $endInput = $clone.find('select[name="end_time[]"]');
 
-            $startInput.attr({ min: "08:00", max: "20:00" }).val('');
-            $endInput.attr({ min: "08:00", max: "20:00" }).val('');
+            $startInput.val('');
+            $endInput.val('');
 
             $clone.find('.conferma-fascia-btn').on('click', function () {
                 const $giornoSelect = $clone.find('select[name="giorno[]"]');
@@ -178,6 +192,42 @@
             $container.append($clone);
             fasciaInCompilazione = true;
             $btnAggiungi.hide();
+        });
+
+        const orariRaw = document.getElementById("orari-data").textContent;
+        const orariJson = JSON.parse(orariRaw);
+
+        Object.entries(orariJson).forEach(([giorno, fasce]) => {
+            fasce.forEach(fascia => {
+                const [start, end] = fascia.split("-");
+                const giornoText = {
+                    "1": "Lunedì",
+                    "2": "Martedì",
+                    "3": "Mercoledì",
+                    "4": "Giovedì",
+                    "5": "Venerdì",
+                    "6": "Sabato"
+                }[giorno];
+
+                const $fascia = $(`
+                    <div class="p-4 border rounded bg-white shadow-sm grid grid-cols-4 gap-4 items-center">
+                        <input type="hidden" name="giorno[]" value="${giorno}">
+                        <input type="hidden" name="start_time[]" value="${start}:00">
+                        <input type="hidden" name="end_time[]" value="${end}:00">
+                        <div><strong>Giorno:</strong> ${giornoText}</div>
+                        <div><strong>Inizio:</strong> ${start}:00</div>
+                        <div><strong>Fine:</strong> ${end}:00</div>
+                        <button type="button" class="rimuovi-fascia-btn px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm">Rimuovi</button>
+                    </div>
+                `);
+                console.log(fascia);
+
+                $fascia.find('.rimuovi-fascia-btn').on('click', function () {
+                    $fascia.remove();
+                });
+
+                $container.append($fascia);
+            });
         });
     });
 </script>
