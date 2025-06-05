@@ -12,7 +12,7 @@
                 <td class="px-6 py-3">{{ $prestazione->descrizione }}</td>
                 <td class="px-6 py-3 capitalize">{{ $prestazione->medico->nome }} {{ $prestazione->medico->cognome }}</td>
                 <td class="px-6 py-3 flex gap-4 items-center">
-                    
+
                     <x-input
                         name="data_prestazione"
                         label="Seleziona la data:"
@@ -20,17 +20,12 @@
                         min="2025-06-01"
                         max="2025-06-30"
                     />
-                    <!--  Controllare la parte di verifica del calendario!  -->
-                    @if($errors->has('data_prestazione'))
-                        <p class="text-red-700 text-sm mt-1">{{ $errors->first('data_prestazione') }}</p>
-                    @endif         
 
-                    
                     <a href="/staff/prestazioni/" id="confermaBtn" class="mt-1 inline-block bg-white text-indigo-700 font-semibold py-1 px-2 rounded-lg shadow hover:bg-indigo-100 transition hidden">Conferma</a>
 
                 </td>
             </tr>
-        @endforeach 
+        @endforeach
     </x-table>
     @else
         <p>Nessuna Prestazione trovata</p>
