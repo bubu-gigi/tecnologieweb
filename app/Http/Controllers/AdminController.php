@@ -259,7 +259,8 @@ class AdminController extends Controller
     {
         $data = $request->validated();
         $stats = $this->statisticheService->getStatistiche($data);
+        $utentiEsterni = $this->userService->getByRuolo('user');
 
-        return view('admin.statistiche', compact('stats'));
+        return view('admin.statistiche', compact('stats', 'utentiEsterni'));
     }
 }

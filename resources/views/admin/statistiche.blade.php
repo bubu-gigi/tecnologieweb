@@ -13,14 +13,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label for="data_inizio" class="block text-gray-700">Data Inizio</label>
-                <input type="date" name="data_inizio" id="data_inizio" value="{{ request('data_inizio') }}"
-                       class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                <input type="date" name="data_inizio" id="data_inizio" 
+                    value="{{ request('data_fine') ?? '2025-06-01' }}"
+                   class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
             </div>
 
             <div>
                 <label for="data_fine" class="block text-gray-700">Data Fine</label>
-                <input type="date" name="data_fine" id="data_fine" value="{{ request('data_fine') }}"
-                       class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                <input type="date" name="data_fine" id="data_fine"
+                    value="{{ request('data_fine') ?? '2025-06-30' }}"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
             </div>
         </div>
 
@@ -83,10 +85,16 @@
 
                     <div class="flex gap-4 items-end">
                         <div class="flex-1">
-                            <label for="utente_esterno" class="block text-sm font-medium text-gray-700">Username o email utente esterno</label>
-                            <input type="text" name="utente_esterno" id="utente_esterno" value="{{ request('utente_esterno') }}"
-                                   placeholder="es. mario.rossi@email.it"
-                                   class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                            <label for="utente_esterno" class="block text-sm font-medium text-gray-700">Utente esterno</label>
+                            <select id="utente_esterno" name="utente_esterno"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
+                                <option value="">-- Seleziona un utente --</option>
+                                @foreach($utentiEsterni as $utente)
+                                    <option value="{{ $utente->username }}" @selected(request('utente_esterno') == $utente->username)>
+                                        {{ $utente->username }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
                             Cerca
