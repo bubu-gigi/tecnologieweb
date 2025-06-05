@@ -20,8 +20,8 @@
         @endif
 
         <div class="col-span-2">
+            <label for="descrizione">Descrizione</label>
             <x-input
-                label="Descrizione"
                 name="descrizione"
                 value="{{ old('descrizione', $prestazione->descrizione ?? '') }}"
                 autofocus
@@ -29,9 +29,9 @@
         </div>
 
         <div class="col-span-2">
+            <label for="prescrizioni">Prescrizioni</label>
             <x-textarea
                 name="prescrizioni"
-                label="Prescrizioni"
                 :value="old('prescrizioni', $prestazione->prescrizioni ?? '')"
             />
         </div>
@@ -86,12 +86,26 @@
 
                 <div>
                     <label class="block font-semibold text-gray-700">Inizio</label>
-                    <input type="time" name="start_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <select name="start_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                        <option value="">-- Ora inizio --</option>
+                        @for ($hour = 8; $hour <= 19; $hour++)
+                            <option value="{{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00">
+                                {{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00
+                            </option>
+                        @endfor
+                    </select>
                 </div>
 
                 <div>
                     <label class="block font-semibold text-gray-700">Fine</label>
-                    <input type="time" name="end_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                    <select name="end_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
+                        <option value="">-- Ora fine --</option>
+                        @for ($hour = 9; $hour <= 20; $hour++)
+                            <option value="{{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00">
+                                {{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00
+                            </option>
+                        @endfor
+                    </select>
                 </div>
 
                 <div class="col-span-3 flex justify-end mt-2 gap-2">
@@ -128,11 +142,11 @@
             if (fasciaInCompilazione) return;
 
             const $clone = $($template.html());
-            const $startInput = $clone.find('input[name="start_time[]"]');
-            const $endInput = $clone.find('input[name="end_time[]"]');
+            const $startInput = $clone.find('select[name="start_time[]"]');
+            const $endInput = $clone.find('select[name="end_time[]"]');
 
-            $startInput.attr({ min: "08:00", max: "20:00" }).val('');
-            $endInput.attr({ min: "08:00", max: "20:00" }).val('');
+            $startInput.val('');
+            $endInput.val('');
 
             $clone.find('.conferma-fascia-btn').on('click', function () {
                 const $giornoSelect = $clone.find('select[name="giorno[]"]');
