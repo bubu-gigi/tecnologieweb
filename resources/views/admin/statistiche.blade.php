@@ -47,45 +47,11 @@
                 al {{ \Carbon\Carbon::parse(request('data_fine'))->format('d/m/Y') }}
             </h3>
 
-            {{-- Statistiche per Prestazione --}}
-            <section>
-                <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per tipo</h4>
-                @if(count($statistiche['perPrestazione']) > 0)
-                    <x-table :headers="['Prestazione', 'Totale']">
-                        @foreach($statistiche['perPrestazione'] as $descrizione => $totale)
-                            <tr>
-                                <td class="px-6 py-3">{{ $descrizione }}</td>
-                                <td class="px-6 py-3 text-right">{{ $totale }}</td>
-                            </tr>
-                        @endforeach
-                    </x-table>
-                @else
-                    <p class="italic text-sm text-gray-600">Nessuna prestazione trovata.</p>
-                @endif
-            </section>
-
-            {{-- Statistiche per Dipartimento --}}
-            <section>
-                <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per dipartimento</h4>
-                @if(count($statistiche['perDipartimento']) > 0)
-                    <x-table :headers="['Dipartimento', 'Totale']">
-                        @foreach($statistiche['perDipartimento'] as $nome => $totale)
-                            <tr>
-                                <td class="px-6 py-3">{{ $nome }}</td>
-                                <td class="px-6 py-3 text-right">{{ $totale }}</td>
-                            </tr>
-                        @endforeach
-                    </x-table>
-                @else
-                    <p class="italic text-sm text-gray-600">Nessuna prestazione trovata.</p>
-                @endif
-            </section>
-
             {{-- Filtro per utente esterno --}}
             <section>
                 <h4 class="text-lg font-semibold mb-4">Prestazioni per utente esterno</h4>
 
-                {!! html()->form('GET', route('admin.statistiche'))->open() !!}
+                {!! html()->form('GET', route('admin.statistics'))->open() !!}
                     <input type="hidden" name="data_inizio" value="{{ request('data_inizio') }}">
                     <input type="hidden" name="data_fine" value="{{ request('data_fine') }}">
 
@@ -109,9 +75,9 @@
                 {!! html()->form()->close() !!}
 
                 @if(request('utente_esterno'))
-                    @if(!empty($statistiche['perUtente']) && count($statistiche['perUtente']) > 0)
+                    @if(!empty($statistiche['prestazioniUtente']) && count($statistiche['prestazioniUtente']) > 0)
                         <x-table :headers="['Data', 'Prestazione', 'Dipartimento']" class="mt-4">
-                            @foreach ($statistiche['perUtente'] as $item)
+                            @foreach ($statistiche['prestazioniUtente'] as $item)
                                 <tr>
                                     <td class="px-6 py-3">{{ \Carbon\Carbon::parse($item->data)->format('d/m/Y') }}</td>
                                     <td class="px-6 py-3">{{ $item->prestazione }}</td>
@@ -122,6 +88,40 @@
                     @else
                         <p class="italic text-sm text-gray-600 mt-4">Nessuna prestazione trovata per l'utente specificato.</p>
                     @endif
+                @endif
+            </section>
+
+            {{-- Statistiche per Prestazione --}}
+            <section>
+                <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per tipo</h4>
+                @if(count($statistiche['perPrestazione']) > 0)
+                    <x-table :headers="['Prestazione', 'Totale']">
+                        @foreach($statistiche['perPrestazione'] as $item)
+                            <tr>
+                                <td class="px-6 py-3">{{ $item['descrizione'] }}</td>
+                                <td class="px-6 py-3 text-right">{{ $item['totale'] }}</td>
+                            </tr>
+                        @endforeach
+                    </x-table>
+                @else
+                    <p class="italic text-sm text-gray-600">Nessuna prestazione trovata.</p>
+                @endif
+            </section>
+
+            {{-- Statistiche per Dipartimento --}}
+            <section>
+                <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per dipartimento</h4>
+                @if(count($statistiche['perDipartimento']) > 0)
+                    <x-table :headers="['Dipartimento', 'Totale']">
+                        @foreach($statistiche['perDipartimento'] as $nome => $totale)
+                            <tr>
+                                <td class="px-6 py-3">{{ $nome }}</td>
+                                <td class="px-6 py-3 text-right">{{ $totale }}</td>
+                            </tr>
+                        @endforeach
+                    </x-table>
+                @else
+                    <p class="italic text-sm text-gray-600">Nessuna prestazione trovata.</p>
                 @endif
             </section>
         </x-card>

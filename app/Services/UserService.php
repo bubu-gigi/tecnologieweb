@@ -23,6 +23,11 @@ class UserService
         return User::where('ruolo', $ruolo)->get();
     }
 
+    public function getByUsername(string $username)
+    {
+        return User::where('username', $username)->first();
+    }
+
     public function create(array $data): User
     {
         // Cripta la password
