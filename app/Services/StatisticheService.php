@@ -27,20 +27,17 @@ class StatisticheService
         $dataFine = $filters['data_fine'];
         $utenteId = $filters['utente_id'] ?? null;
 
-        // 1) Numero di prestazioni erogate per prestazione (tipo)
         $perPrestazione = Prestazione::selectRaw('descrizione, count(*) as totale')
             ->whereBetween('data_erogazione', [$dataInizio, $dataFine])
             ->groupBy('descrizione')
             ->get();
 
-        // 2) Numero di prestazioni erogate per dipartimento
         $perDipartimento = Dipartimento::withCount([
             'prestazioni as totale_prestazioni' => function ($query) use ($dataInizio, $dataFine) {
                 $query->whereBetween('data_erogazione', [$dataInizio, $dataFine]);
             }
         ])->get();
 
-        // 3) Tutte le prestazioni erogate ad un utente specificato (se utente_id passato)
         $prestazioniUtente = [];
         if ($utenteId) {
             $prestazioniUtente = Prestazione::where('utente_id', $utenteId)
