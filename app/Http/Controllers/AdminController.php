@@ -6,11 +6,13 @@ use App\Services\UserService;
 use App\Services\DipartimentoService;
 use App\Services\PrestazioneService;
 use App\Services\MedicoService;
+use App\Services\StatisticheService;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\GestioneDipartimentiRequest;
 use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
+use App\Http\Requests\StatisticheRequest;
 use App\Services\AgendaService;
 
 class AdminController extends Controller
@@ -20,14 +22,16 @@ class AdminController extends Controller
     protected PrestazioneService $prestazioneService;
     protected MedicoService $medicoService;
     protected AgendaService $agendaService;
+    protected StatisticheService $statisticheService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
         $this->prestazioneService = $prestazioneService;
         $this->medicoService = $medicoService;
         $this->agendaService = $agendaService;
+        $this->statisticheService = $statisticheService;
     }
 
     public function index(): View
@@ -249,5 +253,13 @@ class AdminController extends Controller
         }
 
         return response()->json(['success' => false, 'message' => 'Errore durante l\'eliminazione'], 500);
+    }
+
+    public function statistichePrestazioni(StatisticheRequest $request)
+    {
+        $data = $request->validated();
+        $stats = $this->statisticheService->getStatistiche($data);
+
+        return view('admin.statistiche', compact('stats'));
     }
 }
