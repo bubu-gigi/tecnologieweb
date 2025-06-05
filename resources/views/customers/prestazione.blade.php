@@ -10,7 +10,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Ricerca per prestazione -->
-                {!! html()->form('GET', route('customers.prestazioni.search'))->open() !!}
+                {!! html()->form('GET', route('customers.services.search'))->open() !!}
                     <div class="flex flex-col gap-2">
                         <label for="prestazione" class="text-sm font-medium text-gray-700">Ricerca per prestazione:</label>
                         <input
@@ -31,7 +31,7 @@
                 {{ html()->form()->close() }}
 
                 <!-- Ricerca per dipartimento -->
-                {!! html()->form('GET', route('customers.prestazioni.search'))->open() !!}
+                {!! html()->form('GET', route('customers.services.search'))->open() !!}
                     <div class="flex flex-col gap-2">
                         <label for="dipartimento" class="text-sm font-medium text-gray-700">Ricerca per dipartimento:</label>
                         <input
@@ -78,7 +78,8 @@
                         <x-button
                             class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
                             data-id="{{ $prestazione->id }}"
-                            onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">                            Prenota
+                            onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">
+                            Prenota
                         </x-button>
                     </div>
                 @endforeach
@@ -100,12 +101,11 @@
 <script>
     function prenotaPrestazione(prestazioneId, userId) {
         $.ajax({
-            url: "{{ route('customers.prenotazione.store') }}",
+            url: "{{ route('customers.bookings.store') }}",
             type: 'POST',
             data: JSON.stringify({
                 user_id: userId,
                 prestazione_id: prestazioneId,
-                //giorno_escluso: giorno_escluso
             }),
             contentType: 'application/json',
             headers: {
@@ -113,7 +113,7 @@
             },
             success: function (response) {
                 alert('Prenotazione effettuata con successo!');
-                window.location.href = "{{ route('customers.prenotazioni') }}";
+                window.location.href = "{{ route('customers.bookings.index') }}";
             },
             error: function (error) {
                 console.error('Errore durante la prenotazione:', error.responseText);

@@ -4,21 +4,6 @@
 
 @section('content')
 <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
-    @if(session('success'))
-        <div
-            class="mb-6 w-full max-w-6xl mx-auto p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow"
-            role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if($errors->any())
-        <div
-            class="mb-6 w-full max-w-6xl mx-auto p-4 bg-red-100 border border-red-400 text-red-800 rounded shadow"
-            role="alert">
-            {{ $errors->first() }}
-        </div>
-    @endif
 
     <h2 class="text-2xl font-bold text-indigo-700 text-center mb-6">Le tue Prenotazioni</h2> <br>
 
@@ -60,7 +45,7 @@
                         @endif
 
                         @if($prenotazione->data_prenotazione === null || \Carbon\Carbon::parse($prenotazione->data_prenotazione)->isFuture())
-                            <form method="POST" action="{{ route('customers.prenotazioni.destroy', $prenotazione->id) }}">
+                            <form method="POST" action="{{ route('customers.bookings.delete', $prenotazione->id) }}">
                                 @csrf
                                 @method('DELETE')
                                 <x-button

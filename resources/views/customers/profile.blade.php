@@ -7,7 +7,7 @@
     <div class="flex flex-col gap-6">
         <h2 class="text-center text-2xl font-bold text-indigo-700">Modifica il tuo Profilo</h2>
 
-        {!! html()->form('POST', route('profile.update'))->open() !!}
+        {!! html()->form('POST', route('customers.profile.update'))->open() !!}
         {{ csrf_field() }}
 
         <div class="grid grid-cols-2 gap-4">
@@ -27,7 +27,7 @@
                 name="data_nascita"
                 label="Data di nascita"
                 type="date"
-                value="{{ old('data_nascita', auth()->user()->data_nascita) }}"            
+                value="{{ old('data_nascita', auth()->user()->data_nascita) }}"
             />
             <x-input
                 name="indirizzo"
@@ -45,7 +45,7 @@
                 name="username"
                 label="Username"
                 placeholder="Modifica il tuo username"
-                value="{{ old('username', auth()->user()->username) }}"            
+                value="{{ old('username', auth()->user()->username) }}"
             />
             <x-input
                 name="password"

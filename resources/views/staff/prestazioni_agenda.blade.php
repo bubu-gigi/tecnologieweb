@@ -27,7 +27,7 @@
                                 ? ($fascia['occupato'] ? 'bg-yellow-300' : 'cursor-pointer bg-green-100')
                                 : 'bg-gray-100' }}"
                         @if($fascia && !$fascia['occupato'])
-                            onclick="sendSlot('{{ $data }}', '{{ (int) explode(':', $orario)[0] }}')""
+                            onclick="sendSlot('{{ $data }}', '{{ (int) explode(':', $orario)[0] }}')"
                         @endif
                     >
                         {{ $fascia ? ($fascia['occupato'] ? 'O' : 'L') : '-' }}
@@ -58,7 +58,7 @@
 <script>
     function sendSlot(date, time) {
         $.ajax({
-            url: '{{ route("staff.prenotazioni.assegnaSlot", ["id" => $prenotazioneId]) }}',
+            url: '{{ route("staff.bookings.assignSlot", ["id" => $prenotazioneId]) }}',
             method: 'PUT',
             data: {
                 date: date,
@@ -67,7 +67,7 @@
             },
             success: function (response) {
                 alert('Slot inviato con successo!');
-                window.location.href = '{{ route("staff.prenotazioni") }}';
+                window.location.href = '{{ route("staff.bookings.index") }}';
             },
             error: function (xhr) {
                 alert('Errore durante l\'invio dello slot.');
