@@ -18,7 +18,7 @@ Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name('customers.bookings.index');
     Route::post('/customers/prenotazioni', [CustomerController::class,  'storePrenotazione'])->name('customers.bookings.store');
     Route::delete('/customers/prenotazioni/{prenotazione}', [CustomerController::class, 'deletePrenotazione'])->name('customers.bookings.delete');
-    Route::delete('/customers/notifications/{id}', [CustomerController::class, 'deleteNotification'])->name('customers.notifications.delete');
+    Route::delete('/customers/notifications/{id}', [CustomerController::class, 'deleteNotifica'])->name('customers.notifications.delete');
 });
 
 Route::middleware(['auth', 'check.role:staff'])->group(function () {

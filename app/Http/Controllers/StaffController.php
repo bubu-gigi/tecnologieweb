@@ -3,26 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Services\PrenotazioneService;
-use App\Services\NotificationService;
-use App\Services\PrestazioneService;//-------------------------
+use App\Services\PrestazioneService;
 use App\Http\Requests\ModificaSlotRequest;
 use App\Services\AgendaService;
+use App\Services\NotificaService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class StaffController extends Controller
 {
     protected PrenotazioneService $prenotazioneService;
     protected PrestazioneService $prestazioneService;
-    protected NotificationService $notificationService;
+    protected NotificaService $notificaService;
     protected AgendaService $agendaService;
 
-    public function __construct(PrenotazioneService $prenotazioneService, NotificationService $notificationService, AgendaService $agendaService, PrestazioneService $prestazioneService)
+    public function __construct(PrenotazioneService $prenotazioneService, NotificaService $notificaService, AgendaService $agendaService, PrestazioneService $prestazioneService)
     {
         $this->prestazioneService = $prestazioneService;
         $this->prenotazioneService = $prenotazioneService;
-        $this->notificationService = $notificationService;
+        $this->notificaService = $notificaService;
         $this->agendaService = $agendaService;
     }
 
@@ -70,7 +69,7 @@ class StaffController extends Controller
         $data = $request->only(['data_prenotazione']);
         $prenotazione = $this->prenotazioneService->update($id, $data);
 
-        $this->notificationService->create([
+        $this->notificaService->create([
             'user_id' => $prenotazione->user_id,
             'prenotazione_id' => $prenotazione->id,
             'action' => 'modified'
@@ -88,7 +87,7 @@ class StaffController extends Controller
 
         $this->prenotazioneService->delete($prenotazioneId);
 
-        $this->notificationService->create([
+        $this->notificaService->create([
             'user_id' => $prenotazione->user_id,
             'prenotazione_id' => $prenotazione->id,
             'action' => 'deleted'

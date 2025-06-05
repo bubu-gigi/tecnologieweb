@@ -7,7 +7,7 @@ use App\Services\PrenotazioneService;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\SearchPrestazioneRequest;
 use App\Http\Requests\SearchDipartimentoRequest;
-use App\Services\NotificationService;
+use App\Services\NotificaService;
 use App\Services\PrestazioneService;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,22 +19,22 @@ class CustomerController extends Controller
 {
     protected UserService $userService;
     protected PrenotazioneService $prenotazioneService;
-    protected NotificationService $notificationService;
+    protected NotificaService $notificaService;
     protected PrestazioneService $prestazioneService;
 
-    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService, NotificationService $notificationService, PrestazioneService $prestazioneService)
+    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService, NotificaService $notificaService, PrestazioneService $prestazioneService)
     {
         $this->userService = $userService;
         $this->prenotazioneService = $prenotazioneService;
-        $this->notificationService = $notificationService;
+        $this->notificaService = $notificaService;
         $this->prestazioneService = $prestazioneService;
     }
 
     public function index(Request $request): View
     {
         if($request->query('showNotifications')){
-            $notifications = $this->notificationService->getNotificationsByUserId(auth()->id());
-            return view('customers.dashboard', compact('notifications'));
+            $notifiche = $this->notificaService->getByUserId(auth()->id());
+            return view('customers.dashboard', compact('notifiche'));
         } else {
             return view('customers.dashboard');
         }
@@ -123,8 +123,8 @@ class CustomerController extends Controller
     {
         $this->prenotazioneService->delete($id);
     }
-    public function deleteNotification(string $id)
+    public function deleteNotifica(string $id)
     {
-        $this->notificationService->delete($id);
+        $this->notificaService->delete($id);
     }
 }

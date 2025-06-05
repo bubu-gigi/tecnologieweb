@@ -3,21 +3,21 @@
 @section('title', 'Area Utente Registrato')
 
 @section('content')
-@if(isset($notifications) && $notifications->count())
+@if(isset($notifiche) && $notifiche->count())
     <div class="flex flex-col gap-4 mb-6">
-        @foreach ($notifications as $notification)
-            <div id="{{ $notification->id }}" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative">
+        @foreach ($notifiche as $notifica)
+            <div id="{{ $notifica->id }}" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative">
                 <span class="block sm:inline">
-                    @if($notification->action === 'modified')
-                        La tua prenotazione per la prestazione <b>{{ $notification->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
-                        è stata spostata in data <b>{{ \Carbon\Carbon::parse(time: $notification->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>.
+                    @if($notifica->action === 'modified')
+                        La tua prenotazione per la prestazione <b>{{ $notifica->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
+                        è stata spostata in data <b>{{ \Carbon\Carbon::parse(time: $notifica->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>.
                     @else
-                        La tua prenotazione per la prestazione <b>{{ $notification->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
-                        in data <b>{{ \Carbon\Carbon::parse(time: $notification->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>
+                        La tua prenotazione per la prestazione <b>{{ $notifica->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
+                        in data <b>{{ \Carbon\Carbon::parse(time: $notifica->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>
                         è stata cancellata.
                     @endif
                 </span>
-                <button onclick="deleteNotification('{{ $notification->id }}')" class="absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3">
+                <button onclick="deleteNotifica('{{ $notifica->id }}')" class="absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3">
                     &times;
                 </button>
             </div>
@@ -73,7 +73,7 @@
 
 @push('scripts')
 <script>
-    function deleteNotification(notificationId) {
+    function deleteNotifica(notificationId) {
         $(`#${notificationId}`).remove();
         $.ajax({
             url: '{{ url("/customers/notifications") }}/' + notificationId,
