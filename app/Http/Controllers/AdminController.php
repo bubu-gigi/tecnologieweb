@@ -236,6 +236,8 @@ class AdminController extends Controller
         }
 
         $this->agendaService->deleteInvalidPrenotazioni($id, $fasceOrarieAttuali);
+
+        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione modificata con successo.');
     }
 
     public function deletePrestazione(string $id): JsonResponse
