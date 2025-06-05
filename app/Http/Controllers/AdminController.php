@@ -145,6 +145,7 @@ class AdminController extends Controller
 
         return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff'));
     }
+    
     public function storePrestazione(GestionePrestazioniRequest $request)
     {
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
@@ -182,6 +183,8 @@ class AdminController extends Controller
                 }
             }
         }
+
+        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione creata con successo.');
     }
 
     public function updatePrestazione(GestionePrestazioniRequest $request, string $id)
