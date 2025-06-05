@@ -80,7 +80,7 @@ class StaffController extends Controller
     public function getSlot(int $prenotazioneId): View
     {
         $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
-        $data = $this->agendaService->getSlot(1);
+        $data = $this->agendaService->getSlot($prenotazione->prestazione->id);
 
         return view('staff.prestazioni_agenda', [
             'prenotazioneId' => $prenotazioneId,
@@ -91,17 +91,12 @@ class StaffController extends Controller
 
     public function assegnaSlot(Request $request, int $prenotazioneId)
     {
-         $request->validate([
+        $request->validate([
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'time' => 'required|date_format:H',
         ]);
 
-        $datetime = \Carbon\Carbon::parse($request->input('date') . ' ' . $request->input('time'));
-
-        $this->prenotazioneService->aggiornaDataPrenotazione(
-            $prenotazioneId,
-            $datetime
-        );
+        $this->agendaService->assegnaSlot($prenotazioneId, $request->get('date'), $request->get('time'));
 
         return response()->json(['success' => true, 'message' => 'Slot assegnato']);
     }

@@ -3,10 +3,11 @@
 @section('title', 'Agenda Prestazioni')
 
 @section('content')
+@dump($slots)
 <x-card class="bg-white p-4 rounded-lg shadow-md">
 
     @php
-    $orari = collect(range(8, 20))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
+    $orari = collect(range(8, 19))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
     $headers = array_merge(['Data'], $orari->toArray());
     @endphp
 
@@ -19,17 +20,19 @@
 
                 @foreach($orari as $orario)
                     @php
-                        $fascia = collect($fasce)->first(fn($f) => $f['orario'] . ':00' === $orario);
+                        $fascia = collect($fasce)->first(fn($f) => (int) $f['orario'] === (int) explode(':', $orario)[0]);
                     @endphp
                     <td
-                        class="px-4 py-2 text-center {{ $fascia ? ($fascia['occupato'] ? 'bg-yellow-300' : 'cursor-pointer bg-green-100') : 'bg-gray-100' }}"
+                        class="px-4 py-2 text-center
+                            {{ $fascia
+                                ? ($fascia['occupato'] ? 'bg-yellow-300' : 'cursor-pointer bg-green-100')
+                                : 'bg-gray-100' }}"
                         @if($fascia && !$fascia['occupato'])
-                            onclick="sendSlot('{{ $data }}', '{{ $orario }}')"
+                            onclick="sendSlot('{{ $data }}', '{{ (int) explode(':', $orario)[0] }}')""
                         @endif
                     >
                         {{ $fascia ? ($fascia['occupato'] ? 'O' : 'L') : '-' }}
                     </td>
-
                 @endforeach
             </tr>
         @endforeach

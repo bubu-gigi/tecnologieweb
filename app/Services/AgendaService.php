@@ -53,23 +53,20 @@ class AgendaService
         ];
     }
 
-    public function assegnaSlot(int $prenotazioneId, Carbon $data, string $slotOrario): bool
+    public function assegnaSlot(int $prenotazioneId, string $date, string $time): bool
     {
         $prenotazione = Prenotazione::findOrFail($prenotazioneId);
-        $prestazioneId = $prenotazione->prestazione_id;
+        $datetime = Carbon::parse($date . ' ' . $time . ':00');
+        $prenotazione->data_prenotazione = $datetime;
+        $prenotazione->save();
 
-        $slot = AgendaGiornaliera::where('prestazione_id', $prestazioneId)
-            ->where('data', $data)
-            ->where('orario', $slotOrario)
-            ->whereNull('prenotazione_id')
+        $slot = AgendaGiornaliera::where('prestazione_id', $prenotazione->prestazione->id)
+            ->where('data', $date)
+            ->where('orario',  $time)
             ->first();
-
         if (!$slot) {
             return false;
         }
-
-        $prenotazione->data_prenotazione = $data . ' ' . $slotOrario;
-        $prenotazione->save();
 
         $slot->prenotazione_id = $prenotazione->id;
         $slot->save();
