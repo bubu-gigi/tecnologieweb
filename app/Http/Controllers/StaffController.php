@@ -70,7 +70,7 @@ class StaffController extends Controller
         $prenotazione = $this->prenotazioneService->update($id, $data);
 
         $this->notificaService->create([
-            'user_id' => $prenotazione->user_id,
+            'user_id' => $prenotazione->user->id,
             'prenotazione_id' => $prenotazione->id,
             'action' => 'modified'
         ]);
@@ -88,7 +88,7 @@ class StaffController extends Controller
         $this->prenotazioneService->delete($prenotazioneId);
 
         $this->notificaService->create([
-            'user_id' => $prenotazione->user_id,
+            'user_id' => $prenotazione->user->id,
             'prenotazione_id' => $prenotazione->id,
             'action' => 'deleted'
         ]);
