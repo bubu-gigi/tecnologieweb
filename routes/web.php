@@ -27,13 +27,10 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prenotazioni/in-attesa', [StaffController::class, 'prenotazioniInAttesa'])->name('staff.prenotazioni.in-attesa');
     Route::get('staff/procedures/{procedure}/agenda-template', [StaffController::class, 'getTemplate']);
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot']);
-    Route::put('/staff/prenotazioni/{id}', [StaffController::class, 'assegnaSlot'])->name('staff.prenotazioni.assegnaSlot');
-    Route::put('/staff/schedules/{prenotazione}', [StaffController::class, 'updatePrenotazione']);
-    Route::delete('staff/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'destroyPrenotazione']);
-    
-
+    Route::put('/staff/prenotazioni/{id}', [StaffController::class, 'assegnaSlot'])->name(name: 'staff.prenotazioni.assegnaSlot');
+    Route::delete('/staff/prenotazioni/{id}', [StaffController::class, 'deletePrenotazione'])->name(name: 'staff.prenotazioni.assegnaSlot');
     Route::get('/staff/prestazioni', [StaffController::class, 'prestazioni']);
-    
+
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {

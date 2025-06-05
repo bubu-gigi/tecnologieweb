@@ -115,13 +115,16 @@ class StaffController extends Controller
         return response()->json($prenotazione);
     }
 
-    public function destroyPrenotazione(string $id): JsonResponse
+    public function deletePrenotazione(string $prenotazioneId): JsonResponse
     {
-        $prenotazione = $this->prenotazioneService->getById($id);
+        $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
+
         if(!$prenotazione) {
             return response()->json( 404);
         }
-        $this->prenotazioneService->delete($id);
+        $this->agendaService->deleteGiornalieraByPrenotazioneId($prenotazioneId);
+
+        $this->prenotazioneService->delete($prenotazioneId);
 
         $this->notificationService->create([
             'user_id' => $prenotazione->user_id,

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('prestazione_id')->references('id')->on('prestazioni')->onDelete('cascade');
             $table->string('giorno_escluso')->nullable();
+            $table->boolean('deleted')->default(false);
             $table->timestamp('data_prenotazione')->nullable();
             $table->timestamps();
         });

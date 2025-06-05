@@ -119,6 +119,11 @@ class AgendaService
             ->delete();
     }
 
+    public function deleteGiornalieraByPrenotazioneId(int $id)
+    {
+        AgendaGiornaliera::where('prenotazione_id', $id)->delete();
+    }
+
     public function deleteInvalidPrenotazioni(int $prestazioneId, array $fasceOrarie)
     {
         $slots = AgendaGiornaliera::where('prestazione_id', $prestazioneId)

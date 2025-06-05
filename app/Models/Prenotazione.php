@@ -17,6 +17,7 @@ class Prenotazione extends Model
         'prestazione_id',
         'giorno_escluso',
         'data_prenotazione',
+        'deleted',
     ];
 
     public function user(): BelongsTo

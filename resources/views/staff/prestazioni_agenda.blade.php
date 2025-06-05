@@ -3,7 +3,6 @@
 @section('title', 'Agenda Prestazioni')
 
 @section('content')
-@dump($slots)
 <x-card class="bg-white p-4 rounded-lg shadow-md">
 
     @php

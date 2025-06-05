@@ -66,8 +66,8 @@ class PrenotazioneService
                 response()->json(['error' => 'Impossibile cancellare una prenotazione già passata.'], 400)
             );
         }
-
-        $prenotazione->delete();
+        $prenotazione->deleted = true;
+        $prenotazione->save();
     }
 
     public function getByIdWithRelations(string $id): ?Prenotazione
