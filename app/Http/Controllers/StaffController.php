@@ -14,12 +14,12 @@ use Illuminate\Http\JsonResponse;
 class StaffController extends Controller
 {
     protected PrenotazioneService $prenotazioneService;
-    protected PrestazioneService $prestazioneService;//---------------------
+    protected PrestazioneService $prestazioneService;
     protected NotificationService $notificationService;
     protected AgendaService $agendaService;
 
     public function __construct(PrenotazioneService $prenotazioneService, NotificationService $notificationService, AgendaService $agendaService, PrestazioneService $prestazioneService)
-    { //----------------------------------------------------------
+    {
         $this->prestazioneService = $prestazioneService;
         $this->prenotazioneService = $prenotazioneService;
         $this->notificationService = $notificationService;
@@ -37,43 +37,10 @@ class StaffController extends Controller
         return view('staff.prenotazioni', compact('prenotazioni'));
     }
 
-    public function prestazioni(): View //--------------------------------
+    public function prestazioni(): View
     {
         $prestazioni = $this->prestazioneService->getAll();
         return view('staff.prestazioni', compact('prestazioni'));
-    }
-
-    public function dettagliPrenotazione($id)
-    {
-        $prenotazione = $this->prenotazioneService->getByIdWithRelations($id);
-
-        if (!$prenotazione) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Prenotazione non trovata.'
-            ], 404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $prenotazione
-        ]);
-    }
-
-    public function prenotazioniInAttesa()
-    {
-        $prenotazioni = $this->prenotazioneService->getInAttesa();
-
-        return response()->json([
-            'success' => true,
-            'data' => $prenotazioni
-        ]);
-    }
-
-    public function getTemplate(int $prestazioneId): JsonResponse
-    {
-        $data = $this->agendaService->getAgendaTemplateByPrestazione($prestazioneId);
-        return response()->json(['success' => true, 'data' => $data]);
     }
 
     public function getSlot(int $prenotazioneId): View
@@ -96,11 +63,9 @@ class StaffController extends Controller
         ]);
 
         $this->agendaService->assegnaSlot($prenotazioneId, $request->get('date'), $request->get('time'));
-
-        return response()->json(['success' => true, 'message' => 'Slot assegnato']);
     }
 
-    public function updatePrenotazione(ModificaSlotRequest $request, string $id): JsonResponse
+    public function updatePrenotazione(ModificaSlotRequest $request, string $id)
     {
         $data = $request->only(['data_prenotazione']);
         $prenotazione = $this->prenotazioneService->update($id, $data);
@@ -110,11 +75,9 @@ class StaffController extends Controller
             'prenotazione_id' => $prenotazione->id,
             'action' => 'modified'
         ]);
-
-        return response()->json($prenotazione);
     }
 
-    public function deletePrenotazione(string $prenotazioneId): JsonResponse
+    public function deletePrenotazione(string $prenotazioneId)
     {
         $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
 
@@ -130,7 +93,5 @@ class StaffController extends Controller
             'prenotazione_id' => $prenotazione->id,
             'action' => 'deleted'
         ]);
-
-        return response()->json(null, 204);
     }
 }

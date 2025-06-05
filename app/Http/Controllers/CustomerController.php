@@ -119,11 +119,11 @@ class CustomerController extends Controller
         $this->prenotazioneService->create($data);
     }
 
-    public function destroyPrenotazione(string $id)
+    public function deletePrenotazione(string $id)
     {
         $this->prenotazioneService->delete($id);
     }
-    public function destroyNotification(string $id)
+    public function deleteNotification(string $id)
     {
         $this->notificationService->delete($id);
     }
