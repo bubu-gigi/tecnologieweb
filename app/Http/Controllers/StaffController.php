@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\PrenotazioneService;
 use App\Services\NotificationService;
+use App\Services\PrestazioneService;//-------------------------
 use App\Http\Requests\ModificaSlotRequest;
 use App\Services\AgendaService;
 use Illuminate\View\View;
@@ -14,11 +15,13 @@ use Illuminate\Http\JsonResponse;
 class StaffController extends Controller
 {
     protected PrenotazioneService $prenotazioneService;
+    protected PrestazioneService $prestazioneService;//---------------------
     protected NotificationService $notificationService;
     protected AgendaService $agendaService;
 
-    public function __construct(PrenotazioneService $prenotazioneService, NotificationService $notificationService, AgendaService $agendaService)
-    {
+    public function __construct(PrenotazioneService $prenotazioneService, NotificationService $notificationService, AgendaService $agendaService, PrestazioneService $prestazioneService)
+    { //----------------------------------------------------------
+        $this->prestazioneService = $prestazioneService;
         $this->prenotazioneService = $prenotazioneService;
         $this->notificationService = $notificationService;
         $this->agendaService = $agendaService;
@@ -33,6 +36,12 @@ class StaffController extends Controller
     {
         $prenotazioni = $this->prenotazioneService->getAll();
         return view('staff.prenotazioni', compact('prenotazioni'));
+    }
+
+    public function prestazioni(): View //--------------------------------
+    {
+        $prestazioni = $this->prestazioneService->getAll();
+        return view('staff.prestazioni', compact('prestazioni'));
     }
 
     public function dettagliPrenotazione($id)

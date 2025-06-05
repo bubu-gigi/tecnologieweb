@@ -43,7 +43,7 @@
                     Consulta le agende delle prestazioni ancora da erogare, filtrando per giorno e visualizzando i dettagli degli appuntamenti e degli utenti.
                 </p>
             </div>
-            <a href="/staff/agende"
+            <a href="/staff/prestazioni"
                 class="mt-4 inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
                 Visualizza Agende
             </a>

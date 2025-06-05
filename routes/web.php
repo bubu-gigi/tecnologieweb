@@ -30,6 +30,10 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::put('/staff/prenotazioni/{id}', [StaffController::class, 'assegnaSlot'])->name('staff.prenotazioni.assegnaSlot');
     Route::put('/staff/schedules/{prenotazione}', [StaffController::class, 'updatePrenotazione']);
     Route::delete('staff/procedures/{procedure}/schedules/{prenotazione}', [StaffController::class, 'destroyPrenotazione']);
+    
+
+    Route::get('/staff/prestazioni', [StaffController::class, 'prestazioni']);
+    
 });
 
 Route::middleware(['auth', 'check.role:admin'])->group(function () {

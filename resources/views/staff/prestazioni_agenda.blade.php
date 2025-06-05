@@ -6,7 +6,6 @@
 <x-card class="bg-white p-4 rounded-lg shadow-md">
 
     @php
-    // Genera orari interi da 8 a 20
     $orari = collect(range(8, 20))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
     $headers = array_merge(['Data'], $orari->toArray());
     @endphp

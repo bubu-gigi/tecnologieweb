@@ -6,6 +6,8 @@
     'placeholder' => '',
     'class' => '',
     'autofocus' => false,
+    'min' => '',
+    'max' => '',
 ])
 
 <div class=" flex flex-col mb-4">
@@ -19,6 +21,8 @@
         id="{{ $name }}"
         value="{{ old($name, $value) }}"
         placeholder="{{ $placeholder }}"
+        min="{{ $min }}"
+        max="{{ $max }}"
         class="w-full rounded-md px-4 py-2 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
         @if($autofocus) autofocus @endif
     >
