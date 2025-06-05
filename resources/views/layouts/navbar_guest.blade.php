@@ -4,7 +4,7 @@
             Struttura
         </x-link-navbar>
         <x-link-navbar href="#funzionalita">
-            Funzionalita
+            Funzionalità
         </x-link-navbar>
         <x-link-navbar href="#dipartimenti">
             Dipartimenti
@@ -18,7 +18,7 @@
                     'admin' => route('admin.dashboard'),
                     'user' => route('customers.dashboard'),
                     'staff' => route('staff.dashboard'),
-                    default => url('/'), // fallback se ruolo non previsto
+                    default => route('home'),
                 };
             @endphp
 
@@ -26,14 +26,17 @@
                 Area Personale
             </x-button-navbar>
 
-            <x-button-navbar href="/logout">
-                Logout
-            </x-button-navbar>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-button-navbar type="submit">
+                    Logout
+                </x-button-navbar>
+            </form>
         @else
-            <x-button-navbar href="/login">
+            <x-button-navbar href="{{ route('login') }}">
                 Login
             </x-button-navbar>
-            <x-button-navbar href="/register">
+            <x-button-navbar href="{{ route('register') }}">
                 Register
             </x-button-navbar>
         @endif
