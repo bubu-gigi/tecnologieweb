@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Prestazione;
-use Illuminate\Support\Facades\DB;
 use App\Models\AgendaGiornaliera;
 use App\Models\AgendaTemplate;
 use App\Models\Prenotazione;
@@ -95,4 +94,36 @@ class AgendaService
             'orario' => $orario,
         ]);
     }
+
+    public function deleteTemplateByPrestazioneId(int $id)
+    {
+        AgendaTemplate::where('prestazione_id', $id)->delete();
+    }
+
+    public function deleteGiornalieraByPrestazioneId(int $id, string $fromDate)
+    {
+        AgendaGiornaliera::where('prestazione_id', $id)
+            ->where('data', '>=', $fromDate)
+            ->whereMonth('data', 6)
+            ->delete();
+    }
+
+    public function deleteInvalidPrenotazioni(int $prestazioneId, array $fasceOrarie)
+    {
+        $slots = AgendaGiornaliera::where('prestazione_id', $prestazioneId)
+            ->whereNotNull('prenotazione_id')
+            ->get();
+
+        foreach ($slots as $slot) {
+            $giornoSettimana = \Carbon\Carbon::parse($slot->data)->dayOfWeekIso;
+            $ora = intval($slot->orario);
+
+            if (!isset($fasceOrarie[$giornoSettimana]) || !in_array($ora, $fasceOrarie[$giornoSettimana])) {
+                $slot->prenotazione?->delete();
+                $slot->delete();
+            }
+        }
+    }
+
+
 }

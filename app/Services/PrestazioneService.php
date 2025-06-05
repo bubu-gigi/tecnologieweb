@@ -35,56 +35,14 @@ class PrestazioneService
 
     public function create(array $data): Prestazione
     {
-        $fasce = [
-            'giorno' => $data['giorno'] ?? [],
-            'start_time' => $data['start_time'] ?? [],
-            'end_time' => $data['end_time'] ?? [],
-        ];
-
-        unset($data['giorno'], $data['start_time'], $data['end_time']);
-
         $prestazione = Prestazione::create($data);
-
-        foreach ($fasce['giorno'] as $index => $giorno) {
-            if (empty($giorno) || empty($fasce['start_time'][$index]) || empty($fasce['end_time'][$index])) {
-                continue; // salta fasce incomplete
-            }
-
-            $prestazione->agendaTemplates()->create([
-                'giorno' => $giorno,
-                'fascia_oraria' => $fasce['start_time'][$index] . '-' . $fasce['end_time'][$index],
-            ]);
-        }
-
         return $prestazione;
     }
 
     public function update(string $id, array $data): Prestazione
     {
-        $fasce = [
-            'giorno' => $data['giorno'] ?? [],
-            'start_time' => $data['start_time'] ?? [],
-            'end_time' => $data['end_time'] ?? [],
-        ];
-
-        unset($data['giorno'], $data['start_time'], $data['end_time']);
-
         $prestazione = Prestazione::findOrFail($id);
         $prestazione->update($data);
-
-        $prestazione->agendaTemplates()->delete();
-
-        foreach ($fasce['giorno'] as $index => $giorno) {
-            if (empty($giorno) || empty($fasce['start_time'][$index]) || empty($fasce['end_time'][$index])) {
-                continue;
-            }
-
-            $prestazione->agendaTemplates()->create([
-                'giorno' => $giorno,
-                'fascia_oraria' => $fasce['start_time'][$index] . '-' . $fasce['end_time'][$index],
-            ]);
-        }
-
         return $prestazione;
     }
 
