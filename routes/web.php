@@ -54,3 +54,5 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::put('/admin/dipartimenti/{id}', [AdminController::class, 'updateDipartimento'])->name('admin.departments.update');
     Route::delete('/admin/dipartimenti/{id}', [AdminController::class, 'deleteDipartimento'])->name('admin.departments.delete');
 });
+
+require __DIR__.'/auth.php';

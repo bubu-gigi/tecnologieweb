@@ -26,12 +26,9 @@
                 Area Personale
             </x-button-navbar>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-button-navbar type="submit">
-                    Logout
-                </x-button-navbar>
-            </form>
+            <x-button-navbar href="{{ route('logout') }}">
+                Logout
+            </x-button-navbar>
         @else
             <x-button-navbar href="{{ route('login') }}">
                 Login
