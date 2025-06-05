@@ -6,20 +6,11 @@
         <x-link-navbar href="{{ route('staff.dashboard') }}">
             Dashboard
         </x-link-navbar>
-        <x-link-navbar href="/staff/prestazioni">
-            Inserisci
+        <x-link-navbar href="/staff/prenotazioni">
+            Prenotazioni
         </x-link-navbar>
         <x-link-navbar href="/staff/prestazioni">
-            Modifica
-        </x-link-navbar>
-        <x-link-navbar href="/staff/prestazioni">
-            Visualizza
-        </x-link-navbar>
-        <x-link-navbar href="/staff/modifica_agende">
-            Modifica Agende
-        </x-link-navbar>
-        <x-link-navbar href="/staff/visualizza_agende">
-            Visualizza Agende
+            Agende
         </x-link-navbar>
     </x-left-navbar>
     <x-right-navbar>
