@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Prestazione;
 use App\Models\AgendaGiornaliera;
 use App\Models\AgendaTemplate;
+use App\Models\Notification;
 use App\Models\Prenotazione;
 use Carbon\Carbon;
 
@@ -56,13 +57,26 @@ class AgendaService
     public function assegnaSlot(int $prenotazioneId, string $date, string $time): bool
     {
         $prenotazione = Prenotazione::findOrFail($prenotazioneId);
+
+        if ($prenotazione->data_prenotazione) {
+            $vecchioDatetime = Carbon::parse($prenotazione->data_prenotazione);
+            $vecchiaData = $vecchioDatetime->format('Y-m-d');
+            $vecchioOrario = (int) $vecchioDatetime->format('H');
+            AgendaGiornaliera::where('prestazione_id', $prenotazione->prestazione->id)
+                ->where('data', $vecchiaData)
+                ->where('orario', $vecchioOrario)
+                ->where('prenotazione_id', $prenotazione->id)
+                ->update(['prenotazione_id' => null]);
+            Notification::create(["user_id" => $prenotazione->user->id, "prenotazione_id" => $prenotazione->id, "action" => "modified" ]);
+        }
+
         $datetime = Carbon::parse($date . ' ' . $time . ':00');
         $prenotazione->data_prenotazione = $datetime;
         $prenotazione->save();
 
         $slot = AgendaGiornaliera::where('prestazione_id', $prenotazione->prestazione->id)
             ->where('data', $date)
-            ->where('orario',  $time)
+            ->where('orario',  (int) $time)
             ->first();
         if (!$slot) {
             return false;
