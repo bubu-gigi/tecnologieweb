@@ -63,7 +63,7 @@
             <div id="fasce-container" class="space-y-4">
 
             </div>
-            <button type="button" id="aggiungi-fascia-btn" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-semibold">
+            <button type="button" id="aggiungi-fascia-btn" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-semibold cursor-pointer">
                 + Aggiungi Orario
             </button>
         </div>
