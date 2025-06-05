@@ -40,7 +40,7 @@ Route::middleware(['auth', 'check.role:admin'])->group(function () {
     Route::put('/admin/utenti/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/utenti/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
-    Route::get('/admin/prestazioni', [AdminController::class, 'gestionePrestazioni'])->name('admin.services.index');
+    Route::get('/admin/prestazioni', [AdminController::class, 'prestazioni'])->name('admin.services.index');
     Route::get('/admin/prestazioni/nuova', [AdminController::class, 'createPrestazione'])->name('admin.services.create');
     Route::post('/admin/prestazioni', [AdminController::class, 'storePrestazione'])->name('admin.services.store');
     Route::get('/admin/prestazioni/{id}', [AdminController::class, 'editPrestazione'])->name('admin.services.edit');

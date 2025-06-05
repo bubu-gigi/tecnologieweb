@@ -8,7 +8,6 @@ use App\Services\PrestazioneService;
 use App\Services\MedicoService;
 use App\Services\StatisticheService;
 use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\GestioneDipartimentiRequest;
 use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
@@ -64,7 +63,7 @@ class AdminController extends Controller
         $data['ruolo'] = 'staff';
         $this->userService->create($data);
 
-        return redirect()->route('admin.users')->with('success', 'Utente creato con successo.');
+        return redirect()->route('admin.users.index');
     }
 
     public function updateUser(GestioneUtentiRequest $request, string $id)
@@ -72,7 +71,7 @@ class AdminController extends Controller
         $data = $request->validated();
         $this->userService->update($id, $data);
 
-        return redirect()->route('admin.users')->with('success', 'Utente aggiornato con successo.');
+        return redirect()->route('admin.users.index');
     }
 
     public function deleteUser(string $id)
@@ -101,30 +100,22 @@ class AdminController extends Controller
     {
         $data = $request->validated();
         $this->dipartimentoService->create($data);
-
-        return redirect()->route('admin.dipartimenti')->with('success', 'Dipartimento creato con successo.');
+        return redirect()->route('admin.departments.index');
     }
 
     public function updateDipartimento(GestioneDipartimentiRequest $request, string $id)
     {
         $data = $request->validated();
         $this->dipartimentoService->update($id, $data);
-
-        return redirect()->route('admin.dipartimenti')->with('success', 'Dipartimento aggiornato con successo.');
+        return redirect()->route('admin.departments.index');
     }
 
-    public function deleteDipartimento(string $id): JsonResponse
+    public function deleteDipartimento(string $id)
     {
-        $deleted = $this->dipartimentoService->delete($id);
-
-        if ($deleted) {
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Errore durante l\'eliminazione'], 500);
+        $this->dipartimentoService->delete($id);
     }
 
-    public function gestionePrestazioni(PrestazioneService $prestazioneService)
+    public function prestazioni(PrestazioneService $prestazioneService)
     {
         $prestazioni = $prestazioneService->getAll();
         return view('admin.prestazioni', compact('prestazioni'));
@@ -134,7 +125,6 @@ class AdminController extends Controller
     {
         $medici = $this->medicoService->getAll();
         $staff = $this->userService->getByRuolo('staff');
-
         return view('admin.prestazioni.create', compact('medici', 'staff'));
     }
 
@@ -144,10 +134,9 @@ class AdminController extends Controller
         $medici = $this->medicoService->getAll();
         $staff = $this->userService->getByRuolo('staff');
         $orari = $this->agendaService->getAgendaTemplateByPrestazione($id);
-
         return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff', 'orari'));
     }
-    
+
     public function storePrestazione(GestionePrestazioniRequest $request)
     {
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
@@ -244,15 +233,9 @@ class AdminController extends Controller
         return redirect()->route('admin.prestazioni')->with('success', 'Prestazione modificata con successo.');
     }
 
-    public function deletePrestazione(string $id): JsonResponse
+    public function deletePrestazione(string $id)
     {
-        $deleted = $this->prestazioneService->delete($id);
-
-        if ($deleted) {
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Errore durante l\'eliminazione'], 500);
+        $this->prestazioneService->delete($id);
     }
 
     public function statistichePrestazioni(StatisticheRequest $request)
