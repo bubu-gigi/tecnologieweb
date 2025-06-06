@@ -106,6 +106,11 @@ class AgendaService
         ]);
     }
 
+    public function deleteDataByPrestazioneId(int $prestazioneId)
+    {
+        AgendaGiornaliera::where('prestazione_id', $prestazioneId)->delete();
+        AgendaTemplate::where('prestazione_id', $prestazioneId)->delete();
+    }
     public function deleteTemplateByPrestazioneId(int $id)
     {
         AgendaTemplate::where('prestazione_id', $id)->delete();

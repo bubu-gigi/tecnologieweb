@@ -13,6 +13,7 @@ use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
 use App\Http\Requests\StatisticheRequest;
 use App\Services\AgendaService;
+use App\Services\PrenotazioneService;
 
 class AdminController extends Controller
 {
@@ -22,8 +23,9 @@ class AdminController extends Controller
     protected MedicoService $medicoService;
     protected AgendaService $agendaService;
     protected StatisticheService $statisticheService;
+    protected PrenotazioneService $prenotazioneService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService, PrenotazioneService $prenotazioneService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
@@ -31,6 +33,7 @@ class AdminController extends Controller
         $this->medicoService = $medicoService;
         $this->agendaService = $agendaService;
         $this->statisticheService = $statisticheService;
+        $this->prenotazioneService = $prenotazioneService;
     }
 
     public function index(): View
@@ -224,6 +227,8 @@ class AdminController extends Controller
 
     public function deletePrestazione(string $id)
     {
+        $this->agendaService->deleteDataByPrestazioneId($id);
+        $this->prenotazioneService->deleteByPrestazioneId($id);
         $this->prestazioneService->delete($id);
     }
 

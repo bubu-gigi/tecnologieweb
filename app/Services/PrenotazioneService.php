@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Notifica;
 use App\Models\Prenotazione;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\Collection;
@@ -73,6 +74,11 @@ class PrenotazioneService
         }
         $prenotazione->deleted = true;
         $prenotazione->save();
+    }
+
+    public function deleteByPrestazioneId(string $prestazioneId): void
+    {
+        Prenotazione::where('prestazione_id', $prestazioneId);
     }
 
     public function getByIdWithRelations(string $id): ?Prenotazione
