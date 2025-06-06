@@ -6,7 +6,7 @@
 <x-card class="bg-white p-4 rounded-lg shadow-md">
 
     @php
-        $orari = collect(range(8, 19))->map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00');
+        $orari = collect(range(8, 19))->map(fn($h) => $h . ':00');
         $headers = array_merge(['Data'], $orari->toArray());
     @endphp
 
