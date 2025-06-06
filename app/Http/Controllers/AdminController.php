@@ -118,7 +118,7 @@ class AdminController extends Controller
     public function prestazioni(PrestazioneService $prestazioneService)
     {
         $prestazioni = $prestazioneService->getAll();
-        return view('admin.prestazioni', compact('prestazioni'));
+        return view('admin.prestazioni.index', compact('prestazioni'));
     }
 
     public function createPrestazione()
@@ -175,7 +175,7 @@ class AdminController extends Controller
             }
         }
 
-        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione creata con successo.');
+        return redirect()->route('admin.services.index');
     }
 
     public function updatePrestazione(GestionePrestazioniRequest $request, int $id)
@@ -230,7 +230,7 @@ class AdminController extends Controller
 
         $this->agendaService->deleteInvalidPrenotazioni($id, $fasceOrarieAttuali);
 
-        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione modificata con successo.');
+        return redirect()->route('admin.services.index');
     }
 
     public function deletePrestazione(string $id)
