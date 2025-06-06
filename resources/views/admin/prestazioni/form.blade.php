@@ -122,17 +122,13 @@ $(function () {
 
     const orari = [];
 
-    try {
-        const iniziali = JSON.parse(document.getElementById("orari-data").textContent || '{}');
-        Object.entries(iniziali).forEach(([giorno, fasce]) => {
-            fasce.forEach(fascia => {
-                const [start, end] = fascia.split('-').map(Number);
-                orari.push({ giorno: parseInt(giorno), start, end });
-            });
+    const iniziali = JSON.parse(document.getElementById("orari-data").textContent || '{}');
+    Object.entries(iniziali).forEach(([giorno, fasce]) => {
+        fasce.forEach(fascia => {
+            const [start, end] = fascia.split('-').map(Number);
+            orari.push({ giorno: parseInt(giorno), start, end });
         });
-    } catch (e) {
-        console.error("Errore parsing orari iniziali:", e);
-    }
+    });
 
     renderOrari();
 

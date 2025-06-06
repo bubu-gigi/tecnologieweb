@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="welcome-container">
-    <!-- HERO HEADER -->
     <header class="relative">
         <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class="h-96 w-full object-cover opacity-80 rounded-xl">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-12">
@@ -14,7 +13,6 @@
         </div>
     </header>
 
-    <!-- CHI SIAMO -->
     <section id="struttura" class="my-6">
         <x-card class="bg-white shadow-lg border-l-4 border-blue-500">
             <div class="p-4">
@@ -27,7 +25,6 @@
         </x-card>
     </section>
 
-    <!-- ORGANIZZAZIONE -->
     <section id="organizzazione" class="my-6">
         <x-card class="bg-white shadow border-l-4 border-blue-500">
             <div class="p-4">
@@ -43,7 +40,6 @@
         </x-card>
     </section>
 
-    <!-- FUNZIONALITÀ -->
     <section id="funzionalita" class="my-6">
         <x-card class="bg-white shadow border-l-4 border-indigo-400">
             <div class="p-4">
@@ -62,7 +58,6 @@
         </x-card>
     </section>
 
-    <!-- DIPARTIMENTI -->
     <section id="dipartimenti" class="my-6">
         <x-card class="bg-white shadow border border-indigo-200">
             <h2 class="text-2xl font-bold text-center text-indigo-800 mb-6">Dipartimenti Specialistici</h2>
@@ -139,7 +134,6 @@
         </div>
     </section>
 
-    <!-- CONTATTI -->
     <section id="contatti" class="my-6">
         <x-card class="bg-white border-l-4 border-blue-500 shadow">
             <div class="p-4">

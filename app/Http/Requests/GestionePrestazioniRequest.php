@@ -18,7 +18,7 @@ class GestionePrestazioniRequest extends FormRequest
             'prescrizioni' => ['required', 'string'],
             'medico_id' => ['required'],
             'staff_id' => ['nullable'],
-            'orari' => ['nullable', 'json'], 
+            'orari' => ['nullable', 'json'],
         ];
     }
 
@@ -50,14 +50,6 @@ class GestionePrestazioniRequest extends FormRequest
                 if ($entry['end'] <= $entry['start']) {
                     $validator->errors()->add("orari.$index", "L'orario di fine deve essere successivo a quello di inizio per la fascia #".($index + 1));
                 }
-
-                if ($entry['start'] < 8 || $entry['start'] > 20 || $entry['end'] < 8 || $entry['end'] > 20) {
-                    $validator->errors()->add("orari.$index", "Gli orari devono essere compresi tra 0 e 24 per la fascia #".($index + 1));
-                }
-
-                if ($entry['giorno'] < 1 || $entry['giorno'] > 6) {
-                    $validator->errors()->add("orari.$index", "Il giorno deve essere compreso tra 1 (Lunedì) e 6 (Sabato) per la fascia #".($index + 1));
-                }
             }
         });
     }
@@ -71,8 +63,6 @@ class GestionePrestazioniRequest extends FormRequest
 
             'prescrizioni.required' => 'Il campo prescrizioni è obbligatorio.',
             'prescrizioni.string' => 'Le prescrizioni devono essere una stringa.',
-
-            'orari.json' => 'Il campo orari deve essere un JSON valido.',
         ];
     }
 }
