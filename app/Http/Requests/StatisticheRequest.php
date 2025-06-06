@@ -16,7 +16,7 @@ class StatisticheRequest extends FormRequest
         return [
             'data_inizio' => ['after_or_equal:2025-06-01','before_or_equal:2025-06-30'],
             'data_fine' => ['after_or_equal:data_inizio', 'before_or_equal:2025-06-30'],
-            'utente_id' => ['nullable'],
+            'utente_esterno' => ['nullable'],
         ];
     }
 

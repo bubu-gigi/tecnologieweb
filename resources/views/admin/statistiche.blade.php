@@ -9,7 +9,7 @@
     <x-card class="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Analisi Statistiche</h3>
 
-        {!! html()->form('GET', route('admin.statistics'))->open() !!}
+        {!! html()->form('GET', route('admin.statistics') . '#stats')->open() !!}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label for="data_inizio" class="block text-gray-700">Data Inizio</label>
@@ -38,10 +38,9 @@
         {!! html()->form()->close() !!}
     </x-card>
 
-    @isset($statistiche)
+    @if(request()->has(['data_inizio', 'data_fine']) && isset($statistiche))
         {{-- Seconda card con risultati --}}
-        <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg space-y-8">
-
+        <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg space-y-8" id="stats">
             <h3 class="text-xl font-semibold text-indigo-700 mb-4">
                 Risultati dal {{ \Carbon\Carbon::parse(request('data_inizio'))->format('d/m/Y') }}
                 al {{ \Carbon\Carbon::parse(request('data_fine'))->format('d/m/Y') }}
@@ -57,7 +56,6 @@
 
                     <div class="flex gap-4 items-end">
                         <div class="flex-1">
-                            <label for="utente_esterno" class="block text-sm font-medium text-gray-700">Utente esterno</label>
                             <select id="utente_esterno" name="utente_esterno"
                                     class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
                                 <option value="">-- Seleziona un utente --</option>
@@ -76,6 +74,7 @@
 
                 @if(request('utente_esterno'))
                     @if(!empty($statistiche['prestazioniUtente']) && count($statistiche['prestazioniUtente']) > 0)
+                    <br>
                         <x-table :headers="['Data', 'Prestazione', 'Dipartimento']" class="mt-4">
                             @foreach ($statistiche['prestazioniUtente'] as $item)
                                 <tr>

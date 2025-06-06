@@ -127,9 +127,11 @@
         </div>
     </form>
 </x-card>
+
 <script id="orari-data" type="application/json">
     {!! json_encode($orari) !!}
 </script>
+
 @push('scripts')
 <script>
     $(function () {

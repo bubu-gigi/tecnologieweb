@@ -241,15 +241,22 @@ class AdminController extends Controller
     public function statistichePrestazioni(StatisticheRequest $request)
     {
         $data = $request->validated();
+        $utenteEsterno = null;
 
         if (!empty($data['utente_esterno'])) {
-            $utente = $this->userService->getByUsername($data['utente_esterno']);
-            $data['utente_id'] = $utente ? $utente->id : null;
+            $utenteEsterno = $this->userService->getByUsername($data['utente_esterno']);
+            $data['utente_id'] = $utenteEsterno ? $utenteEsterno->id : null;
+        } else {
+            $data['utente_id'] = null;
         }
 
         $statistiche = $this->statisticheService->getStatistiche($data);
         $utentiEsterni = $this->userService->getByRuolo('user');
 
-        return view('admin.statistiche', ['statistiche' => $statistiche, 'utentiEsterni' => $utentiEsterni]);
+        return view('admin.statistiche', [
+            'statistiche' => $statistiche,
+            'utentiEsterni' => $utentiEsterni,
+            'utenteEsterno' => $utenteEsterno
+        ]);
     }
 }
