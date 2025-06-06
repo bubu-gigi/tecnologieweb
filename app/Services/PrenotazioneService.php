@@ -22,7 +22,12 @@ class PrenotazioneService
 
     public function getByStaffId(string $id): Collection
     {
-        return Prenotazione::where('deleted', false)->whereRelation('prestazione', 'staff_id', $id)->get();
+        return Prenotazione::where('deleted', false)
+            ->whereHas('prestazione', function ($query) use ($id) {
+                $query->where('staff_id', $id)
+                    ->orWhereNull('staff_id');
+            })
+            ->get();
     }
 
     public function getPrenotazioniByUserId(string $userId): Collection
