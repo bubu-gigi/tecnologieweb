@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Prenotazione;
-use Illuminate\Support\Collection;
 
 class StatisticheService
 {

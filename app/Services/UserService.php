@@ -30,11 +30,7 @@ class UserService
 
     public function create(array $data): User
     {
-        // Cripta la password
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
+        $data['password'] = Hash::make($data['password']);
         return User::create($data);
     }
 
@@ -42,7 +38,6 @@ class UserService
     {
         $user = User::findOrFail($id);
 
-        // Se password non presente o vuota, la rimuovo dai dati per non sovrascriverla
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
