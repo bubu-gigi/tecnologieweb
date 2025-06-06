@@ -65,7 +65,6 @@
                 alert('Utente eliminato con successo.');
             },
             error: function (xhr) {
-                console.error(xhr);
                 alert('Errore durante l\'eliminazione.');
             }
         });

@@ -71,7 +71,6 @@
                 },
                 error: function (xhr) {
                     alert('Errore durante l\'eliminazione del dipartimento.');
-                    console.error(xhr);
                 }
             });
         });

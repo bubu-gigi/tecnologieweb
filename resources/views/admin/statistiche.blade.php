@@ -5,7 +5,6 @@
 @section('content')
 <div class="min-h-screen bg-gray-50 flex flex-col items-center py-10 px-4 gap-6">
 
-    {{-- Form intervallo temporale --}}
     <x-card class="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Analisi Statistiche</h3>
 
@@ -13,7 +12,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label for="data_inizio" class="block text-gray-700">Data Inizio</label>
-                <input type="date" name="data_inizio" id="data_inizio" 
+                <input type="date" name="data_inizio" id="data_inizio"
                     value="{{ request('data_inizio') ?? '2025-06-01' }}"
                    class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none">
                 @error('data_inizio')
@@ -39,14 +38,12 @@
     </x-card>
 
     @if(request()->has(['data_inizio', 'data_fine']) && isset($statistiche))
-        {{-- Seconda card con risultati --}}
         <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg space-y-8" id="stats">
             <h3 class="text-xl font-semibold text-indigo-700 mb-4">
                 Risultati dal {{ \Carbon\Carbon::parse(request('data_inizio'))->format('d/m/Y') }}
                 al {{ \Carbon\Carbon::parse(request('data_fine'))->format('d/m/Y') }}
             </h3>
 
-            {{-- Filtro per utente esterno --}}
             <section>
                 <h4 class="text-lg font-semibold mb-4">Prestazioni per utente esterno</h4>
 
@@ -90,7 +87,6 @@
                 @endif
             </section>
 
-            {{-- Statistiche per Prestazione --}}
             <section>
                 <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per tipo</h4>
                 @if(count($statistiche['perPrestazione']) > 0)
@@ -107,7 +103,6 @@
                 @endif
             </section>
 
-            {{-- Statistiche per Dipartimento --}}
             <section>
                 <h4 class="text-lg font-semibold mb-2">Prestazioni erogate per dipartimento</h4>
                 @if(count($statistiche['perDipartimento']) > 0)
