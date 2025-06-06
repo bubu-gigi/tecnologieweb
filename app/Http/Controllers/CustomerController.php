@@ -7,6 +7,7 @@ use App\Services\PrenotazioneService;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\SearchPrestazioneRequest;
 use App\Http\Requests\SearchDipartimentoRequest;
+use App\Services\AgendaService;
 use App\Services\NotificaService;
 use App\Services\PrestazioneService;
 use Illuminate\View\View;
@@ -21,13 +22,15 @@ class CustomerController extends Controller
     protected PrenotazioneService $prenotazioneService;
     protected NotificaService $notificaService;
     protected PrestazioneService $prestazioneService;
+    protected AgendaService $agendaService;
 
-    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService, NotificaService $notificaService, PrestazioneService $prestazioneService)
+    public function __construct(UserService $userService, PrenotazioneService $prenotazioneService, NotificaService $notificaService, PrestazioneService $prestazioneService, AgendaService $agendaService)
     {
         $this->userService = $userService;
         $this->prenotazioneService = $prenotazioneService;
         $this->notificaService = $notificaService;
         $this->prestazioneService = $prestazioneService;
+        $this->agendaService = $agendaService;
     }
 
     public function index(Request $request): View
@@ -119,9 +122,17 @@ class CustomerController extends Controller
         $this->prenotazioneService->create($data);
     }
 
-    public function deletePrenotazione(string $id)
+    public function deletePrenotazione(string $prenotazioneId)
     {
-        $this->prenotazioneService->delete($id);
+        $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
+
+        if(!$prenotazione) {
+            return response()->json( 404);
+        }
+
+        $this->agendaService->deleteGiornalieraByPrenotazioneId($prenotazioneId);
+
+        $this->prenotazioneService->delete($prenotazioneId);
     }
     public function deleteNotifica(string $id)
     {

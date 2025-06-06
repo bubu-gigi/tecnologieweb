@@ -118,7 +118,7 @@ class AdminController extends Controller
     public function prestazioni(PrestazioneService $prestazioneService)
     {
         $prestazioni = $prestazioneService->getAll();
-        return view('admin.prestazioni.index', compact('prestazioni'));
+        return view('admin.prestazioni', compact('prestazioni'));
     }
 
     public function createPrestazione()
@@ -139,35 +139,25 @@ class AdminController extends Controller
 
     public function storePrestazione(GestionePrestazioniRequest $request)
     {
-        // Prima si salvano i dati della nuova prestazione cosi avremo anche l'id da usare per i salvataggi successivi
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
         $prestazione = $this->prestazioneService->create($data);
 
-        // I dati cosi strutturati consentono per ogni indice i di prendere il giorno la data di inizio e fine
-        $giorni = $request->input('giorno', []);
-        $startTimes = $request->input('start_time', []);
-        $endTimes = $request->input('end_time', []);
-        // Ci riferiamo solo a giugno 2025
-        $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
-        $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
+        $orari = json_decode($request->input('orari', '[]'), true);
 
-        // Questo foreach ci consente di iterare per ogni giorno e prendere sia l'indice per ricavare l'ora inizio e fine e il giorno effettivo
-        foreach ($giorni as $index => $giornoSettimana) {
-            // prendiamo castando a int ora inizio, ora fine e giorno
-            $start = (int) $startTimes[$index];
-            $end = (int) $endTimes[$index];
-            $giornoSettimana = (int) $giornoSettimana;
-            // creiamo la fascia oraria in formato "inizio-fine" che andrà nell'agenda_template
-            $fascia = $start . '-' . $end;
-            // salviamo l'i-esima riga nell'agenda_template
+        $startOfJune = \Carbon\Carbon::create(2025, 6, 1);
+        $endOfJune = \Carbon\Carbon::create(2025, 6, 30);
+
+        foreach ($orari as $entry) {
+            $giornoSettimana = (int) $entry['giorno'];
+            $start = (int) $entry['start'];
+            $end = (int) $entry['end'];
+
+            $fascia = "$start-$end";
             $this->agendaService->createTemplateRow($prestazione->id, $giornoSettimana, $fascia);
 
-            // Prendiamo la data di inizio e iteriamo per ogni giorno di giugno 2025
             for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
-                // se la data combacia con il giorno in questione dell'iterazione esterna
                 if ($date->dayOfWeekIso === $giornoSettimana) {
                     for ($ora = $start; $ora < $end; $ora++) {
-                        // spezzetto le ore in slot da un'ora e per ogni slot salvo una riga nell'agenda_giornaliera
                         $this->agendaService->createGiornalieraRow(
                             $prestazione->id,
                             $date->format('Y-m-d'),
@@ -178,38 +168,35 @@ class AdminController extends Controller
             }
         }
 
-
         return redirect()->route('admin.services.index');
     }
 
     public function updatePrestazione(GestionePrestazioniRequest $request, int $id)
     {
-        // Aggiorniamo i dati della prestazione
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
         $this->prestazioneService->update($id, $data);
-        // Cancelliamo il template esistente per questa prestazione
-        $this->agendaService->deleteTemplateByPrestazioneId($id);
-        $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
-        $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
 
-        $giorni = $request->input('giorno', []);
-        $startTimes = $request->input('start_time', []);
-        $endTimes = $request->input('end_time', []);
+        $this->agendaService->deleteTemplateByPrestazioneId($id);
+
+        $startOfJune = \Carbon\Carbon::create(2025, 6, 1);
+        $endOfJune = \Carbon\Carbon::create(2025, 6, 30);
+
+        $orari = json_decode($request->input('orari', '[]'), true);
         $fasceOrarieAttuali = [];
 
-        foreach ($giorni as $index => $giornoSettimana) {
-            $start = (int) $startTimes[$index];
-            $end = (int) $endTimes[$index];
-            $giornoSettimana = (int) $giornoSettimana;
-            $fascia = $start . '-' . $end;
+        foreach ($orari as $entry) {
+            $giornoSettimana = (int) $entry['giorno'];
+            $start = (int) $entry['start'];
+            $end = (int) $entry['end'];
 
+            $fascia = "$start-$end";
             $this->agendaService->createTemplateRow($id, $giornoSettimana, $fascia);
 
             for ($h = $start; $h < $end; $h++) {
                 $fasceOrarieAttuali[$giornoSettimana][] = $h;
             }
         }
-        // prendiamo il giorno di oggi e cancelliamo le righe giornaliere da oggi in poi
+
         $oggi = now()->format('Y-m-d');
         $this->agendaService->deleteGiornalieraByPrestazioneId($id, $oggi);
 
@@ -233,6 +220,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin.services.index');
     }
+
 
     public function deletePrestazione(string $id)
     {
