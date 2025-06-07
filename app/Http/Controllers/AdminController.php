@@ -13,6 +13,7 @@ use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
 use App\Http\Requests\StatisticheRequest;
 use App\Services\AgendaService;
+use App\Services\PrenotazioneService;
 
 class AdminController extends Controller
 {
@@ -22,8 +23,9 @@ class AdminController extends Controller
     protected MedicoService $medicoService;
     protected AgendaService $agendaService;
     protected StatisticheService $statisticheService;
+    protected PrenotazioneService $prenotazioneService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService, PrenotazioneService $prenotazioneService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
@@ -31,6 +33,7 @@ class AdminController extends Controller
         $this->medicoService = $medicoService;
         $this->agendaService = $agendaService;
         $this->statisticheService = $statisticheService;
+        $this->prenotazioneService = $prenotazioneService;
     }
 
     public function index(): View
@@ -133,7 +136,7 @@ class AdminController extends Controller
         $prestazione = $this->prestazioneService->getById($id);
         $medici = $this->medicoService->getAll();
         $staff = $this->userService->getByRuolo('staff');
-        $orari = $this->agendaService->getAgendaTemplateByPrestazione($id);
+        $orari = $this->agendaService->getAgendaTemplateByPrestazioneId($id);
         return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff', 'orari'));
     }
 
@@ -142,75 +145,63 @@ class AdminController extends Controller
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
         $prestazione = $this->prestazioneService->create($data);
 
-        $giorni = $request->input('giorno', []);
-        $startTimes = $request->input('start_time', []);
-        $endTimes = $request->input('end_time', []);
+        $orari = json_decode($request->input('orari', '[]'), true);
 
-        foreach ($giorni as $index => $giornoSettimana) {
-            $start = $startTimes[$index];
-            $end = $endTimes[$index];
+        $startOfJune = \Carbon\Carbon::create(2025, 6, 1);
+        $endOfJune = \Carbon\Carbon::create(2025, 6, 30);
 
-            $startHour = \Carbon\Carbon::createFromFormat('H:i', $start);
-            $endHour = \Carbon\Carbon::createFromFormat('H:i', $end);
+        foreach ($orari as $entry) {
+            $giornoSettimana = (int) $entry['giorno'];
+            $start = (int) $entry['start'];
+            $end = (int) $entry['end'];
 
-            $fascia = $startHour->hour . '-' . $endHour->hour;
+            $fascia = "$start-$end";
             $this->agendaService->createTemplateRow($prestazione->id, $giornoSettimana, $fascia);
 
-            $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
-            $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
-
             for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
-                if ($date->dayOfWeekIso == $giornoSettimana) {
-                    $ora = $startHour->copy();
-                    while ($ora < $endHour) {
+                if ($date->dayOfWeekIso === $giornoSettimana) {
+                    for ($ora = $start; $ora < $end; $ora++) {
                         $this->agendaService->createGiornalieraRow(
                             $prestazione->id,
                             $date->format('Y-m-d'),
-                            $ora->hour
+                            $ora
                         );
-
-                        $ora->addHour();
                     }
                 }
             }
         }
 
-        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione creata con successo.');
+        return redirect()->route('admin.services.index');
     }
 
     public function updatePrestazione(GestionePrestazioniRequest $request, int $id)
     {
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
-        $prestazione = $this->prestazioneService->update($id, $data);
+        $this->prestazioneService->update($id, $data);
 
         $this->agendaService->deleteTemplateByPrestazioneId($id);
 
-        $giorni = $request->input('giorno', []);
-        $startTimes = $request->input('start_time', []);
-        $endTimes = $request->input('end_time', []);
+        $startOfJune = \Carbon\Carbon::create(2025, 6, 1);
+        $endOfJune = \Carbon\Carbon::create(2025, 6, 30);
 
+        $orari = json_decode($request->input('orari', '[]'), true);
         $fasceOrarieAttuali = [];
 
-        foreach ($giorni as $index => $giornoSettimana) {
-            $start = $startTimes[$index];
-            $end = $endTimes[$index];
+        foreach ($orari as $entry) {
+            $giornoSettimana = (int) $entry['giorno'];
+            $start = (int) $entry['start'];
+            $end = (int) $entry['end'];
 
-            $startHour = \Carbon\Carbon::createFromFormat('H:i', $start);
-            $endHour = \Carbon\Carbon::createFromFormat('H:i', $end);
-            $fascia = $startHour->hour . '-' . $endHour->hour;
-
+            $fascia = "$start-$end";
             $this->agendaService->createTemplateRow($id, $giornoSettimana, $fascia);
 
-            for ($h = $startHour->hour; $h < $endHour->hour; $h++) {
+            for ($h = $start; $h < $end; $h++) {
                 $fasceOrarieAttuali[$giornoSettimana][] = $h;
             }
         }
 
         $oggi = now()->format('Y-m-d');
         $this->agendaService->deleteGiornalieraByPrestazioneId($id, $oggi);
-
-        $startOfJune = \Carbon\Carbon::createFromDate(2025, 6, 1);
-        $endOfJune = \Carbon\Carbon::createFromDate(2025, 6, 30);
 
         for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
             if ($date->format('Y-m-d') < $oggi) continue;
@@ -230,20 +221,36 @@ class AdminController extends Controller
 
         $this->agendaService->deleteInvalidPrenotazioni($id, $fasceOrarieAttuali);
 
-        return redirect()->route('admin.prestazioni')->with('success', 'Prestazione modificata con successo.');
+        return redirect()->route('admin.services.index');
     }
+
 
     public function deletePrestazione(string $id)
     {
+        $this->agendaService->deleteDataByPrestazioneId($id);
+        $this->prenotazioneService->deleteByPrestazioneId($id);
         $this->prestazioneService->delete($id);
     }
 
     public function statistichePrestazioni(StatisticheRequest $request)
     {
         $data = $request->validated();
-        $stats = $this->statisticheService->getStatistiche($data);
+        $utenteEsterno = null;
+
+        if (!empty($data['utente_esterno'])) {
+            $utenteEsterno = $this->userService->getByUsername($data['utente_esterno']);
+            $data['utente_id'] = $utenteEsterno ? $utenteEsterno->id : null;
+        } else {
+            $data['utente_id'] = null;
+        }
+
+        $statistiche = $this->statisticheService->getStatistiche($data);
         $utentiEsterni = $this->userService->getByRuolo('user');
 
-        return view('admin.statistiche', compact('stats', 'utentiEsterni'));
+        return view('admin.statistiche', [
+            'statistiche' => $statistiche,
+            'utentiEsterni' => $utentiEsterni,
+            'utenteEsterno' => $utenteEsterno
+        ]);
     }
 }

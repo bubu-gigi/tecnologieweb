@@ -9,7 +9,7 @@ class PrestazioneService
 {
     public function getAll(): Collection
     {
-        return Prestazione::with(['medico', 'staff'])->get();
+        return Prestazione::all();
     }
 
     public function getById(string $id): Prestazione
@@ -19,19 +19,30 @@ class PrestazioneService
 
     public function searchByPrestazione(string $search): Collection
     {
-        $pattern = str_replace('*', '%', $search);
-
-        return Prestazione::where('descrizione', 'LIKE', $pattern)->get();
+        $search = trim($search);
+        if (str_ends_with($search, '*')) {
+            $pattern = rtrim($search, '*') . '%';
+            return Prestazione::where('descrizione', 'LIKE', $pattern)->get();
+        }
+        return Prestazione::where('descrizione', $search)->get();
     }
 
     public function searchByDipartimento(string $search): Collection
     {
-        $pattern = str_replace('*', '%', $search);
+        $search = trim($search);
 
-        return Prestazione::whereHas('medico.dipartimento', function ($query) use ($pattern) {
-            $query->where('nome', 'LIKE', $pattern);
+        if (str_ends_with($search, '*')) {
+            $pattern = rtrim($search, '*') . '%';
+            return Prestazione::whereHas('medico.dipartimento', function ($query) use ($pattern) {
+                $query->where('nome', 'LIKE', $pattern);
+            })->get();
+        }
+
+        return Prestazione::whereHas('medico.dipartimento', function ($query) use ($search) {
+            $query->where('nome', $search);
         })->get();
     }
+
 
     public function create(array $data): Prestazione
     {

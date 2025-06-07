@@ -68,7 +68,6 @@
                 },
                 error: function (xhr) {
                     alert('Errore durante l\'eliminazione della prestazione.');
-                    console.error(xhr);
                 }
             });
         });

@@ -18,7 +18,7 @@
                     $dataRichiesta = $prenotazione->created_at->format('d/m/Y H:i');
                 @endphp
 
-                <div class="bg-white border border-gray-200 p-4 rounded-lg shadow flex flex-col justify-between h-full">
+                <div class="prenotazione-card bg-white border border-gray-200 p-4 rounded-lg shadow flex flex-col justify-between h-full" data-id="{{ $prenotazione->id }}">
                     <div>
                         <h4 class="text-lg font-bold text-gray-800">{{ $prenotazione->prestazione->descrizione }}</h4>
                         <p class="text-sm text-gray-700 mt-2">
@@ -31,30 +31,34 @@
                             <strong>Richiesta il:</strong> {{ $dataRichiesta }}
                         </p>
 
-                        @if($approvata)
-                            <p class="text-sm text-green-700 font-semibold">
-                                <strong>Approvata:</strong> {{ $dataApprovata }}
-                            </p>
-                            <p class="text-sm text-green-600 mt-1">
-                                <strong>Stato:</strong> Approvata
+                        @if(!$approvata)
+                            <p class="text-sm text-red-600 mt-2 font-semibold">
+                                <strong>Stato:</strong> In attesa di approvazione
                             </p>
                         @else
-                            <p class="text-sm text-red-600 mt-2">
-                                <strong>Stato:</strong> In attesa di approvazione
+                            @php
+                                $isFuture = \Carbon\Carbon::parse($prenotazione->data_prenotazione)->isFuture();
+                            @endphp
+
+                            <p class="text-sm text-gray-700">
+                                <strong>Data:</strong> {{ $dataApprovata }}
+                            </p>
+                            <p class="text-sm {{ $isFuture ? 'text-yellow-600' : 'text-green-600' }} font-semibold mt-1">
+                                <strong>Stato:</strong>
+                                {{ $isFuture ? 'Approvata' : 'Usufruita' }}
                             </p>
                         @endif
 
+
                         @if($prenotazione->data_prenotazione === null || \Carbon\Carbon::parse($prenotazione->data_prenotazione)->isFuture())
-                            <form method="POST" action="{{ route('customers.bookings.delete', $prenotazione->id) }}">
-                                @csrf
-                                @method('DELETE')
-                                <x-button
-                                    type="submit"
-                                    class="bg-red-500 mt-4 hover:bg-red-600 font-semibold py-2 px-4 rounded w-full transition"
-                                >
-                                    Annulla
-                                </x-button>
-                            </form>
+                            <button
+                                type="button"
+                                id="{{ $prenotazione->id }}"
+                                class="btn-annulla text-white cursor-pointer bg-red-500 mt-4 hover:bg-red-600 font-semibold py-2 px-4 rounded w-full transition"
+                            >
+                                Annulla
+                            </button>
+
                         @endif
                     </div>
                 </div>
@@ -67,3 +71,30 @@
     @endif
 </x-card>
 @endsection
+@push('scripts')
+<script>
+$(function () {
+    $('.btn-annulla').on('click', function () {
+        if (!confirm("Sei sicuro di voler annullare questa prenotazione?")) return;
+
+        const id = this.id;
+        const $card = $(`.prenotazione-card[data-id="${id}"]`);
+
+        $.ajax({
+            url: `{{ url('/customers/prenotazioni') }}/${id}`,
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            success: function () {
+                $card.fadeOut(300, function () { $(this).remove(); });
+            },
+            error: function () {
+                alert("Errore durante l'annullamento della prenotazione.");
+            }
+        });
+    });
+});
+</script>
+@endpush
+

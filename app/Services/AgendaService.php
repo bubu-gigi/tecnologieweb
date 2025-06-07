@@ -5,13 +5,13 @@ namespace App\Services;
 use App\Models\Prestazione;
 use App\Models\AgendaGiornaliera;
 use App\Models\AgendaTemplate;
-use App\Models\Notification;
+use App\Models\Notifica;
 use App\Models\Prenotazione;
 use Carbon\Carbon;
 
 class AgendaService
 {
-    public function getAgendaTemplateByPrestazione(int $prestazioneId): array
+    public function getAgendaTemplateByPrestazioneId(int $prestazioneId): array
     {
         $entries = AgendaTemplate::select('giorno', 'fascia_oraria')
             ->where('prestazione_id', $prestazioneId)
@@ -56,32 +56,33 @@ class AgendaService
 
     public function assegnaSlot(int $prenotazioneId, string $date, string $time): bool
     {
+        //prendo la prenotazione
         $prenotazione = Prenotazione::findOrFail($prenotazioneId);
 
+        //controllo se è una prenotazione da modificare
         if ($prenotazione->data_prenotazione) {
+            // prendo la vecchia data e ora
             $vecchioDatetime = Carbon::parse($prenotazione->data_prenotazione);
             $vecchiaData = $vecchioDatetime->format('Y-m-d');
             $vecchioOrario = (int) $vecchioDatetime->format('H');
+            // rimuovo l'agenda giornaliera associata alla prenotazione vecchia
             AgendaGiornaliera::where('prestazione_id', $prenotazione->prestazione->id)
                 ->where('data', $vecchiaData)
                 ->where('orario', $vecchioOrario)
                 ->where('prenotazione_id', $prenotazione->id)
                 ->update(['prenotazione_id' => null]);
-            Notification::create(["user_id" => $prenotazione->user->id, "prenotazione_id" => $prenotazione->id, "action" => "modified" ]);
+            // notifico all'utente
+            Notifica::create(["user_id" => $prenotazione->user->id, "prenotazione_id" => $prenotazione->id, "action" => "modified" ]);
         }
-
+        //salvo la nuova data della prenotazione
         $datetime = Carbon::parse($date . ' ' . $time . ':00');
         $prenotazione->data_prenotazione = $datetime;
         $prenotazione->save();
-
+        //salvo lo slot nella tabella agenda_giornaliera cosi da risultare occupato
         $slot = AgendaGiornaliera::where('prestazione_id', $prenotazione->prestazione->id)
             ->where('data', $date)
             ->where('orario',  (int) $time)
             ->first();
-        if (!$slot) {
-            return false;
-        }
-
         $slot->prenotazione_id = $prenotazione->id;
         $slot->save();
 
@@ -106,6 +107,11 @@ class AgendaService
         ]);
     }
 
+    public function deleteDataByPrestazioneId(int $prestazioneId)
+    {
+        AgendaGiornaliera::where('prestazione_id', $prestazioneId)->delete();
+        AgendaTemplate::where('prestazione_id', $prestazioneId)->delete();
+    }
     public function deleteTemplateByPrestazioneId(int $id)
     {
         AgendaTemplate::where('prestazione_id', $id)->delete();
@@ -131,12 +137,13 @@ class AgendaService
             ->get();
 
         foreach ($slots as $slot) {
-            $giornoSettimana = \Carbon\Carbon::parse($slot->data)->dayOfWeekIso;
+            $giornoSettimana = Carbon::parse($slot->data)->dayOfWeekIso;
             $ora = intval($slot->orario);
 
             if (!isset($fasceOrarie[$giornoSettimana]) || !in_array($ora, $fasceOrarie[$giornoSettimana])) {
                 $slot->prenotazione?->delete();
                 $slot->delete();
+                Prenotazione::where('id', $slot->prenotazione_id)->update(['deleted' => true]);
             }
         }
     }

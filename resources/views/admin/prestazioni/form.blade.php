@@ -19,8 +19,8 @@
         @endif
 
         <div class="col-span-2">
-            <label for="descrizione">Descrizione</label>
             <x-input
+                label="Descrizione"
                 name="descrizione"
                 value="{{ old('descrizione', $prestazione->descrizione ?? '') }}"
                 autofocus
@@ -28,8 +28,8 @@
         </div>
 
         <div class="col-span-2">
-            <label for="prescrizioni">Prescrizioni</label>
             <x-textarea
+                label="Prescrizioni"
                 name="prescrizioni"
                 :value="old('prescrizioni', $prestazione->prescrizioni ?? '')"
             />
@@ -59,60 +59,36 @@
         </div>
 
         <div class="col-span-2">
-            <label for="fasce_container">Orari</label>
-            <div id="fasce-container" class="space-y-4">
+            <label>Orari</label>
 
+            <div class="flex items-center gap-4 mb-4">
+                <select id="giorno-select" class="border rounded px-2 py-1">
+                    <option value="">Giorno</option>
+                    @foreach ([1 => 'Lunedì', 2 => 'Martedì', 3 => 'Mercoledì', 4 => 'Giovedì', 5 => 'Venerdì', 6 => 'Sabato'] as $num => $nome)
+                        <option value="{{ $num }}">{{ $nome }}</option>
+                    @endforeach
+                </select>
+
+                <select id="start-select" class="border rounded px-2 py-1">
+                    <option value="">Inizio</option>
+                    @for ($h = 8; $h <= 20; $h++)
+                        <option value="{{ $h }}">{{ $h }}:00</option>
+                    @endfor
+                </select>
+
+                <select id="end-select" class="border rounded px-2 py-1">
+                    <option value="">Fine</option>
+                    @for ($h = 8; $h <= 20; $h++)
+                        <option value="{{ $h }}">{{ $h }}:00</option>
+                    @endfor
+                </select>
+
+                <button type="button" id="aggiungi-orario" class="px-3 py-1 bg-indigo-600 text-white rounded">Aggiungi</button>
             </div>
-            <button type="button" id="aggiungi-fascia-btn" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-semibold cursor-pointer">
-                + Aggiungi Orario
-            </button>
+
+            <div id="orari-container" class="space-y-4"></div>
+            <input type="hidden" name="orari" id="orari-json" />
         </div>
-
-        <template id="template-fascia">
-            <div class="p-4 border rounded bg-gray-50 grid grid-cols-3 gap-4 items-end">
-                <div>
-                    <label class="block text-gray-700">Giorno</label>
-                    <select name="giorno[]" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="">-- Seleziona giorno --</option>
-                        <option value="1">Lunedì</option>
-                        <option value="2">Martedì</option>
-                        <option value="3">Mercoledì</option>
-                        <option value="4">Giovedì</option>
-                        <option value="5">Venerdì</option>
-                        <option value="6">Sabato</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-gray-700">Inizio</label>
-                    <select name="start_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="">-- Ora inizio --</option>
-                        @for ($hour = 8; $hour <= 19; $hour++)
-                            <option value="{{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00">
-                                {{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00
-                            </option>
-                        @endfor
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-gray-700">Fine</label>
-                    <select name="end_time[]" class="w-full border border-gray-300 rounded px-3 py-2">
-                        <option value="">-- Ora fine --</option>
-                        @for ($hour = 9; $hour <= 20; $hour++)
-                            <option value="{{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00">
-                                {{ str_pad($hour, 2, '0', STR_PAD_LEFT) }}:00
-                            </option>
-                        @endfor
-                    </select>
-                </div>
-
-                <div class="col-span-3 flex justify-end mt-2 gap-2">
-                    <button type="button" class="conferma-fascia-btn px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-semibold">Conferma</button>
-                    <button type="button" class="annulla-fascia-btn px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded font-semibold">Annulla</button>
-                </div>
-            </div>
-        </template>
 
         <div class="col-span-2 flex justify-center gap-4 mt-6">
             <x-button type="button"
@@ -127,108 +103,81 @@
         </div>
     </form>
 </x-card>
+
 <script id="orari-data" type="application/json">
     {!! json_encode($orari) !!}
 </script>
+
 @push('scripts')
 <script>
-    $(function () {
-        const $container = $('#fasce-container');
-        const $btnAggiungi = $('#aggiungi-fascia-btn');
-        const $template = $('#template-fascia');
+$(function () {
+    const giorni = {
+        1: 'Lunedì',
+        2: 'Martedì',
+        3: 'Mercoledì',
+        4: 'Giovedì',
+        5: 'Venerdì',
+        6: 'Sabato'
+    };
 
-        let fasciaInCompilazione = false;
+    const orari = [];
 
-        $btnAggiungi.on('click', function () {
-            if (fasciaInCompilazione) return;
-
-            const $clone = $($template.html());
-            const $startInput = $clone.find('select[name="start_time[]"]');
-            const $endInput = $clone.find('select[name="end_time[]"]');
-
-            $startInput.val('');
-            $endInput.val('');
-
-            $clone.find('.conferma-fascia-btn').on('click', function () {
-                const $giornoSelect = $clone.find('select[name="giorno[]"]');
-                const giorno = $giornoSelect.val();
-                const giornoText = $giornoSelect.find('option:selected').text();
-                const start = $startInput.val();
-                const end = $endInput.val();
-
-                if (!giorno || !start || !end) {
-                    alert("Compila tutti i campi della fascia oraria.");
-                    return;
-                }
-
-                const $fascia = $(`
-                    <div class="p-4 border rounded bg-white shadow-sm grid grid-cols-4 gap-4 items-center">
-                        <input type="hidden" name="giorno[]" value="${giorno}">
-                        <input type="hidden" name="start_time[]" value="${start}">
-                        <input type="hidden" name="end_time[]" value="${end}">
-                        <div><strong>Giorno:</strong> ${giornoText}</div>
-                        <div><strong>Inizio:</strong> ${start}</div>
-                        <div><strong>Fine:</strong> ${end}</div>
-                        <button type="button" class="rimuovi-fascia-btn px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm">Rimuovi</button>
-                    </div>
-                `);
-
-                $fascia.find('.rimuovi-fascia-btn').on('click', function () {
-                    $fascia.remove();
-                });
-
-                $container.append($fascia);
-                $clone.remove();
-                fasciaInCompilazione = false;
-                $btnAggiungi.show();
-            });
-
-            $clone.find('.annulla-fascia-btn').on('click', function () {
-                $clone.remove();
-                fasciaInCompilazione = false;
-                $btnAggiungi.show();
-            });
-
-            $container.append($clone);
-            fasciaInCompilazione = true;
-            $btnAggiungi.hide();
-        });
-
-        const orariRaw = document.getElementById("orari-data").textContent;
-        const orariJson = JSON.parse(orariRaw);
-
-        Object.entries(orariJson).forEach(([giorno, fasce]) => {
-            fasce.forEach(fascia => {
-                const [start, end] = fascia.split("-");
-                const giornoText = {
-                    "1": "Lunedì",
-                    "2": "Martedì",
-                    "3": "Mercoledì",
-                    "4": "Giovedì",
-                    "5": "Venerdì",
-                    "6": "Sabato"
-                }[giorno];
-
-                const $fascia = $(`
-                    <div class="p-4 border rounded bg-white shadow-sm grid grid-cols-4 gap-4 items-center">
-                        <input type="hidden" name="giorno[]" value="${giorno}">
-                        <input type="hidden" name="start_time[]" value="${start}:00">
-                        <input type="hidden" name="end_time[]" value="${end}:00">
-                        <div><strong>Giorno:</strong> ${giornoText}</div>
-                        <div><strong>Inizio:</strong> ${start}:00</div>
-                        <div><strong>Fine:</strong> ${end}:00</div>
-                        <button type="button" class="rimuovi-fascia-btn px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm">Rimuovi</button>
-                    </div>
-                `);
-                console.log(fascia);
-
-                $fascia.find('.rimuovi-fascia-btn').on('click', function () {
-                    $fascia.remove();
-                });
-
-                $container.append($fascia);
-            });
+    const iniziali = JSON.parse(document.getElementById("orari-data").textContent || '{}');
+    Object.entries(iniziali).forEach(([giorno, fasce]) => {
+        fasce.forEach(fascia => {
+            const [start, end] = fascia.split('-').map(Number);
+            orari.push({ giorno: parseInt(giorno), start, end });
         });
     });
+
+    renderOrari();
+
+    $('#aggiungi-orario').on('click', () => {
+        const giorno = parseInt($('#giorno-select').val());
+        const start = parseInt($('#start-select').val());
+        const end = parseInt($('#end-select').val());
+
+        if ([giorno, start, end].some(x => isNaN(x))) {
+            alert("Compila tutti i campi.");
+            return;
+        }
+
+        if (start >= end) {
+            alert("L'orario di fine deve essere maggiore di quello di inizio.");
+            return;
+        }
+
+        orari.push({ giorno, start, end });
+        renderOrari();
+
+        $('#giorno-select').val('');
+        $('#start-select').val('');
+        $('#end-select').val('');
+    });
+
+    function renderOrari() {
+        const $container = $('#orari-container').empty();
+
+        orari.forEach((entry, index) => {
+            const $row = $(`
+                <div class="p-4 border rounded bg-white grid grid-cols-4 gap-4 items-center">
+                    <div><strong>Giorno:</strong> ${giorni[entry.giorno] || 'N/A'}</div>
+                    <div><strong>Inizio:</strong> ${entry.start}:00</div>
+                    <div><strong>Fine:</strong> ${entry.end}:00</div>
+                    <button type="button" class="rimuovi-orario bg-red-500 text-white rounded px-2 py-1" data-index="${index}">Rimuovi</button>
+                </div>
+            `);
+
+            $row.find('.rimuovi-orario').on('click', function () {
+                orari.splice(index, 1);
+                renderOrari();
+            });
+
+            $container.append($row);
+        });
+
+        $('#orari-json').val(JSON.stringify(orari));
+    }
+});
 </script>
 @endpush

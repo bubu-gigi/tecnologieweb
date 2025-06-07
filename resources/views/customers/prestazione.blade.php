@@ -9,7 +9,6 @@
             <h2 class="text-2xl font-bold text-indigo-700 text-center">Ricerca Prestazioni</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Ricerca per prestazione -->
                 {!! html()->form('GET', route('customers.services.search'))->open() !!}
                     <div class="flex flex-col gap-2">
                         <label for="prestazione" class="text-sm font-medium text-gray-700">Ricerca per prestazione:</label>
@@ -30,7 +29,6 @@
                     </div>
                 {{ html()->form()->close() }}
 
-                <!-- Ricerca per dipartimento -->
                 {!! html()->form('GET', route('customers.services.search'))->open() !!}
                     <div class="flex flex-col gap-2">
                         <label for="dipartimento" class="text-sm font-medium text-gray-700">Ricerca per dipartimento:</label>
@@ -116,7 +114,6 @@
                 window.location.href = "{{ route('customers.bookings.index') }}";
             },
             error: function (error) {
-                console.error('Errore durante la prenotazione:', error.responseText);
                 alert('Errore durante la prenotazione.');
             }
         });

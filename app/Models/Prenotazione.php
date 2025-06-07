@@ -25,7 +25,6 @@ class Prenotazione extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function prestazione(): BelongsTo
     {
         return $this->belongsTo(Prestazione::class);
