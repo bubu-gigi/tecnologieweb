@@ -2,11 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Notifica;
 use App\Models\Prenotazione;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\Collection;
-use Carbon\Carbon;
 
 class PrenotazioneService
 {
@@ -43,59 +40,19 @@ class PrenotazioneService
     public function update(string $id, array $data): Prenotazione
     {
         $prenotazione = Prenotazione::findOrFail($id);
-
-        if (
-            $prenotazione->data_prenotazione !== null &&
-            Carbon::parse($prenotazione->data_prenotazione)->isPast()
-        ) {
-            throw new HttpResponseException(
-                response()->json(['error' => 'Impossibile modificare una prenotazione già passata.'], 400)
-            );
-        }
-
         $prenotazione->update($data);
         return $prenotazione;
     }
 
-    public function aggiornaDataPrenotazione(int $id, \Carbon\Carbon $dataPrenotazione): void
-    {
-        $prenotazione = Prenotazione::findOrFail($id);
-        $prenotazione->data_prenotazione = $dataPrenotazione;
-        $prenotazione->save();
-    }
-
-
     public function delete(string $id): void
     {
         $prenotazione = Prenotazione::findOrFail($id);
-
-        if (
-            $prenotazione->data_prenotazione !== null &&
-            Carbon::parse($prenotazione->data_prenotazione)->isPast()
-        ) {
-            throw new HttpResponseException(
-                response()->json(['error' => 'Impossibile cancellare una prenotazione già passata.'], 400)
-            );
-        }
         $prenotazione->deleted = true;
         $prenotazione->save();
     }
 
     public function deleteByPrestazioneId(string $prestazioneId): void
     {
-        Prenotazione::where('prestazione_id', $prestazioneId);
-    }
-
-    public function getByIdWithRelations(string $id): ?Prenotazione
-    {
-        return Prenotazione::with(['prestazione', 'user'])->find($id);
-    }
-
-    public function getInAttesa(): Collection
-    {
-        return Prenotazione::with(['user', 'prestazione'])
-            ->whereNull('data_prenotazione')
-            ->orderBy('created_at', 'asc')
-            ->get();
+        Prenotazione::where('prestazione_id', $prestazioneId)->delete();
     }
 }
