@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\Models\Prenotazione;
@@ -8,7 +7,8 @@ class StatisticheService
 {
     public function getStatistiche(array $filters): array
     {
-        if (!isset($filters['data_inizio'], $filters['data_fine'])) {
+
+        if (empty($filters['data_inizio']) || empty($filters['data_fine'])) {
             return [
                 'perPrestazione' => collect(),
                 'perDipartimento' => collect(),
@@ -16,46 +16,32 @@ class StatisticheService
             ];
         }
 
-        $dataInizio = $filters['data_inizio'];
-        $dataFine = $filters['data_fine'];
-        $utenteId = $filters['utente_id'] ?? null;
+        $query = Prenotazione::whereBetween('data_prenotazione', [$filters['data_inizio'], $filters['data_fine']]);
 
-        $perPrestazione = Prenotazione::selectRaw('prestazione_id, count(*) as totale')
-            ->whereBetween('data_prenotazione', [$dataInizio, $dataFine])
-            ->with('prestazione')
-            ->groupBy('prestazione_id')
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'descrizione' => $item->prestazione->descrizione ?? 'N/D',
-                    'totale' => $item->totale,
-                ];
-            });
-
-        $perDipartimento = Prenotazione::with('prestazione.medico.dipartimento')
-            ->whereBetween('data_prenotazione', [$dataInizio, $dataFine])
-            ->get()
-            ->groupBy(function ($prenotazione) {
-                return $prenotazione->prestazione->medico->dipartimento->nome ?? 'N/D';
-            })
-            ->map(function ($group) {
-                return count($group);
-            });
-
-        $prestazioniUtente = collect();
-        if ($utenteId) {
-            $prestazioniUtente = Prenotazione::with(['prestazione.medico.dipartimento'])
-                ->where('user_id', $utenteId)
-                ->whereBetween('data_prenotazione', [$dataInizio, $dataFine])
-                ->get()
-                ->map(function ($prenotazione) {
-                    return (object) [
-                        'data' => $prenotazione->data_prenotazione,
-                        'prestazione' => $prenotazione->prestazione->descrizione ?? 'N/D',
-                        'dipartimento' => $prenotazione->prestazione->medico->dipartimento->nome ?? 'N/D',
-                    ];
-                });
+        if (!empty($filters['utente_id'])) {
+            $query->where('user_id', $filters['utente_id']);
         }
+
+        $base = $query->with('prestazione.medico.dipartimento')->get();
+
+        $perPrestazione = $base->groupBy('prestazione_id')->map(function ($items) {
+            $first = $items->first();
+            return [
+                'descrizione' => $first->prestazione->descrizione ?? 'N/D',
+                'totale' => count($items),
+            ];
+        })->values();
+
+        $perDipartimento = $base->groupBy(fn ($item) => $item->prestazione->medico->dipartimento->nome ?? 'N/D')
+            ->map(fn ($group) => $group->count());
+
+        $prestazioniUtente = !empty($filters['utente_id']) ? $base->map(function ($item) {
+            return (object)[
+                'data' => $item->data_prenotazione,
+                'prestazione' => $item->prestazione->descrizione ?? 'N/D',
+                'dipartimento' => $item->prestazione->medico->dipartimento->nome ?? 'N/D',
+            ];
+        }) : collect();
 
         return [
             'perPrestazione' => $perPrestazione,

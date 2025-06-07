@@ -239,18 +239,12 @@ class AdminController extends Controller
 
         if (!empty($data['utente_esterno'])) {
             $utenteEsterno = $this->userService->getByUsername($data['utente_esterno']);
-            $data['utente_id'] = $utenteEsterno ? $utenteEsterno->id : null;
-        } else {
-            $data['utente_id'] = null;
+            $data['utente_id'] = $utenteEsterno?->id;
         }
 
         $statistiche = $this->statisticheService->getStatistiche($data);
         $utentiEsterni = $this->userService->getByRuolo('user');
 
-        return view('admin.statistiche', [
-            'statistiche' => $statistiche,
-            'utentiEsterni' => $utentiEsterni,
-            'utenteEsterno' => $utenteEsterno
-        ]);
+        return view('admin.statistiche', compact('statistiche', 'utentiEsterni', 'utenteEsterno'));
     }
 }
