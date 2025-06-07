@@ -13,8 +13,7 @@
     <x-table :headers="$headers">
         @foreach($slots as $data => $fasce)
             @php
-                $giornoSettimana = \Carbon\Carbon::parse($data)->locale('it')->isoFormat('dddd');
-                $isGiornoEscluso = Str::lower($giornoSettimana) === Str::lower($giornoEscluso);
+                $isGiornoEscluso = \Carbon\Carbon::parse($data)->dayOfWeekIso == $giornoEscluso;
             @endphp
             <tr>
                 <th class="px-4 py-2 font-medium text-left">

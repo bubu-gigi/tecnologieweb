@@ -73,12 +73,30 @@
                                 <strong>Orari:</strong> {{ $prestazione->orari ?? 'Non specificati' }}
                             </p>
                         </div>
-                        <x-button
-                            class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
-                            data-id="{{ $prestazione->id }}"
-                            onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">
-                            Prenota
-                        </x-button>
+                        <div class="mt-4 flex flex-col gap-2">
+                    <label for="escludi_giorno_{{ $prestazione->id }}" class="text-sm text-gray-700 font-medium">
+                        Vuoi escludere un giorno?
+                    </label>
+                    <select
+                        id="escludi_giorno_{{ $prestazione->id }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-400 focus:outline-none"
+                    >
+                        <option value="">-- Nessun giorno escluso --</option>
+                        <option value="1">Lunedì</option>
+                        <option value="2">Martedì</option>
+                        <option value="3">Mercoledì</option>
+                        <option value="4">Giovedì</option>
+                        <option value="5">Venerdì</option>
+                        <option value="6">Sabato</option>
+                    </select>
+
+                    <x-button
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+                        onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">
+                        Prenota
+                    </x-button>
+                </div>
+
                     </div>
                 @endforeach
             </div>
@@ -94,16 +112,19 @@
     </x-card>
 </div>
 @endsection
-
 @push('scripts')
 <script>
     function prenotaPrestazione(prestazioneId, userId) {
+        const selectId = `#escludi_giorno_${prestazioneId}`;
+        const giornoDaEscludere = document.querySelector(selectId)?.value || null;
+
         $.ajax({
             url: "{{ route('customers.bookings.store') }}",
             type: 'POST',
             data: JSON.stringify({
                 user_id: userId,
                 prestazione_id: prestazioneId,
+                giorno_escluso: giornoDaEscludere
             }),
             contentType: 'application/json',
             headers: {
@@ -120,3 +141,4 @@
     }
 </script>
 @endpush
+
