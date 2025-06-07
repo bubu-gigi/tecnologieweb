@@ -38,7 +38,7 @@ class StaffController extends Controller
 
     public function prenotazioniPrestazione(string $id): View
     {
-        $prenotazioni = $this->prenotazioneService->getPrenotazioniByPrestazioneId($id);
+        $prenotazioni = $this->prenotazioneService->getPrenotazioniByPrestazioneIdAndFromToday($id);
         return view('staff.prenotazioni_prestazione', compact('prenotazioni'));
     }
 

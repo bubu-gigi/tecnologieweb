@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Prenotazione;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class PrenotazioneService
@@ -21,6 +22,15 @@ class PrenotazioneService
     {
         return Prenotazione::where('prestazione_id', $id)->get();
     }
+
+    public function getPrenotazioniByPrestazioneIdAndFromToday(string $id): Collection
+    {
+        return Prenotazione::where('prestazione_id', $id)
+            ->whereNotNull('data_prenotazione')
+            ->whereDate('data_prenotazione', '>=', Carbon::today())
+            ->get();
+    }
+
 
     public function getByStaffId(string $id): Collection
     {

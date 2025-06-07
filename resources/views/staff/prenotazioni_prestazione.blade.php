@@ -12,7 +12,7 @@
                     name="data_prenotazione"
                     label="Filtra per data:"
                     type="date"
-                    min="2025-06-01"
+                    min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
                     max="2025-06-30"
                 />
 
@@ -42,9 +42,7 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        console.log("Document ready");
         $('#bottone_reset').on('click', function () {
-            console.log("1")
             $('#data_prenotazione').val(null);
             searchTable();
         });
@@ -54,9 +52,10 @@
         });
 
         function searchTable() {
-            const search_data = $('#data_prenotazione').val();
+            const search_data_raw = $('#data_prenotazione').val();
+            const search_data = search_data_raw ? search_data_raw.split('-').reverse().join('/') : '';
             $('tr').each(function () {
-                const cell = $(this).find('td').eq(1);
+                const cell = $(this).find('td').eq(3);
                 if (cell.length) {
                     const cellDateTime = cell.text().trim();
                     const rowDate = cellDateTime.split(' ')[0];
