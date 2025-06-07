@@ -136,7 +136,7 @@ class AdminController extends Controller
         $prestazione = $this->prestazioneService->getById($id);
         $medici = $this->medicoService->getAll();
         $staff = $this->userService->getByRuolo('staff');
-        $orari = $this->agendaService->getAgendaTemplateByPrestazione($id);
+        $orari = $this->agendaService->getAgendaTemplateByPrestazioneId($id);
         return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff', 'orari'));
     }
 
