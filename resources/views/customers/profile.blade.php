@@ -3,7 +3,7 @@
 @section('title', 'Modifica Profilo')
 
 @section('content')
-<x-card class="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
+<x-card class="p-6 bg-white shadow-lg rounded-lg">
     <div class="flex flex-col gap-6">
         <h2 class="text-center text-2xl font-bold text-indigo-700">Modifica il tuo Profilo</h2>
 
