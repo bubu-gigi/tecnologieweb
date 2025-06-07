@@ -16,7 +16,7 @@ class AuthService
             return null;
         }
 
-        Auth::login($user); // Login user and start session
+        Auth::login($user);
 
         session([
             'username' => $user->username,
@@ -39,13 +39,4 @@ class AuthService
         session()->regenerateToken();
     }
 
-    public function getUser(): ?User
-    {
-        return Auth::user();
-    }
-
-    public function check(): bool
-    {
-        return Auth::check();
-    }
 }
