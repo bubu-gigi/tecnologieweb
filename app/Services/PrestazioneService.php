@@ -61,4 +61,9 @@ class PrestazioneService
     {
         return Prestazione::destroy($id);
     }
+
+    public function setPrestazioneStaffIdNullByStaffId(string $staffId): int
+    {
+        return Prestazione::where('staff_id', $staffId)->update(['staff_id' => null]);
+    }
 }

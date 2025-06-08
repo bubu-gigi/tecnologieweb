@@ -48,7 +48,7 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function () {
+    $(function () {
         $('.delete-prestazione-btn').on('click', function () {
             const id = $(this).data('id');
             const button = $(this);

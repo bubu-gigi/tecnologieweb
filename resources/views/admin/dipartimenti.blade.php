@@ -51,7 +51,7 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function () {
+    $(function () {
         $('.delete-dept-btn').on('click', function () {
             const id = $(this).data('id');
             const button = $(this);

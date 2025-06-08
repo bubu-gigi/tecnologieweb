@@ -79,6 +79,7 @@ class AdminController extends Controller
 
     public function deleteUser(string $id)
     {
+        $this->prestazioneService->setPrestazioneStaffIdNullByStaffId($id);
         $this->userService->delete($id);
     }
 
