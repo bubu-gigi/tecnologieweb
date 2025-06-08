@@ -17,7 +17,7 @@
                         è stata cancellata.
                     @endif
                 </span>
-                <button onclick="deleteNotifica('{{ $notifica->id }}')" class="absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3">
+                <button data-notification-id="{{ $notifica->id }}" class="delete-notifica-btn absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3">
                     &times;
                 </button>
             </div>
@@ -70,21 +70,26 @@
     </div>
 </div>
 @endsection
-
 @push('scripts')
 <script>
-    function deleteNotifica(notificationId) {
-        $(`#${notificationId}`).remove();
-        $.ajax({
-            url: '{{ url("/customers/notifications") }}/' + notificationId,
-            type: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            error: function () {
-                alert('Errore nella cancellazione della notifica.');
-            }
+    $(function () {
+        $('.delete-notifica-btn').on('click', function () {
+            const notificationId = $(this).data('notification-id');
+
+            $(`#${notificationId}`).remove();
+
+            $.ajax({
+                url: `/customers/notifications/${notificationId}`,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                error: function () {
+                    alert('Errore nella cancellazione della notifica.');
+                }
+            });
         });
-    }
+    });
 </script>
 @endpush
+

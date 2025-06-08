@@ -91,8 +91,9 @@
                     </select>
 
                     <x-button
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
-                        onclick="prenotaPrestazione('{{ $prestazione->id }}', '{{ auth()->id() }}')">
+                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold prenota-btn"
+                        data-prestazione-id="{{ $prestazione->id }}"
+                        data-user-id="{{ auth()->id() }}">
                         Prenota
                     </x-button>
                 </div>
@@ -114,31 +115,33 @@
 @endsection
 @push('scripts')
 <script>
-    function prenotaPrestazione(prestazioneId, userId) {
-        const selectId = `#escludi_giorno_${prestazioneId}`;
-        const giornoDaEscludere = document.querySelector(selectId)?.value || null;
+    $(function () {
+        $('.prenota-btn').on('click', function () {
+            const prestazioneId = $(this).data('prestazione-id');
+            const userId = $(this).data('user-id');
+            const giornoDaEscludere = $(`#escludi_giorno_${prestazioneId}`).val() || null;
 
-        $.ajax({
-            url: "{{ route('customers.bookings.store') }}",
-            type: 'POST',
-            data: JSON.stringify({
-                user_id: userId,
-                prestazione_id: prestazioneId,
-                giorno_escluso: giornoDaEscludere
-            }),
-            contentType: 'application/json',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            success: function (response) {
-                alert('Prenotazione effettuata con successo!');
-                window.location.href = "{{ route('customers.bookings.index') }}";
-            },
-            error: function (error) {
-                alert('Errore durante la prenotazione.');
-            }
+            $.ajax({
+                url: "{{ route('customers.bookings.store') }}",
+                type: 'POST',
+                data: JSON.stringify({
+                    user_id: userId,
+                    prestazione_id: prestazioneId,
+                    giorno_escluso: giornoDaEscludere
+                }),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function () {
+                    alert('Prenotazione effettuata con successo!');
+                    window.location.href = "{{ route('customers.bookings.index') }}";
+                },
+                error: function () {
+                    alert('Errore durante la prenotazione.');
+                }
+            });
         });
-    }
+    });
 </script>
 @endpush
-

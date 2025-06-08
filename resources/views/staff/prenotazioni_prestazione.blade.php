@@ -41,7 +41,7 @@
 @endsection
 @push('scripts')
 <script>
-    $(document).ready(function () {
+    $(function () {
         $('#bottone_reset').on('click', function () {
             $('#data_prenotazione').val(null);
             searchTable();
