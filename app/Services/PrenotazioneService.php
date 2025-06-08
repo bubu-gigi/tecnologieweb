@@ -27,6 +27,7 @@ class PrenotazioneService
     {
         return Prenotazione::where('prestazione_id', $id)
             ->whereNotNull('data_prenotazione')
+            ->where(column: 'deleted', false)
             ->whereDate('data_prenotazione', '>=', Carbon::today())
             ->get();
     }
