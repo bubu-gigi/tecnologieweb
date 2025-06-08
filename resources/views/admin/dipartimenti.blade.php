@@ -68,6 +68,7 @@
                     button.closest('tr').fadeOut(300, function () {
                         $(this).remove();
                     });
+                    alert('Dipartimento eliminato con successo.');
                 },
                 error: function (xhr) {
                     alert('Errore durante l\'eliminazione del dipartimento.');

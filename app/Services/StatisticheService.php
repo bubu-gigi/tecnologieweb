@@ -16,7 +16,7 @@ class StatisticheService
             ];
         }
 
-        $query = Prenotazione::whereBetween('data_prenotazione', [$filters['data_inizio'], $filters['data_fine']]);
+        $query = Prenotazione::where('deleted', false)->whereBetween('data_prenotazione', [$filters['data_inizio'], $filters['data_fine']]);
 
         if (!empty($filters['utente_id'])) {
             $query->where('user_id', $filters['utente_id']);

@@ -33,4 +33,9 @@ class MedicoService
     {
         return Medico::destroy($id);
     }
+
+    public function setMedicoDipartimentoIdNullByDipartimentoId(string $dipartimentoId): void
+    {
+        Medico::where('dipartimento_id', $dipartimentoId)->update(['dipartimento_id' => null]);
+    }
 }
