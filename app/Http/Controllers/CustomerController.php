@@ -103,14 +103,7 @@ class CustomerController extends Controller
 
     public function deletePrenotazione(string $prenotazioneId)
     {
-        $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
-
-        if(!$prenotazione) {
-            return response()->json( 404);
-        }
-
         $this->agendaService->deleteGiornalieraByPrenotazioneId($prenotazioneId);
-
         $this->prenotazioneService->delete($prenotazioneId);
     }
     public function deleteNotifica(string $id)

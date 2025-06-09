@@ -87,9 +87,6 @@ class StaffController extends Controller
     {
         $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
 
-        if(!$prenotazione) {
-            return response()->json( 404);
-        }
         $this->agendaService->deleteGiornalieraByPrenotazioneId($prenotazioneId);
 
         $this->prenotazioneService->delete($prenotazioneId);

@@ -14,7 +14,7 @@ class PrestazioneService
 
     public function getById(string $id): Prestazione
     {
-        return Prestazione::find($id);
+        return Prestazione::findOrFail($id);
     }
 
     public function searchByPrestazione(string $search): Collection

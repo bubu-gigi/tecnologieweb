@@ -15,7 +15,7 @@ class UserService
 
     public function getById(string $id): User
     {
-        return User::find($id);
+        return User::findOrFail($id);
     }
 
     public function getByRuolo(string $ruolo): Collection

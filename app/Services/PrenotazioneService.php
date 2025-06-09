@@ -13,9 +13,9 @@ class PrenotazioneService
         return Prenotazione::where('deleted', false)->get();
     }
 
-    public function getById(string $id): Prenotazione
+    public function getById(string $id): ?Prenotazione
     {
-        return Prenotazione::find($id);
+        return Prenotazione::findOrFail($id);
     }
 
     public function getPrenotazioniByPrestazioneId(string $id): Collection

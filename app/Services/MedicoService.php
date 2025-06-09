@@ -14,7 +14,7 @@ class MedicoService
 
     public function getById(string $id): Medico
     {
-        return Medico::find($id);
+        return Medico::findOrFail($id);
     }
 
     public function create(array $data): Medico
