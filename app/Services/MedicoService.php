@@ -31,7 +31,7 @@ class MedicoService
 
     public function delete(string $id): int
     {
-        return Medico::destroy($id);
+        return Medico::findOrFail($id)->delete();
     }
 
     public function setMedicoDipartimentoIdNullByDipartimentoId(string $dipartimentoId): void

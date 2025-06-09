@@ -31,6 +31,6 @@ class DipartimentoService
 
     public function delete(string $id): int
     {
-        return Dipartimento::destroy($id);
+        return Dipartimento::findOrFail($id)->delete();
     }
 }

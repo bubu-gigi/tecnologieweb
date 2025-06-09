@@ -59,7 +59,7 @@ class PrestazioneService
 
     public function delete(string $id): int
     {
-        return Prestazione::destroy($id);
+        return Prestazione::findOrFail($id)->delete();
     }
 
     public function setPrestazioneStaffIdNullByStaffId(string $staffId): int

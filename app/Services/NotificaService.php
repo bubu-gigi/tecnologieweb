@@ -24,6 +24,6 @@ class NotificaService
 
     public function delete(string $id): bool
     {
-        return Notifica::destroy($id);
+        return Notifica::findOrFail($id)->delete();
     }
 }

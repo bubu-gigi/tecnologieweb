@@ -51,6 +51,6 @@ class UserService
 
     public function delete(string $id): int
     {
-        return User::destroy($id);
+        return User::findOrFail($id)->delete();
     }
 }
