@@ -203,7 +203,7 @@ class AdminController extends Controller
         }
 
         $oggi = now()->format('Y-m-d');
-        $this->agendaService->deleteGiornalieraByPrestazioneId($id, $oggi);
+        $this->agendaService->deleteGiornalieraByPrestazioneId($id);
 
         for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
             if ($date->format('Y-m-d') < $oggi) continue;

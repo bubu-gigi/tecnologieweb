@@ -117,11 +117,10 @@ class AgendaService
         AgendaTemplate::where('prestazione_id', $id)->delete();
     }
 
-    public function deleteGiornalieraByPrestazioneId(int $id, string $fromDate)
+    public function deleteGiornalieraByPrestazioneId(int $id)
     {
         AgendaGiornaliera::where('prestazione_id', $id)
-            ->where('data', '>=', $fromDate)
-            ->whereMonth('data', 6)
+            ->where('data', '>=', now()->format('Y-m-d'))
             ->delete();
     }
 
