@@ -7,8 +7,9 @@
     <div class="flex flex-col gap-6">
         <h2 class="text-center text-2xl font-bold text-indigo-700">Modifica il tuo Profilo</h2>
 
-        {!! html()->form('POST', route('customers.profile.update'))->open() !!}
-        {{ csrf_field() }}
+        <form method="POST" action="{{ route('customers.profile.update') }}">
+        @csrf
+        @method('PUT')
 
         <div class="grid grid-cols-2 gap-4">
             <x-input
@@ -72,7 +73,7 @@
             </x-button>
         </div>
 
-        {{ html()->form()->close() }}
+        </form>
     </div>
 </x-card>
 @endsection

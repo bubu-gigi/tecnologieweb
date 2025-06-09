@@ -11,7 +11,7 @@ Route::get('/', [GuestController::class, 'index'])->name('home');
 Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.dashboard');
     Route::get('/customers/profilo', [CustomerController::class, 'editProfilo'])->name('customers.profile.edit');
-    Route::post('/customers/profilo', [CustomerController::class, 'updateProfilo'])->name('customers.profile.update');
+    Route::put('/customers/profilo', [CustomerController::class, 'updateProfilo'])->name('customers.profile.update');
     Route::get('/customers/prestazioni', [CustomerController::class, 'prestazioni'])->name('customers.services.index');
     Route::get('/customers/searchPrestazioni', [CustomerController::class, 'searchPrestazione'])->name('customers.services.search');
     Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name('customers.bookings.index');

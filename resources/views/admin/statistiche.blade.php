@@ -8,7 +8,7 @@
     <x-card class="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Filtri Statistiche</h3>
 
-        {!! html()->form('GET', route('admin.statistics'))->open() !!}
+        <form method="GET" action="{{ route('admin.statistics') }}">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <x-input
                     label="Data Inizio"
@@ -49,7 +49,7 @@
                     Visualizza Statistiche
                 </x-button>
             </div>
-        {!! html()->form()->close() !!}
+        </form>
     </x-card>
 
     @if(request()->has(['data_inizio', 'data_fine']) && isset($statistiche))
