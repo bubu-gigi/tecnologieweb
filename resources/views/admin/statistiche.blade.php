@@ -9,6 +9,7 @@
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Filtri Statistiche</h3>
 
         <form method="GET" action="{{ route('admin.statistics') }}">
+            @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <x-input
                     label="Data Inizio"
