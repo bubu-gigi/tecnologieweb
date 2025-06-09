@@ -11,6 +11,12 @@ use Carbon\Carbon;
 
 class AgendaService
 {
+    protected NotificaService $notificaService;
+    public function __construct(
+        NotificaService $notificaService,
+    ){
+        $this->notificaService = $notificaService;
+    }
     public function getAgendaTemplateByPrestazioneId(int $prestazioneId): array
     {
         $entries = AgendaTemplate::select('giorno', 'fascia_oraria')
@@ -72,7 +78,11 @@ class AgendaService
                 ->where('prenotazione_id', $prenotazione->id)
                 ->update(['prenotazione_id' => null]);
             // notifico all'utente
-            Notifica::create(["user_id" => $prenotazione->user->id, "prenotazione_id" => $prenotazione->id, "action" => "modified" ]);
+            $this->notificaService->create([
+                "user_id" => $prenotazione->user->id,
+                "prenotazione_id" => $prenotazione->id,
+                "action" => "modified",
+            ]);
         }
         //salvo la nuova data della prenotazione
         $datetime = Carbon::parse($date . ' ' . $time . ':00');
