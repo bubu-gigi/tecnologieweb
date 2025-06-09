@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchDipartimentoRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,15 +14,16 @@ class SearchDipartimentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dipartimento' => ['required', 'regex:/^[^\d]+$/'],
+            'prestazione' => ['nullable', 'regex:/^[^\d]+$/'],
+            'dipartimento' => ['nullable', 'string'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'dipartimento.required' => 'Il campo dipartimento è obbligatorio.',
-            'dipartimento.regex' => 'Il campo dipartimento non può contenere numeri.',
+            'prestazione.regex' => 'Il campo prestazione non può contenere numeri.',
         ];
     }
 }
+

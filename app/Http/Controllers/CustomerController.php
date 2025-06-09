@@ -7,6 +7,7 @@ use App\Services\PrenotazioneService;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\SearchPrestazioneRequest;
 use App\Http\Requests\SearchDipartimentoRequest;
+use App\Http\Requests\SearchRequest;
 use App\Services\AgendaService;
 use App\Services\NotificaService;
 use App\Services\PrestazioneService;
@@ -50,16 +51,14 @@ class CustomerController extends Controller
 
     public function prenotazioni(): View
     {
-        $user = auth()->user();
-        $prenotazioni = $this->prenotazioneService->getPrenotazioniByUserId($user->id);
+        $prenotazioni = $this->prenotazioneService->getPrenotazioniByUserId(auth()->user()->id);
         return view('customers.prenotazioni', compact('prenotazioni'));
     }
 
-    public function editProfilo(Request $request): View
+    public function editProfilo(): View
     {
-        return view('customers.profile', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+        return view('customers.profile', compact('user'));
     }
 
     public function updateProfilo(ProfileUpdateRequest $request): RedirectResponse
@@ -83,34 +82,14 @@ class CustomerController extends Controller
         return Redirect::route('customers.dashboard');
     }
 
-    public function destroyProfilo(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
-
-    public function searchPrestazione(Request $request): View
+    public function searchPrestazione(SearchRequest $request): View
     {
         $prestazioni = [];
 
-        if ($request->has('prestazione')) {
-            $validated = app(SearchPrestazioneRequest::class)->validated();
-            $prestazioni = $this->prestazioneService->searchByPrestazione($validated['prestazione']);
-        } elseif ($request->has('dipartimento')) {
-            $validated = app(SearchDipartimentoRequest::class)->validated();
-            $prestazioni = $this->prestazioneService->searchByDipartimento($validated['dipartimento']);
+        if ($request->filled('prestazione')) {
+            $prestazioni = $this->prestazioneService->searchByPrestazione($request->prestazione);
+        } elseif ($request->filled('dipartimento')) {
+            $prestazioni = $this->prestazioneService->searchByDipartimento($request->dipartimento);
         }
 
         return view('customers.prestazione', compact('prestazioni'));
