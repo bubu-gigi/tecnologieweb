@@ -9,7 +9,7 @@ class DipartimentoService
 {
     public function getAll(): Collection
     {
-        return Dipartimento::getAll();;
+        return Dipartimento::all();
     }
 
     public function getById(string $id): Dipartimento
