@@ -49,7 +49,7 @@
             if (!confirm('Sei sicuro di voler eliminare questa prenotazione?')) return;
 
             $.ajax({
-                url: `/staff/prenotazioni/${prenotazioneId}`,
+                url: `{{ url('/staff/prenotazioni') }}/${prenotazioneId}`,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
