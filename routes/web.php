@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
+Route::middleware(['auth', 'can:isCustomer'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.dashboard');
     Route::get('/customers/profilo', [CustomerController::class, 'editProfilo'])->name('customers.profile.edit');
     Route::put('/customers/profilo', [CustomerController::class, 'updateProfilo'])->name('customers.profile.update');
@@ -20,7 +20,7 @@ Route::middleware(['auth', 'check.role:admin,user'])->group(function () {
     Route::delete('/customers/notifications/{id}', [CustomerController::class, 'deleteNotifica'])->name('customers.notifications.delete');
 });
 
-Route::middleware(['auth', 'check.role:staff'])->group(function () {
+Route::middleware(['auth', 'can:isStaff'])->group(function () {
     Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
     Route::get('/staff/prenotazioni', [StaffController::class, 'prenotazioni'])->name('staff.bookings.index');
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot'])->name('staff.bookings.getSlot');
@@ -31,7 +31,7 @@ Route::middleware(['auth', 'check.role:staff'])->group(function () {
     Route::get('/staff/prestazioni/{id}', [StaffController::class, 'prenotazioniPrestazione'])->name('staff.services.bookings');
 });
 
-Route::middleware(['auth', 'check.role:admin'])->group(function () {
+Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/admin/utenti', [AdminController::class, 'users'])->name('admin.users.index');
