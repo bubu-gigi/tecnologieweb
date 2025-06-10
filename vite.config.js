@@ -12,13 +12,5 @@ export default defineConfig({
             refresh: false,
         }),
         tailwindcss(),
-    ],
-    server: {
-        watch: {
-            ignored: [
-                '**/storage/**',
-                '**/vendor/**',
-            ],
-        },
-    },
+    ]
 });

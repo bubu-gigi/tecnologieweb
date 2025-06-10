@@ -71,10 +71,12 @@
         $.ajax({
             url: '{{ route("staff.bookings.assignSlot", ["id" => $prenotazioneId]) }}',
             method: 'PUT',
-            data: {
+            data: JSON.stringify({
                 date: date,
-                time: time,
-                _token: '{{ csrf_token() }}'
+                time: time
+            }),
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             success: function (response) {
                 alert('Slot inviato con successo!');
