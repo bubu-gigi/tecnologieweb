@@ -13,7 +13,10 @@
     <x-table :headers="$headers">
         @foreach($slots as $data => $fasce)
             @php
-                $isGiornoEscluso = \Carbon\Carbon::parse($data)->dayOfWeekIso == $giornoEscluso;
+                $oggi = \Carbon\Carbon::today();
+                $dataCorrente = \Carbon\Carbon::parse($data);
+                if ($dataCorrente->lessThan($oggi)) continue;
+                $isGiornoEscluso = $dataCorrente->dayOfWeekIso == $giornoEscluso;
             @endphp
             <tr>
                 <th class="px-4 py-2 font-medium text-left">
