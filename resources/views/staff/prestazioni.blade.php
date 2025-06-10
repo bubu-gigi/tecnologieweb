@@ -12,7 +12,7 @@
                 <td class="px-6 py-3">{{ $prestazione->descrizione }}</td>
                 <td class="px-6 py-3 capitalize">{{ $prestazione->medico->nome }} {{ $prestazione->medico->cognome }}</td>
                 <td class="px-6 py-3 flex gap-4 items-center">
-                    <a href="/staff/prestazioni/{{ $prestazione->id }}" 
+                    <a href="{{ route('staff.services.bookings', ["id" => $prestazione->id]) }}"
                        class="text-indigo-600 hover:text-indigo-800 "
                        title="Pretonazioni Prestazione">
                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
@@ -21,7 +21,7 @@
                     </a>
                 </td>
             </tr>
-        @endforeach 
+        @endforeach
     </x-table>
     @else
         <p>Nessuna Prestazione trovata</p>
