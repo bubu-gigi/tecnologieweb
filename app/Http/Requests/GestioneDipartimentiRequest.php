@@ -14,7 +14,7 @@ class GestioneDipartimentiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'regex:/^[A-Za-zÀ-ÿ\s]+$/u'],
+            'nome' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'descrizione' => ['required', 'max:100'],
         ];
     }

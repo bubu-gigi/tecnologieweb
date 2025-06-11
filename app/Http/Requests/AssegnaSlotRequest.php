@@ -14,9 +14,8 @@ class AssegnaSlotRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'prenotazione_id' => ['required', 'integer'],
-            'data' => ['required', 'date'],
-            'slot_orario' => ['required', 'string'],
+            'date' => ['required', 'date'],
+            'time' => ['required', 'string'],
         ];
     }
 }
