@@ -90,8 +90,28 @@
                                         <strong>{{ $prestazione->descrizione }}</strong><br>
                                         <small class="text-gray-600">
                                             Medico: {{ $prestazione->medico->nome ?? '' }} {{ $prestazione->medico->cognome ?? '' }}<br>
-                                            Giorni: {{ $prestazione->giorni ?? 'N/D' }}<br>
-                                            Orari: {{ $prestazione->orari ?? 'N/D' }}<br>
+                                            @php
+                                                $giorniSettimana = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+
+                                                $template = $prestazione->agendaTemplate
+                                                    ->groupBy('giorno')
+                                                    ->map(function ($fasce, $giorno) use ($giorniSettimana) {
+                                                        $nomeGiorno = $giorniSettimana[$giorno] ?? "Giorno $giorno";
+                                                        $fasceStr = $fasce->pluck('fascia_oraria')->join(', ');
+                                                        return "$nomeGiorno: $fasceStr";
+                                                    })->values();
+                                            @endphp
+
+                                            @if ($template->isNotEmpty())
+                                                <strong>Disponibilità:</strong><br>
+                                                <ul class="list-disc pl-5">
+                                                    @foreach ($template as $riga)
+                                                        <li>{{ $riga }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                Giorni/Orari: <span class="text-gray-600">Non disponibili</span><br>
+                                            @endif
                                             Prescrizioni: {{ $prestazione->prescrizioni ?? 'Nessuna' }}
                                         </small>
                                     </li>

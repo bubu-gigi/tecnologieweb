@@ -34,4 +34,9 @@ class Prestazione extends Model
     {
         return $this->belongsTo(User::class, 'staff_id');
     }
+
+    public function agendaTemplate(): HasMany
+    {
+        return $this->hasMany(AgendaTemplate::class);
+    }
 }

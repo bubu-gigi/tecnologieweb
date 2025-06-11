@@ -68,12 +68,30 @@
                             <p class="text-sm text-gray-700">
                                 <strong>Medico:</strong> {{ $prestazione->medico->nome }} {{ $prestazione->medico->cognome }}
                             </p>
-                            <p class="text-sm text-gray-700">
-                                <strong>Giorni:</strong> {{ $prestazione->giorni ?? 'Non specificati' }}
-                            </p>
-                            <p class="text-sm text-gray-700">
-                                <strong>Orari:</strong> {{ $prestazione->orari ?? 'Non specificati' }}
-                            </p>
+                            @php
+                                $giorniSettimana = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+
+                                $template = $prestazione->agendaTemplate
+                                    ->groupBy('giorno')
+                                    ->map(function ($fasce, $giorno) use ($giorniSettimana) {
+                                        $nomeGiorno = $giorniSettimana[$giorno] ?? "Giorno $giorno";
+                                        $fasceStr = $fasce->pluck('fascia_oraria')->join(', ');
+                                        return "$nomeGiorno: $fasceStr";
+                                    })->values();
+                            @endphp
+
+                            @if ($template->isNotEmpty())
+                                <p class="text-sm text-gray-700">
+                                    <strong>Disponibilità:</strong><br>
+                                    @foreach ($template as $riga)
+                                        <span class="block ml-2">- {{ $riga }}</span>
+                                    @endforeach
+                                </p>
+                            @else
+                                <p class="text-sm text-gray-700">
+                                    <strong>Disponibilità:</strong> Non specificata
+                                </p>
+                            @endif
                         </div>
                         <div class="mt-4 flex flex-col gap-2">
                     <label for="escludi_giorno_{{ $prestazione->id }}" class="text-sm text-gray-700 font-medium">
