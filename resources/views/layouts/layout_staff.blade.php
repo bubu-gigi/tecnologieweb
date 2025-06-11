@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @vite('resources/css/app.css')
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
     <x-header>
         @include('layouts.navbar_staff')
     </x-header>
