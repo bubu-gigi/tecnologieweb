@@ -139,7 +139,7 @@ class AgendaService
         foreach ($slotConPrenotazione as $slot) {
             Prenotazione::where('id', $slot->prenotazione_id)->update(['deleted' => true]);
         }
-        
+
         AgendaGiornaliera::where('prestazione_id', $id)
             ->where('data', '>=', now()->format('Y-m-d'))
             ->delete();
@@ -150,9 +150,9 @@ class AgendaService
             ->delete();
     }
 
-    public function deleteGiornalieraByPrenotazioneId(int $id)
+    public function removeGiornalieraPrenotazioneByPrenotazioneId(int $id)
     {
-        AgendaGiornaliera::where('prenotazione_id', $id)->delete();
+        AgendaGiornaliera::where('prenotazione_id', $id)->update(["prenotazione_id" => null]);
     }
 
     public function getUtentiConPrenotazioniByPrestazione(int $prestazioneId): \Illuminate\Support\Collection

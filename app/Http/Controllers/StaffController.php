@@ -69,7 +69,7 @@ class StaffController extends Controller
     {
         $prenotazione = $this->prenotazioneService->getById($prenotazioneId);
 
-        $this->agendaService->deleteGiornalieraByPrenotazioneId($prenotazioneId);
+        $this->agendaService->removeGiornalieraPrenotazioneByPrenotazioneId($prenotazioneId);
 
         $this->prenotazioneService->delete($prenotazioneId);
 
