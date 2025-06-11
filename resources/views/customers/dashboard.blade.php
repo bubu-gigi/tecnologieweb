@@ -11,10 +11,14 @@
                     @if($notifica->action === 'modified')
                         La tua prenotazione per la prestazione <b>{{ $notifica->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
                         è stata spostata in data <b>{{ \Carbon\Carbon::parse(time: $notifica->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>.
-                    @else
+                    @elseif($notifica->action === 'deleted')
                         La tua prenotazione per la prestazione <b>{{ $notifica->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
                         in data <b>{{ \Carbon\Carbon::parse(time: $notifica->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>
                         è stata cancellata.
+                    @else
+                        Ci dispiace. La tua prenotazione per la prestazione <b>{{ $notifica->prenotazione->prestazione->descrizione ?? 'N/D' }}</b>
+                        in data <b>{{ \Carbon\Carbon::parse(time: $notifica->prenotazione->data_prenotazione)->format('d/m/Y H:i') ?? 'N/D' }}</b>
+                        è stata cancellata perchè l'agenda per quella prestazione è stata aggiornata.
                     @endif
                 </span>
                 <button data-notification-id="{{ $notifica->id }}" class="delete-notifica-btn absolute cursor-pointer top-0 bottom-0 right-0 px-4 py-3">

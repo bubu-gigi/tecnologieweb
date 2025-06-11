@@ -13,13 +13,11 @@ class NotificaService
     }
     public function create(array $data)
     {
-        $isNotificaPresente = Notifica::where('user_id', $data['user_id'])
-            ->where('action', $data['action'])
-            ->where('prenotazione_id', $data['prenotazione_id'])
-            ->exists();
-        if (!$isNotificaPresente) {
-            Notifica::create($data);
-        }
+         Notifica::firstOrCreate([
+            'user_id' => $data['user_id'],
+            'action' => $data['action'],
+            'prenotazione_id' => $data['prenotazione_id'],
+        ]);
     }
 
     public function delete(string $id): bool

@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('notifiche', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('prenotazione_id')->constrained('prenotazioni')->onDelete('cascade');
-            $table->enum('action', ['modified', 'deleted']);
+            $table->foreignId('prenotazione_id')->nullable()->constrained('prenotazioni')->onDelete('cascade');
+            $table->enum('action', ['modified', 'deleted', 'prestazioneModified']);
             $table->timestamps();
         });
     }

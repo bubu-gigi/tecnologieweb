@@ -13,6 +13,7 @@ use App\Http\Requests\GestioneUtentiRequest;
 use App\Http\Requests\GestionePrestazioniRequest;
 use App\Http\Requests\StatisticheRequest;
 use App\Services\AgendaService;
+use App\Services\NotificaService;
 use App\Services\PrenotazioneService;
 
 class AdminController extends Controller
@@ -24,8 +25,9 @@ class AdminController extends Controller
     protected AgendaService $agendaService;
     protected StatisticheService $statisticheService;
     protected PrenotazioneService $prenotazioneService;
+    protected NotificaService $notificaService;
 
-    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService, PrenotazioneService $prenotazioneService)
+    public function __construct(UserService $userService, DipartimentoService $dipartimentoService, PrestazioneService $prestazioneService, MedicoService $medicoService, AgendaService $agendaService, StatisticheService $statisticheService, PrenotazioneService $prenotazioneService, NotificaService $notificaService)
     {
         $this->userService = $userService;
         $this->dipartimentoService = $dipartimentoService;
@@ -34,6 +36,7 @@ class AdminController extends Controller
         $this->agendaService = $agendaService;
         $this->statisticheService = $statisticheService;
         $this->prenotazioneService = $prenotazioneService;
+        $this->notificaService = $notificaService;
     }
 
     public function index(): View
@@ -142,90 +145,52 @@ class AdminController extends Controller
         return view('admin.prestazioni.edit', compact('prestazione', 'medici', 'staff', 'orari'));
     }
 
-    public function storePrestazione(GestionePrestazioniRequest $request)
+   public function storePrestazione(GestionePrestazioniRequest $request)
     {
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
         $prestazione = $this->prestazioneService->create($data);
 
         $orari = json_decode($request->input('orari', '[]'), true);
+        $fasceOrarie = $this->parseFasceOrarie($orari);
 
-        $startOfJune = \Carbon\Carbon::create(2025, 6, 1);
-        $endOfJune = \Carbon\Carbon::create(2025, 6, 30);
-
-        foreach ($orari as $entry) {
-            $giornoSettimana = (int) $entry['giorno'];
-            $start = (int) $entry['start'];
-            $end = (int) $entry['end'];
-
-            $fascia = "$start-$end";
-            $this->agendaService->createTemplateRow($prestazione->id, $giornoSettimana, $fascia);
-
-            for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
-                if ($date->dayOfWeekIso === $giornoSettimana) {
-                    for ($ora = $start; $ora < $end; $ora++) {
-                        $this->agendaService->createGiornalieraRow(
-                            $prestazione->id,
-                            $date->format('Y-m-d'),
-                            $ora
-                        );
-                    }
-                }
-            }
-        }
+        $this->createTemplateRows($prestazione->id, $fasceOrarie);
+        $this->createAgendaGiornalieraRows($prestazione->id, $fasceOrarie);
 
         return redirect()->route('admin.services.index');
     }
+
 
     public function updatePrestazione(GestionePrestazioniRequest $request, int $id)
     {
         $data = $request->only(['descrizione', 'prescrizioni', 'medico_id', 'staff_id']);
         $this->prestazioneService->update($id, $data);
 
-        $this->agendaService->deleteTemplateByPrestazioneId($id);
-
-        $startOfJune = \Carbon\Carbon::create(2025, 6, 1);
-        $endOfJune = \Carbon\Carbon::create(2025, 6, 30);
-
         $orari = json_decode($request->input('orari', '[]'), true);
-        $fasceOrarieAttuali = [];
 
+        $orariSalvati = $this->agendaService->getAgendaTemplateByPrestazioneId($id);
+        ksort($orariSalvati);
+
+        $orariRicevuti = [];
         foreach ($orari as $entry) {
-            $giornoSettimana = (int) $entry['giorno'];
-            $start = (int) $entry['start'];
-            $end = (int) $entry['end'];
-
-            $fascia = "$start-$end";
-            $this->agendaService->createTemplateRow($id, $giornoSettimana, $fascia);
-
-            for ($h = $start; $h < $end; $h++) {
-                $fasceOrarieAttuali[$giornoSettimana][] = $h;
-            }
+            $giorno = (int) $entry['giorno'];
+            $fascia = $entry['start'] . '-' . $entry['end'];
+            $orariRicevuti[$giorno][] = $fascia;
         }
+        ksort($orariRicevuti);
 
-        $oggi = now()->format('Y-m-d');
-        $this->agendaService->deleteGiornalieraByPrestazioneId($id);
+        if ($orariRicevuti != $orariSalvati) {
+            $fasceOrarie = $this->parseFasceOrarie($orari);
+            $this->notificaUtentiConPrenotazione($id);
 
-        for ($date = $startOfJune->copy(); $date <= $endOfJune; $date->addDay()) {
-            if ($date->format('Y-m-d') < $oggi) continue;
+            $this->agendaService->deleteTemplateByPrestazioneId($id);
+            $this->agendaService->deleteGiornalieraByPrestazioneId($id);
 
-            $giornoSettimana = $date->dayOfWeekIso;
-
-            if (!isset($fasceOrarieAttuali[$giornoSettimana])) continue;
-
-            foreach ($fasceOrarieAttuali[$giornoSettimana] as $ora) {
-                $this->agendaService->createGiornalieraRow(
-                    $id,
-                    $date->format('Y-m-d'),
-                    $ora
-                );
-            }
+            $this->createTemplateRows($id, $fasceOrarie);
+            $this->createAgendaGiornalieraRows($id, $fasceOrarie);
         }
-
-        $this->agendaService->deleteInvalidPrenotazioni($id, $fasceOrarieAttuali);
 
         return redirect()->route('admin.services.index');
     }
-
 
     public function deletePrestazione(string $id)
     {
@@ -248,5 +213,65 @@ class AdminController extends Controller
         $utentiEsterni = $this->userService->getByRuolo('user');
 
         return view('admin.statistiche', compact('statistiche', 'utentiEsterni', 'utenteEsterno'));
+    }
+
+    private function parseFasceOrarie(array $orari): array
+    {
+        $fasce = [];
+        foreach ($orari as $entry) {
+            $giorno = (int) $entry['giorno'];
+            $start = (int) $entry['start'];
+            $end = (int) $entry['end'];
+
+            for ($h = $start; $h < $end; $h++) {
+                $fasce[$giorno][] = $h;
+            }
+        }
+        return $fasce;
+    }
+
+    private function createTemplateRows(int $prestazioneId, array $fasceOrarie): void
+    {
+        foreach ($fasceOrarie as $giorno => $ore) {
+            $fascia = min($ore) . '-' . (max($ore)+1);
+            $this->agendaService->createTemplateRow($prestazioneId, $giorno, $fascia);
+        }
+    }
+
+    private function createAgendaGiornalieraRows(int $prestazioneId, array $fasceOrarie): void
+    {
+        $oggi = now();
+        $fineGiugno = \Carbon\Carbon::create(2025, 6, 30);
+
+        for ($date = $oggi->copy(); $date <= $fineGiugno; $date->addDay()) {
+            $giornoSettimana = $date->dayOfWeekIso;
+            if (!isset($fasceOrarie[$giornoSettimana])) continue;
+
+            foreach ($fasceOrarie[$giornoSettimana] as $ora) {
+                $this->agendaService->createGiornalieraRow(
+                    $prestazioneId,
+                    $date->format('Y-m-d'),
+                    $ora
+                );
+            }
+        }
+    }
+
+    private function notificaUtentiConPrenotazione(int $prestazioneId): void
+    {
+        $prenotazioni = $this->agendaService->getUtentiConPrenotazioniByPrestazione($prestazioneId);
+        $utentiNotificati = [];
+
+        foreach ($prenotazioni as $prenotazione) {
+            if ($prenotazione && !in_array($prenotazione->user_id, $utentiNotificati)) {
+                $this->notificaService->create([
+                    'user_id' => $prenotazione->user_id,
+                    'action' => 'prestazioneModified',
+                    'prenotazione_id' => $prenotazione->id
+                ]);
+
+                $utentiNotificati[] = $prenotazione->user_id;
+            }
+        }
     }
 }

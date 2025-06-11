@@ -129,8 +129,24 @@ class AgendaService
 
     public function deleteGiornalieraByPrestazioneId(int $id)
     {
+        $oggi = now()->format('Y-m-d');
+
+        $slotConPrenotazione = AgendaGiornaliera::where('prestazione_id', $id)
+            ->where('data', '>=', $oggi)
+            ->whereNotNull('prenotazione_id')
+            ->get();
+
+        foreach ($slotConPrenotazione as $slot) {
+            Prenotazione::where('id', $slot->prenotazione_id)->update(['deleted' => true]);
+        }
+        
         AgendaGiornaliera::where('prestazione_id', $id)
             ->where('data', '>=', now()->format('Y-m-d'))
+            ->delete();
+
+        AgendaGiornaliera::where('prestazione_id', $id)
+            ->where('data', '<', now()->format('Y-m-d'))
+            ->whereNull('prenotazione_id')
             ->delete();
     }
 
@@ -139,23 +155,13 @@ class AgendaService
         AgendaGiornaliera::where('prenotazione_id', $id)->delete();
     }
 
-    public function deleteInvalidPrenotazioni(int $prestazioneId, array $fasceOrarie)
+    public function getUtentiConPrenotazioniByPrestazione(int $prestazioneId): \Illuminate\Support\Collection
     {
-        $slots = AgendaGiornaliera::where('prestazione_id', $prestazioneId)
+        return AgendaGiornaliera::where('prestazione_id', $prestazioneId)
             ->whereNotNull('prenotazione_id')
-            ->get();
-
-        foreach ($slots as $slot) {
-            $giornoSettimana = Carbon::parse($slot->data)->dayOfWeekIso;
-            $ora = intval($slot->orario);
-
-            if (!isset($fasceOrarie[$giornoSettimana]) || !in_array($ora, $fasceOrarie[$giornoSettimana])) {
-                $slot->prenotazione?->delete();
-                $slot->delete();
-                Prenotazione::where('id', $slot->prenotazione_id)->update(['deleted' => true]);
-            }
-        }
+            ->with('prenotazione')
+            ->get()
+            ->pluck('prenotazione')
+            ->filter();
     }
-
-
 }

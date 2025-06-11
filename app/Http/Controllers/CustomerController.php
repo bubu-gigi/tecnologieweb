@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use App\Services\PrenotazioneService;
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Http\Requests\SearchPrestazioneRequest;
-use App\Http\Requests\SearchDipartimentoRequest;
 use App\Http\Requests\SearchRequest;
 use App\Services\AgendaService;
 use App\Services\NotificaService;
