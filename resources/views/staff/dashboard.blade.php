@@ -24,7 +24,7 @@
 
         <x-card class="bg-yellow-100 p-4 rounded-lg shadow-sm flex flex-col justify-between">
             <div>
-                <h3 class="text-lg font-semibold text-yellow-800">Prestazioni</h3>
+                <h3 class="text-lg font-semibold text-yellow-800">Agende</h3>
                 <p class="text-sm text-gray-700 mt-2">
                     Consulta le agende delle prestazioni filtrando per giorno e visualizzando i dettagli degli appuntamenti e degli utenti.
                 </p>
