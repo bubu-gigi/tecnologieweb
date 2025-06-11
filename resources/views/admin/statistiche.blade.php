@@ -32,16 +32,14 @@
                 />
 
                 <div>
-                    <label for="utente_esterno" class="block text-gray-700 font-medium mb-1">Utente Esterno (opzionale)</label>
-                    <select id="utente_esterno" name="utente_esterno"
-                            class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-indigo-500 focus:outline-none">
+                    <x-select name="utente_esterno" label="Utente Esterno (opzionale)">
                         <option value="">-- Tutti gli utenti --</option>
                         @foreach($utentiEsterni as $utente)
                             <option value="{{ $utente->username }}" @selected(request('utente_esterno') == $utente->username)>
                                 {{ $utente->cognome }} {{ $utente->nome }}
                             </option>
                         @endforeach
-                    </select>
+                    </x-select>
                 </div>
             </div>
 

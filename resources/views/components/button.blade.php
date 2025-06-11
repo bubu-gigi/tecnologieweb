@@ -1,4 +1,5 @@
 @props(['class' => '', 'type' => 'button', 'onclick' => null, 'id' => null])
+
 <button
     id="{{ $id }}"
     type="{{ $type }}"

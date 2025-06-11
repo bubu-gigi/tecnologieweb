@@ -36,32 +36,30 @@
         </div>
 
         <div>
-            <label for="medico_id">Medico</label>
-            <select name="medico_id" id="medico_id" class="w-full border border-gray-300 rounded px-3 py-2">
+            <x-select name="medico_id" label="Medico">
                 @foreach($medici as $medico)
                     <option value="{{ $medico->id }}" {{ old('medico_id', $prestazione->medico_id ?? '') == $medico->id ? 'selected' : '' }}>
                         {{ $medico->nome }} {{ $medico->cognome }}
                     </option>
                 @endforeach
-            </select>
+            </x-select>
         </div>
 
         <div>
-            <label for="staff_id">Staff (opzionale)</label>
-            <select name="staff_id" id="staff_id" class="w-full border border-gray-300 rounded px-3 py-2">
+            <x-select name="staff_id" label="Staff (opzionale)">
                 <option value="">-- Nessuno --</option>
                 @foreach($staff as $membro)
                     <option value="{{ $membro->id }}" {{ old('staff_id', $prestazione->staff_id ?? '') == $membro->id ? 'selected' : '' }}>
                         {{ $membro->nome }} {{ $membro->cognome }}
                     </option>
                 @endforeach
-            </select>
+            </x-select>
         </div>
 
         <div class="col-span-2">
-            <label>Orari</label>
+            <x-label for="orari">Orari</x-label>
 
-            <div class="flex items-center gap-4 mb-4">
+            <div id= "orari" class="flex items-center gap-4 mb-4">
                 <select id="giorno-select" class="border rounded px-2 py-1">
                     <option value="">Giorno</option>
                     @foreach ([1 => 'Lunedì', 2 => 'Martedì', 3 => 'Mercoledì', 4 => 'Giovedì', 5 => 'Venerdì', 6 => 'Sabato'] as $num => $nome)
