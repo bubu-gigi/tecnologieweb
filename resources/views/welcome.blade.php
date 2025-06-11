@@ -89,7 +89,7 @@
                                     <li>
                                         <strong>{{ $prestazione->descrizione }}</strong><br>
                                         <small class="text-gray-600">
-                                            Medico: {{ $prestazione->medico->nome ?? '' }} {{ $prestazione->medico->cognome ?? '' }}<br>
+                                            <strong>Medico:</strong> {{ $prestazione->medico->nome ?? '' }} {{ $prestazione->medico->cognome ?? '' }}<br>
                                             @php
                                                 $giorniSettimana = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
 
@@ -112,7 +112,7 @@
                                             @else
                                                 Giorni/Orari: <span class="text-gray-600">Non disponibili</span><br>
                                             @endif
-                                            Prescrizioni: {{ $prestazione->prescrizioni ?? 'Nessuna' }}
+                                            <strong>Prescrizioni:</strong> {{ $prestazione->prescrizioni ?? 'Nessuna' }}
                                         </small>
                                     </li>
                                 @empty
