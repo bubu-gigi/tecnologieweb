@@ -7,7 +7,7 @@
     <header class="relative">
         <img src="{{ asset('images/hero-banner.jpg') }}" alt="Struttura Sanitaria" class="h-96 w-full object-cover opacity-80 rounded-xl">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-12">
-            <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-md">STRUTTURA SANITARIA</h1>
+            <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-xl">STRUTTURA SANITARIA</h1>
             <p class="text-white text-lg mt-2">La tua salute, la nostra missione</p>
             <a href="#contatti" class="mt-6 inline-block bg-white text-indigo-700 font-semibold py-2 px-4 rounded-lg shadow hover:bg-indigo-100 transition">Scopri dove siamo</a>
         </div>
