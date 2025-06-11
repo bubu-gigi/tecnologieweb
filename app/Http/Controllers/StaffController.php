@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssegnaSlotRequest;
 use App\Services\PrenotazioneService;
 use App\Services\PrestazioneService;
-use App\Http\Requests\ModificaSlotRequest;
 use App\Services\AgendaService;
 use App\Services\NotificaService;
 use Illuminate\View\View;
@@ -61,26 +61,9 @@ class StaffController extends Controller
         ]);
     }
 
-    public function assegnaSlot(Request $request, int $prenotazioneId)
+    public function assegnaSlot(AssegnaSlotRequest $request, int $prenotazioneId)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|date_format:H',
-        ]);
-
         $this->agendaService->assegnaSlot($prenotazioneId, $request->get('date'), $request->get('time'));
-    }
-
-    public function updatePrenotazione(ModificaSlotRequest $request, string $id)
-    {
-        $data = $request->only(['data_prenotazione']);
-        $prenotazione = $this->prenotazioneService->update($id, $data);
-
-        $this->notificaService->create([
-            'user_id' => $prenotazione->user->id,
-            'prenotazione_id' => $prenotazione->id,
-            'action' => 'modified'
-        ]);
     }
 
     public function deletePrenotazione(string $prenotazioneId)

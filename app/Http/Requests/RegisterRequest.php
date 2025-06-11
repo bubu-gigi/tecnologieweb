@@ -14,8 +14,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[A-Za-zÀ-ÿ\'\-\s]+$/u'],
-            'cognome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[A-Za-zÀ-ÿ\'\-\s]+$/u'],
+            'nome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[a-zA-Z\s\']+$/'],
+            'cognome' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[a-zA-Z\s\']+$/'],
             'data_nascita' => ['required', 'date', 'before:today'],
             'indirizzo' => ['required', 'string', 'min:4', 'max:255'],
             'citta' => ['required', 'string', 'min:2', 'max:100'],

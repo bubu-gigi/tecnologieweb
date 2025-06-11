@@ -14,7 +14,7 @@ class SearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'prestazione' => ['nullable', 'regex:/^[^\d]+$/'],
+            'prestazione' => ['nullable', 'regex:/^[a-zA-Z\s\*]+$/'],
             'dipartimento' => ['nullable', 'string'],
         ];
     }

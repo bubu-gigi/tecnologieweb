@@ -13,8 +13,8 @@ class GestioneUtentiRequest extends FormRequest
 
     public function rules(): array
     {
-        $isUpdate = $this->isMethod('put') || $this->isMethod('patch');
-        $userId = $this->route('id'); // prende l'id dalla rotta (per escluderlo nell'unicità dello username)
+        $isUpdate = $this->isMethod('put');
+        $userId = $this->route('id');
 
         return [
             'nome' => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s]+$/u'],
@@ -24,11 +24,11 @@ class GestioneUtentiRequest extends FormRequest
                 'string',
                 'max:255',
                 $isUpdate
-                    ? 'unique:users,username,' . $userId // ignora l'utente attuale se è update
+                    ? 'unique:users,username,' . $userId
                     : 'unique:users,username',
             ],
             'password' => [
-                $isUpdate ? 'nullable' : 'required', // password obbligatoria solo in creazione
+                $isUpdate ? 'nullable' : 'required',
                 'string',
                 'min:8',
             ],

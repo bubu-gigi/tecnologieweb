@@ -79,7 +79,7 @@
             $(`#${notificationId}`).remove();
 
             $.ajax({
-                url: `/customers/notifications/${notificationId}`,
+                url: `{{ url('/customers/notifications') }}/${notificationId}`,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'

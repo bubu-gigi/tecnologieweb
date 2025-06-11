@@ -72,12 +72,13 @@
 <script>
     function sendSlot(date, time) {
         $.ajax({
-            url: '{{ route("staff.bookings.assignSlot", ["id" => $prenotazioneId]) }}',
+            url: '{{ url("/staff/prenotazioni/" . $prenotazioneId) }}',
             method: 'PUT',
             data: JSON.stringify({
                 date: date,
                 time: time
             }),
+            contentType: 'application/json',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },

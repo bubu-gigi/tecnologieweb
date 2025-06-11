@@ -56,7 +56,7 @@
             if (!confirm('Sei sicuro di voler eliminare questo utente?')) return;
 
             $.ajax({
-                url: `/admin/utenti/${userId}`,
+                url: `{{ url('/admin/utenti') }}/${userId}`,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
