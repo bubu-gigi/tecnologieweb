@@ -64,7 +64,7 @@
 
         <div class="flex justify-center gap-4">
             <x-button type="button"
-                    onclick="window.history.back()"
+                    onclick="window.location.href='{{ route('customers.dashboard') }}'"
                     class="w-1/2 bg-gray-400 hover:bg-gray-500 text-black font-semibold">
                 Torna indietro
             </x-button>
