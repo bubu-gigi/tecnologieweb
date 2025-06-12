@@ -119,7 +119,7 @@ class AdminController extends Controller
 
     public function deleteDipartimento(string $id)
     {
-        $this->medicoService->deleteMediciByDipartimentoId($id);
+        $this->medicoService->setMedicoDipartimentoIdNullByDipartimentoId($id);
         $this->prestazioneService->deletePrestazioniByDipartimentoId($id);
         $this->prenotazioneService->deletePrenotazioniByDipartimentoId($id);
         $this->dipartimentoService->delete($id);

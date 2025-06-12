@@ -34,8 +34,8 @@ class MedicoService
         return Medico::findOrFail($id)->delete();
     }
 
-    public function deleteMediciByDipartimentoId(string $dipartimentoId): void
+    public function setMedicoDipartimentoIdNullByDipartimentoId(string $dipartimentoId): void
     {
-        Medico::where('dipartimento_id', $dipartimentoId)->delete();
+        Medico::where('dipartimento_id', $dipartimentoId)->update(['dipartimento_id' => null]);
     }
 }
