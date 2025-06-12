@@ -60,26 +60,26 @@
             <x-label for="orari">Orari</x-label>
 
             <div id= "orari" class="flex items-center gap-4 mb-4">
-                <select id="giorno-select" class="border rounded px-2 py-1">
+                <x-select id="giorno-select" name="giorno_sel">
                     <option value="">Giorno</option>
                     @foreach ([1 => 'Lunedì', 2 => 'Martedì', 3 => 'Mercoledì', 4 => 'Giovedì', 5 => 'Venerdì', 6 => 'Sabato'] as $num => $nome)
                         <option value="{{ $num }}">{{ $nome }}</option>
                     @endforeach
-                </select>
+                </x-select>
 
-                <select id="start-select" class="border rounded px-2 py-1">
+                <x-select id="start-select" name="start_sel">
                     <option value="">Inizio</option>
-                    @for ($h = 8; $h <= 20; $h++)
+                    @for ($h = 8; $h <= 19; $h++)
                         <option value="{{ $h }}">{{ $h }}:00</option>
                     @endfor
-                </select>
+                </x-select>
 
-                <select id="end-select" class="border rounded px-2 py-1">
+                <x-select id="end-select" name="end_sel">
                     <option value="">Fine</option>
-                    @for ($h = 8; $h <= 20; $h++)
+                    @for ($h = 9; $h <= 20; $h++)
                         <option value="{{ $h }}">{{ $h }}:00</option>
                     @endfor
-                </select>
+                </x-select>
 
                 <button type="button" id="aggiungi-orario" class="px-3 py-1 bg-indigo-600 text-white rounded">Aggiungi</button>
             </div>
