@@ -71,4 +71,11 @@ class PrenotazioneService
     {
         Prenotazione::where('prestazione_id', $prestazioneId)->delete();
     }
+
+    public function deletePrenotazioniByDipartimentoId(string $dipartimentoId)
+    {
+        return Prenotazione::whereHas('prestazione.medico', function ($query) use ($dipartimentoId) {
+            $query->where('dipartimento_id', $dipartimentoId);
+        })->delete();
+    }
 }

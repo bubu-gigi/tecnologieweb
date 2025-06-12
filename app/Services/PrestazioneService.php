@@ -66,4 +66,11 @@ class PrestazioneService
     {
         return Prestazione::where('staff_id', $staffId)->update(['staff_id' => null]);
     }
+
+    public function deletePrestazioniByDipartimentoId(string $dipartimentoId)
+    {
+        return Prestazione::whereHas('medico', function ($query) use ($dipartimentoId) {
+            $query->where('dipartimento_id', $dipartimentoId);
+        })->delete();
+    }
 }
