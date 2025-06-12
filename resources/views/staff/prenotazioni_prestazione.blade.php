@@ -29,7 +29,6 @@
             <tr class="hover:bg-indigo-50 transition">
                 <td class="px-6 py-3 capitalize">{{ $prenotazione->user->cognome }} {{ $prenotazione->user->nome }}</td>
                 <td class="px-6 py-3 capitalize">{{ $prenotazione->prestazione->medico->dipartimento->nome }} </td>
-                <td class="px-6 py-3 capitalize">{{ $prenotazione->prestazione->descrizione}} </td>
                 <td class="px-6 py-3">{{  \Carbon\Carbon::parse($prenotazione->data_prenotazione)->format('d/m/Y H:i')}}</td>
             </tr>
         @endforeach
