@@ -81,7 +81,7 @@
                     @endfor
                 </x-select>
 
-                <button type="button" id="aggiungi-orario" class="px-3 py-1 bg-indigo-600 text-white rounded self-start">Aggiungi</button>
+                <button type="button" id="aggiungi-orario" class="px-3 py-1 bg-indigo-600 text-white rounded" style="margin-top: -16px;">Aggiungi</button>
             </div>
 
             <div id="orari-container" class="space-y-4"></div>
