@@ -10,6 +10,7 @@
             <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-xl">STRUTTURA SANITARIA</h1>
             <p class="text-white text-lg mt-2">La tua salute, la nostra missione</p>
             <a href="#contatti" class="mt-6 inline-block bg-white text-indigo-700 font-semibold py-2 px-4 rounded-lg shadow hover:bg-indigo-100 transition">Scopri dove siamo</a>
+            <a href="{{ asset('Documentazione Progetto Web.pdf') }}" target="_blank" class="mt-2 text-white px-4 py-2 rounded-lg cursor-pointer bg-indigo-600 hover:bg-indigo-700 font-semibold">Documentazione</a>
         </div>
     </header>
 
