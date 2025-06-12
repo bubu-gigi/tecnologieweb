@@ -7,7 +7,7 @@
 <x-card class="bg-white p-4 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold text-indigo-700 mb-4">Gestione Prestazioni</h3>
-            <a href="{{ route('admin.services.create') }}" class="text-white px-4 py-2 rounded-lg cursor-pointer bg-indigo-600 hover:bg-indigo-700 font-semibold">Nuovo</a>
+        <a href="{{ route('admin.services.create') }}" class="text-white px-4 py-2 rounded-lg cursor-pointer bg-indigo-600 hover:bg-indigo-700 font-semibold">Nuovo</a>
     </div>
 
     @if(isset($prestazioni) && count($prestazioni) > 0)
