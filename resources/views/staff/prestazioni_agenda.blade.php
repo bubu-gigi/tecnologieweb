@@ -10,6 +10,15 @@
         $headers = array_merge(['Data'], $orari->toArray());
     @endphp
 
+    <!--
+        slots' => [
+            '2025-06-01' => [
+                ['orario' => 8, 'occupato' => false],
+                ['orario' => 9, 'occupato' => true],
+            ],
+        ....
+        ]
+     */ -->
     <x-table :headers="$headers">
         @foreach($slots as $data => $fasce)
             @php
