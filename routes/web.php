@@ -1,14 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GuestController;
-use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'can:isCustomer'])->group(function () {
+/*Route::middleware(['auth', 'can:isCustomer'])->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.dashboard');
     Route::get('/customers/profilo', [CustomerController::class, 'editProfilo'])->name('customers.profile.edit');
     Route::put('/customers/profilo', [CustomerController::class, 'updateProfilo'])->name('customers.profile.update');
@@ -56,6 +53,6 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::delete('/admin/dipartimenti/{id}', [AdminController::class, 'deleteDipartimento'])->name('admin.departments.delete');
 
     Route::get('/admin/statistiche', [AdminController::class, 'statistichePrestazioni'])->name('admin.statistics');
-});
+});*/
 
 require __DIR__.'/auth.php';

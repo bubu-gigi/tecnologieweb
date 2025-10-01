@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\DipartimentoService;
+use App\Models\CentroAssistenza;
+use App\Models\Prodotto;
 use Illuminate\View\View;
 
 class GuestController extends Controller
 {
-    protected DipartimentoService $dipartimentoService;
-
-    public function __construct(DipartimentoService $dipartimentoService)
-    {
-        $this->dipartimentoService = $dipartimentoService;
-    }
     public function index(): View
     {
-        $departments = $this->dipartimentoService->getAll();
-        return view('welcome', compact('departments'));
+        $prodotti = Prodotto::all();
+        $centri_assistenza = CentroAssistenza::all();
+        return view('welcome', compact('prodotti', 'centri_assistenza'));
     }
 }
