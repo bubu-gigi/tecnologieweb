@@ -5,7 +5,6 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 space-y-12">
 
-    <!-- Hero -->
     <header class="relative bg-indigo-700 rounded-xl overflow-hidden h-80">
         <img src="{{ asset('images/hero-banner.jpg') }}" alt="Azienda" class="w-full h-full object-cover opacity-70">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-8">
@@ -15,7 +14,6 @@
         </div>
     </header>
 
-    <!-- Informazioni Azienda -->
     <section id="azienda" class="bg-white shadow-lg rounded-xl p-6 space-y-3">
         <h2 class="text-2xl font-bold text-indigo-700">Chi Siamo</h2>
         <p class="text-gray-700 text-sm">
@@ -26,7 +24,6 @@
         <p class="text-gray-700 text-sm">✉️ Email: <a href="mailto:info@azienda.it" class="text-blue-600 underline">info@azienda.it</a></p>
     </section>
 
-    <!-- Catalogo Prodotti -->
     <section id="prodotti" class="space-y-6">
         <h2 class="text-2xl font-bold text-indigo-700 mb-4">Catalogo Prodotti</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -43,7 +40,6 @@
         </div>
     </section>
 
-    <!-- Centri di Assistenza -->
     <section id="centri_assistenza" class="space-y-6">
         <h2 class="text-2xl font-bold text-indigo-700 mb-4">Centri di Assistenza sul Territorio</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

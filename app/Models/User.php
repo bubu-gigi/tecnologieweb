@@ -18,8 +18,7 @@ class User extends Authenticatable
         'cognome',
         'data_nascita',
         'specializzazione',
-        'nome_centro_appartenenza',
-        'indirizzo_centro_appartenenza',
+        'centro_assistenza_id',
         'username',
         'password',
         'ruolo',
@@ -34,9 +33,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function prenotazioni(): HasMany
-    {
-        return $this->hasMany(Prenotazione::class);
-    }
 }
