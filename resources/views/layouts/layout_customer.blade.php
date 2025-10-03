@@ -8,7 +8,7 @@
     @vite('resources/css/app.css')
 </head>
 <body class="flex flex-col min-h-screen">
-    <x-header>
+    <x-header class="bg-[#FB7116]">
         @include('layouts.navbar_customer')
     </x-header>
 
