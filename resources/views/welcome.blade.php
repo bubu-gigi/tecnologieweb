@@ -34,7 +34,6 @@
                     <p class="text-gray-700 text-sm mb-2">{{ Str::limit($prodotto->descrizione, 100) }}</p>
                     <p class="text-gray-600 text-xs mb-2"><strong>Note tecniche:</strong> {{ $prodotto->note_uso }}</p>
                     <p class="text-gray-600 text-xs mb-4"><strong>Installazione:</strong> {{ $prodotto->mod_installazione }}</p>
-                    <a href="{{ route('prodotti.show', $prodotto->id) }}" class="mt-auto inline-block bg-indigo-600 text-white text-sm py-1 px-3 rounded-lg hover:bg-indigo-700 transition">Scheda completa</a>
                 </div>
             @endforeach
         </div>
