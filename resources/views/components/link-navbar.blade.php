@@ -1,3 +1,4 @@
-<a href={{ $href }} class="relative hover:text-indigo-600 transition">
+<a href={{ $href }} class="relative hover:text-[#FB7116] transition">
     {{ $slot }}
 </a>
+

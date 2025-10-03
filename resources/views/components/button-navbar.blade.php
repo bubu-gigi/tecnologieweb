@@ -1,3 +1,3 @@
-<a href={{ $href }} class="px-4 py-2 border-2 border-indigo-700 text-indigo-700 font-semibold rounded-md hover:bg-indigo-700 hover:text-white transition">
+<a href={{ $href }} class="px-4 py-2 border-2 border-[#FB7116] text-[#FB7116] font-semibold rounded-md hover:bg-[#FB7116] hover:text-white transition">
     {{ $slot }}
 </a>
