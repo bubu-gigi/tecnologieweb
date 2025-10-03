@@ -72,7 +72,7 @@ class ProdottiSeeder extends Seeder
             ],
             [
                 'name' => 'Server Rack 1U - Micro',
-                'image_name' => 'server_1u.jpg',
+                'image_name' => 'server_1u.jpeg',
                 'descrizione' => 'Server rack 1U compatto per servizi web e database leggeri. Supporta CPU Xeon, fino a 128GB RAM e storage hot‑swap.',
                 'note_uso' => 'Monitorare temperature in rack; pianificare backup regolari e aggiornamenti di sicurezza.',
                 'mod_installazione' => 'Montare su rack 19", collegare alimentazione ridondante se disponibile, configurare RAID e installare OS server.',
