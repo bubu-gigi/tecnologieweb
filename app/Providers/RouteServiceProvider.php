@@ -18,10 +18,6 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/';
-    public const CUSTOMERS = '/customers';
-    public const STAFF = '/staff';
-
-    public const ADMIN = '/admin';
 
     public function boot(): void
     {

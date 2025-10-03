@@ -1,23 +1,22 @@
 <?php
 
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\TecnicoAssistenzaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-/*Route::middleware(['auth', 'can:isCustomer'])->group(function () {
-    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.dashboard');
-    Route::get('/customers/profilo', [CustomerController::class, 'editProfilo'])->name('customers.profile.edit');
-    Route::put('/customers/profilo', [CustomerController::class, 'updateProfilo'])->name('customers.profile.update');
-    Route::get('/customers/prestazioni', [CustomerController::class, 'prestazioni'])->name('customers.services.index');
-    Route::get('/customers/searchPrestazioni', [CustomerController::class, 'searchPrestazione'])->name('customers.services.search');
-    Route::get('/customers/prenotazioni', [CustomerController::class, 'prenotazioni'])->name('customers.bookings.index');
-    Route::post('/customers/prenotazioni', [CustomerController::class,  'storePrenotazione'])->name('customers.bookings.store');
-    Route::delete('/customers/prenotazioni/{prenotazione}', [CustomerController::class, 'deletePrenotazione'])->name('customers.bookings.delete');
-    Route::delete('/customers/notifications/{id}', [CustomerController::class, 'deleteNotifica'])->name('customers.notifications.delete');
+Route::middleware(['auth', 'can:isTecnicoAssistenza'])->group(function () {
+    Route::get('/tecnico-assistenza/dashboard', function () {
+        return view('tecnicoAssistenza.dashboard');
+    })->name('tecnicoAssistenza.dashboard');
+    Route::get('/prodotti/search', [TecnicoAssistenzaController::class, 'searchProdotti'])
+         ->name('prodotti.search');
+    Route::get('/prodotti/{id}', [TecnicoAssistenzaController::class, 'showProdotto'])
+        ->name('prodotti.show');
 });
 
-Route::middleware(['auth', 'can:isStaff'])->group(function () {
+/*Route::middleware(['auth', 'can:isStaff'])->group(function () {
     Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
     Route::get('/staff/prenotazioni', [StaffController::class, 'prenotazioni'])->name('staff.bookings.index');
     Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot'])->name('staff.bookings.getSlot');

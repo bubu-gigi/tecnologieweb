@@ -33,15 +33,17 @@ class AuthenticatedSessionController extends Controller
         session([
             'user_id' => $user->id,
             'username' => $user->username,
+            'nome' => $user->nome,
+            'cognome' => $user->cognome,
             'role' => $user->ruolo,
         ]);
 
         $request->session()->forget('login_referrer');
 
         switch (Auth::user()->ruolo) {
-            case 'admin': return redirect()->route('admin.dashboard');
-            case 'user': return redirect()->route('customers.dashboard', ['showNotifications' => 'true']);
-            case 'staff': return redirect()->route('staff.dashboard');
+            case 'amministratore': return redirect()->route('admin.dashboard');
+            case 'tecnico_assistenza': return redirect()->route('tecnicoAssistenza.dashboard');
+            case 'tecnico_azienda': return redirect()->route('tecnicoAzienda.dashboard');
             default: return redirect('/');
         }
     }

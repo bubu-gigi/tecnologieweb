@@ -22,6 +22,6 @@ class Prodotto extends Model
 
     public function malfunzionamenti(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Malfunzionamento::class);
     }
 }
