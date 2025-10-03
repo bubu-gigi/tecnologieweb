@@ -29,7 +29,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($prodotti as $prodotto)
                 <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col">
-                    <img src="{{ asset('images/prodotti/' . $prodotto->image_name) }}" alt="{{ $prodotto->nome }}" class="h-48 w-full object-cover rounded-lg mb-4">
+                    <img src="{{ asset('images/' . $prodotto->image_name) }}" alt="{{ $prodotto->nome }}" class="h-48 w-full object-cover rounded-lg mb-4">
                     <h3 class="text-lg font-semibold text-indigo-700">{{ $prodotto->nome }}</h3>
                     <p class="text-gray-700 text-sm mb-2">{{ Str::limit($prodotto->descrizione, 100) }}</p>
                     <p class="text-gray-600 text-xs mb-2"><strong>Note tecniche:</strong> {{ $prodotto->note_uso }}</p>
