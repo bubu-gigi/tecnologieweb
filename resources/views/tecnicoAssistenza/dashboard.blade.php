@@ -4,18 +4,18 @@
 <div class="min-h-screen bg-gray-50 p-6">
 
     <div class="max-w-4xl mx-auto mb-6">
-        <h1 class="text-3xl font-bold text-indigo-700 mb-4">Catalogo Prodotti</h1>
+        <h1 class="text-3xl font-bold text-[#FB7116] mb-4">Catalogo Prodotti</h1>
         <form id="searchForm" class="flex gap-2">
             <input
                 type="text"
                 name="q"
                 id="searchInput"
                 placeholder="Cerca per descrizione (usa * come wildcard finale)"
-                class="flex-grow border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+                class="flex-grow border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
             />
             <button
                 type="submit"
-                class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+                class="cursor-pointer bg-[#FB7116] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
             >
                 Cerca
             </button>
@@ -64,7 +64,7 @@ function caricaProdotti(query = '') {
                             </div>
                             <button 
                                 onclick="window.location.href='/prodotti/${prodotto.id}'"
-                                class="cursor-pointer mt-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+                                class="cursor-pointer mt-auto bg-[#FB7116] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
                             >
                                 Vedi dettagli
                             </button>

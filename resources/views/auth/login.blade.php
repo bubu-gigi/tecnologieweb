@@ -7,10 +7,10 @@
 
     @vite('resources/css/app.css')
 </head>
-<body class="min-h-screen bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center">
+<body class="min-h-screen bg-gradient-to-r from-orange-100 via-orange-200 to-orange-300 flex items-center justify-center">
 
     <div class="w-full max-w-sm bg-white rounded-2xl shadow-xl p-8">
-        <h1 class="text-3xl font-extrabold text-center text-indigo-700 mb-6">Benvenuto</h1>
+        <h1 class="text-3xl font-extrabold text-center text-[#FB7116] mb-6">Benvenuto</h1>
         <p class="text-center text-gray-500 mb-8">Accedi al tuo account</p>
 
         <form method="POST" action="{{ url('login') }}" class="flex flex-col gap-4">
@@ -23,7 +23,7 @@
                     name="username"
                     id="username"
                     placeholder="Inserisci username"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
                     autofocus
                 />
             </div>
@@ -35,7 +35,7 @@
                     name="password"
                     id="password"
                     placeholder="Inserisci la password"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
                 />
             </div>
 
@@ -54,7 +54,7 @@
 
                 <button
                     type="submit"
-                    class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg px-4 py-2 transition-colors cursor-pointer"
+                    class="w-1/2 bg-[#FB7116] hover:bg-orange-600 text-white font-semibold rounded-lg px-4 py-2 transition-colors cursor-pointer"
                 >
                     Accedi
                 </button>
@@ -64,3 +64,4 @@
 
 </body>
 </html>
+
