@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('malfunzionamenti', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prodotto_id')->constrained('centri_assistenza')->onDelete('set null');
+            // FK corretta verso 'prodotti' con cancellazione in cascata
+            $table->foreignId('prodotto_id')->constrained('prodotti')->cascadeOnDelete();
             $table->string('descrizione'); 
             $table->text('soluzione'); 
             $table->timestamps();
-
         });
     }
 

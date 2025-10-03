@@ -16,7 +16,7 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($prodotto->malfunzionamenti as $malfunzionamento)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-gray-800">{{ $malfunzionamento->nome }}</td>
+                            <td class="px-6 py-4 text-gray-800">{{ $malfunzionamento->descrizione }}</td>
                             <td class="px-6 py-4 text-gray-700">{{ $malfunzionamento->soluzione_tecnica }}</td>
                         </tr>
                     @empty

@@ -22,14 +22,14 @@ class ProdottiSeeder extends Seeder
                 'mod_installazione' => 'Rimuovere pellicole protettive, collegare alimentatore originale e aggiornare BIOS e driver GPU prima dell\'uso.',
             ],
             [
-                'name' => 'Router Wi‑Fi 6 AX3000',
+                'name' => 'Router Wi-Fi 6 AX3000',
                 'image_name' => 'router_ax3000.png',
-                'descrizione' => 'Router dual‑band Wi‑Fi 6 con supporto MU‑MIMO e porte Gigabit‑Ethernet. Ideale per uffici di piccole/medie dimensioni.',
+                'descrizione' => 'Router dual‑band Wi-Fi 6 con supporto MU‑MIMO e porte Gigabit‑Ethernet. Ideale per uffici di piccole/medie dimensioni.',
                 'note_uso' => 'Posizionare centralmente per copertura ottimale. Evitare posizionamento vicino a dispositivi interferenti come microonde.',
                 'mod_installazione' => 'Collegare WAN al modem, accedere al pannello admin via 192.168.1.1, configurare SSID e password, aggiornare firmware.',
             ],
             [
-                'name' => 'NAS 4‑bay Pro (RAID)',
+                'name' => 'NAS 4-bay Pro (RAID)',
                 'image_name' => 'nas_4bay.jpg',
                 'descrizione' => 'Dispositivo NAS a 4 bay con supporto RAID 0/1/5/6. CPU ARM ad alte prestazioni e app per backup e sincronizzazione centralizzata.',
                 'note_uso' => 'Usare dischi identici per migliori prestazioni RAID. Effettuare backup offsite regolari.',
@@ -50,7 +50,7 @@ class ProdottiSeeder extends Seeder
                 'mod_installazione' => 'Inserire M.2 nello slot dedicato, fissare con vite, verificare riconoscimento in BIOS e partizionare/formattare dal sistema operativo.',
             ],
             [
-                'name' => 'Switch Managed 24‑port Gigabit',
+                'name' => 'Switch Managed 24-port Gigabit',
                 'image_name' => 'switch_24_gigabit.jpg',
                 'descrizione' => 'Switch gestito 24 porte Gigabit con supporto VLAN, QoS e stacking. Adatto a reti aziendali e piccoli datacenter.',
                 'note_uso' => 'Configura VLAN per segmentazione del traffico; abilitare STP per evitare loop di rete.',
@@ -87,7 +87,9 @@ class ProdottiSeeder extends Seeder
         ];
 
         foreach ($products as $p) {
-            Prodotto::create($p);
+            if (! Prodotto::where('name', $p['name'])->exists()) {
+                Prodotto::create($p);
+            }
         }
-    }
+}
 }
