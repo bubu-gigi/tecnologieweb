@@ -1,39 +1,91 @@
-@extends('layouts.layout_staff')
-
-@section('title', 'Area Staff')
+@extends('layouts.layout_guest')
 
 @section('content')
-<div class="flex flex-col gap-6">
-    <h2 class="text-2xl font-bold text-[#FB7116] text-center bg-white px-4 py-2 rounded shadow">
-        Benvenuto {{ Auth::user()->nome }}
-    </h2>
+<div class="min-h-screen bg-gray-50 p-6">
 
-    <div class="grid grid-cols-2 gap-6">
-        <x-card class="bg-green-100 p-4 rounded-lg shadow-sm flex flex-col justify-between">
-            <div>
-                <h3 class="text-lg font-semibold text-green-800">Prenotazioni</h3>
-                <p class="text-sm text-gray-700 mt-2">
-                    Assegna uno slot alle prenotazioni richieste dai pazienti.
-                </p>
-            </div>
-            <a href="{{ route('staff.bookings.index') }}"
-               class="mt-4 inline-block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
-                Gestisci Prenotazioni
-            </a>
-        </x-card>
+    <div class="max-w-4xl mx-auto mb-6">
+        <h1 class="text-3xl font-bold text-[#FB7116] mb-4">Catalogo Prodotti</h1>
+        <form id="searchForm" class="flex gap-2">
+            <input
+                type="text"
+                name="q"
+                id="searchInput"
+                placeholder="Cerca per descrizione (usa * come wildcard finale)"
+                class="flex-grow border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
+            />
+            <button
+                type="submit"
+                class="cursor-pointer bg-[#FB7116] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+                Cerca
+            </button>
+        </form>
+    </div>
 
-        <x-card class="bg-yellow-100 p-4 rounded-lg shadow-sm flex flex-col justify-between">
-            <div>
-                <h3 class="text-lg font-semibold text-yellow-800">Agende</h3>
-                <p class="text-sm text-gray-700 mt-2">
-                    Consulta le agende delle prestazioni filtrando per giorno e visualizzando i dettagli degli appuntamenti e degli utenti.
-                </p>
-            </div>
-            <a href="{{ route('staff.services.index') }}"
-               class="mt-4 inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
-                Visualizza Agende
-            </a>
-        </x-card>
+    <div id="prodottiContainer" class="max-w-4xl mx-auto grid grid-cols-3 gap-6">
+        <!-- Le card dei prodotti saranno generate qui -->
+        <div id="placeholder" class="col-span-full text-center text-gray-500">
+            Inserisci un termine di ricerca e premi "Cerca".
+        </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+$('#searchForm').on('submit', function(e){
+    e.preventDefault();
+    let query = $('#searchInput').val();
+    caricaProdotti(query);
+});
+
+function caricaProdotti(query = '') {
+    $.ajax({
+        url: "{{ route('tecnicoAzienda.prodotti.search') }}",
+        type: 'GET',
+        data: { q: query },
+        success: function(response) {
+            $('#prodottiContainer').html(''); 
+
+            if(response.prodotti.length > 0){
+                response.prodotti.forEach(function(prodotto){
+                    // tronca descrizione a 100 caratteri
+                    let descrizioneTroncata = prodotto.descrizione.length > 100 
+                        ? prodotto.descrizione.substring(0, 100) + '...' 
+                        : prodotto.descrizione;
+
+                    $('#prodottiContainer').append(`
+                        <div class="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between">
+                            <div>
+                                <h2 class="text-lg font-bold text-gray-800 mb-2">${prodotto.name}</h2>
+                                <p class="text-gray-700 mb-4">${descrizioneTroncata}</p>
+                            </div>
+                            <button 
+                                onclick="window.location.href='/tecnico-azienda/prodotti/${prodotto.id}'"
+                                class="cursor-pointer mt-auto bg-[#FB7116] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+                            >
+                                Visualizza scheda tecnica
+                            </button>
+                        </div>
+                    `);
+                });
+            } else {
+                $('#prodottiContainer').html(`
+                    <div class="col-span-full text-center text-gray-500">
+                        Nessun prodotto trovato.
+                    </div>
+                `);
+            }
+        },
+        error: function() {
+            alert('Errore durante la ricerca.');
+        }
+    });
+}
+
+
+});
+</script>
+@endpush

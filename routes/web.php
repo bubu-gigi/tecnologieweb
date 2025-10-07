@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\TecnicoAssistenzaController;
+use App\Http\Controllers\TecnicoAziendaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
@@ -16,18 +17,24 @@ Route::middleware(['auth', 'can:isTecnicoAssistenza'])->group(function () {
         ->name('prodotti.show');
 });
 
-/*Route::middleware(['auth', 'can:isStaff'])->group(function () {
-    Route::get('/staff', [StaffController::class, 'index'])->name('staff.dashboard');
-    Route::get('/staff/prenotazioni', [StaffController::class, 'prenotazioni'])->name('staff.bookings.index');
-    Route::get('/staff/prenotazioni/{id}', [StaffController::class, 'getSlot'])->name('staff.bookings.getSlot');
-    Route::put('/staff/prenotazioni/{id}', [StaffController::class, 'assegnaSlot'])->name('staff.bookings.assignSlot');
-    Route::delete('/staff/prenotazioni/{id}', [StaffController::class, 'deletePrenotazione'])->name('staff.bookings.delete');
-
-    Route::get('/staff/prestazioni', [StaffController::class, 'prestazioni'])->name('staff.services.index');
-    Route::get('/staff/prestazioni/{id}', [StaffController::class, 'prenotazioniPrestazione'])->name('staff.services.bookings');
+Route::middleware(['auth', 'can:isTecnicoAzienda'])->group(function () {
+    Route::get('/tecnico-azienda/dashboard', function () {
+        return view('tecnicoAzienda.dashboard');
+            })->name('tecnicoAzienda.dashboard');
+    Route::get('/tecnico-azienda/prodotti/search', [TecnicoAziendaController::class, 'searchProdotti'])
+         ->name('tecnicoAzienda.prodotti.search');
+    Route::get('/tecnico-azienda/prodotti/{id}', [TecnicoAziendaController::class, 'showProdotto'])
+        ->name('tecnicoAzienda.prodotti.show');
+    Route::delete('/tecnico-azienda/malfunzionamenti/{id}', [TecnicoAziendaController::class, 'deleteMalfunzionamento'])
+        ->name('malfunzionamento.delete');
+    Route::get('/tecnico-azienda/malfunzionamenti/nuovo', function () {
+        return view('tecnicoAzienda.malfunzionamento_form');
+            })->name('malfunzionamento.formNuovo');
+    Route::post('/tecnico-azienda/malfunzionamenti', [TecnicoAziendaController::class, 'createMalfunzionamento'])
+        ->name('malfunzionamento.create');
 });
 
-Route::middleware(['auth', 'can:isAdmin'])->group(function () {
+/*Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/admin/utenti', [AdminController::class, 'users'])->name('admin.users.index');
