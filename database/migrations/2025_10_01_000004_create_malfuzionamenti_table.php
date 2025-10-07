@@ -16,7 +16,7 @@ return new class extends Migration
             // FK corretta verso 'prodotti' con cancellazione in cascata
             $table->foreignId('prodotto_id')->constrained('prodotti')->cascadeOnDelete();
             $table->string('descrizione'); 
-            $table->text('soluzione'); 
+            $table->text('soluzione_tecnica'); 
             $table->timestamps();
         });
     }
