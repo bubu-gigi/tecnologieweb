@@ -12,9 +12,10 @@
         @include('layouts.navbar_staff')
     </x-header>
 
-    <main class="main-content">
+    <main class="main-content w-full mx-auto px-8">
         @yield('content')
     </main>
+
 
     @include('layouts.footer')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -12,7 +12,7 @@
         @include('layouts.navbar_admin')
     </x-header>
 
-    <main class="main-content">
+    <main class="main-content w-full mx-auto px-8">
         @yield('content')
     </main>
 

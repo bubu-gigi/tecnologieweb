@@ -1,8 +1,8 @@
-@extends('layouts.layout_guest')
+@extends('layouts.layout_staff')
 
 @section('content')
 <div class="min-h-screen bg-gray-50 p-6">
-    <div class="max-w-4xl mx-auto mb-6">
+    <div class="w-full mx-auto mb-6">
         <h1 class="text-3xl font-bold text-[#FB7116] mb-4">{{ $prodotto->name }}</h1>
 
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -32,3 +32,4 @@
     </div>
 </div>
 @endsection
+
