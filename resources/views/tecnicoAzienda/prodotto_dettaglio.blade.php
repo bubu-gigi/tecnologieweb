@@ -1,4 +1,4 @@
-@extends('layouts.layout_customer')
+@extends('layouts.layout_tecnicoAzienda')
 
 @section('content')
 <div class="min-h-screen bg-gray-50 p-6">

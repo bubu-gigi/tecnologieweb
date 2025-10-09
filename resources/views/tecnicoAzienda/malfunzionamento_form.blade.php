@@ -1,4 +1,4 @@
-@extends('layouts.layout_staff')
+@extends('layouts.layout_tecnicoAzienda')
 
 @section('content')
 <div class="min-h-screen bg-gray-50 flex items-center justify-center p-6">

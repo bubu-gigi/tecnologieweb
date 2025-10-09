@@ -2,14 +2,14 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Area Utente')</title>
+    <title>@yield('title', 'Area Amministratore')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @vite('resources/css/app.css')
 </head>
 <body class="flex flex-col min-h-screen">
     <x-header class="bg-[#FB7116]">
-        @include('layouts.navbar_customer')
+        @include('layouts.navbar_amministratore')
     </x-header>
 
     <main class="main-content w-full mx-auto px-8">
