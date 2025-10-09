@@ -26,23 +26,32 @@
                         <tr id="{{ $malfunzionamento->id }}" class="hover:bg-gray-50">
                             <td class="px-6 py-4 text-gray-800">{{ $malfunzionamento->descrizione }}</td>
                             <td class="px-6 py-4 text-gray-700">{{ $malfunzionamento->soluzione_tecnica }}</td>
-                            <td>
+                            <td class="px-6 py-4 flex items-center justify-end space-x-3">
+                                {{-- ✏️ Pulsante modifica --}}
+                                <a href="{{ route('malfunzionamento.edit', $malfunzionamento->id) }}"
+                                   class="text-[#FB7116] hover:text-[#e35f0f]"
+                                   title="Modifica">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
+                                    </svg>
+                                </a>
 
+                                {{-- 🗑️ Pulsante elimina --}}
                                 <button
                                     type="button"
-                                    class="delete-malfunzionamento-btn cursor-pointer text-red-600 hover:text-red-800"
+                                    class="delete-malfunzionamento-btn cursor-pointer text-[#FB7116] hover:text-[#e35f0f]"
                                     title="Elimina"
                                     data-malfunzionamento-id="{{ $malfunzionamento->id }}"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 32 32">
-                                        <path d="M 15 4 C 14.476563 4 13.941406 4.183594 13.5625 4.5625 C 13.183594 4.941406 13 5.476563 13 6 L 13 7 L 7 7 L 7 9 L 8 9 L 8 25 C 8 26.644531 9.355469 28 11 28 L 23 28 C 24.644531 28 26 26.644531 26 25 L 26 9 L 27 9 L 27 7 L 21 7 L 21 6 C 21 5.476563 20.816406 4.941406 20.4375 4.5625 C 20.058594 4.183594 19.523438 4 19 4 Z M 15 6 L 19 6 L 19 7 L 15 7 Z M 10 9 L 24 9 L 24 25 C 24 25.554688 23.554688 26 23 26 L 11 26 C 10.445313 26 10 25.554688 10 25 Z M 12 12 L 12 23 L 14 23 L 14 12 Z M 16 12 L 16 23 L 18 23 L 18 12 Z M 20 12 L 20 23 L 22 23 L 22 12 Z"></path>
-                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 32 32">
+                                        <path d="M15 4c-.52 0-1.06.18-1.44.56A2 2 0 0 0 13 6v1H7v2h1v16c0 1.65 1.35 3 3 3h12c1.65 0 3-1.35 3-3V9h1V7h-6V6c0-.52-.18-1.06-.56-1.44A2 2 0 0 0 19 4Zm0 2h4v1h-4Zm-5 3h14v16c0 .55-.45 1-1 1H11c-.55 0-1-.45-1-1Zm2 3v11h2V12Zm4 0v11h2V12Zm4 0v11h2V12Z"/>
+                                     </svg>
                                 </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="2" class="px-6 py-4 text-center text-gray-500">
+                            <td colspan="3" class="px-6 py-4 text-center text-gray-500">
                                 Nessun malfunzionamento registrato.
                             </td>
                         </tr>

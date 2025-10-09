@@ -20,18 +20,28 @@ Route::middleware(['auth', 'can:isTecnicoAssistenza'])->group(function () {
 Route::middleware(['auth', 'can:isTecnicoAzienda'])->group(function () {
     Route::get('/tecnico-azienda/dashboard', function () {
         return view('tecnicoAzienda.dashboard');
-            })->name('tecnicoAzienda.dashboard');
+    })->name('tecnicoAzienda.dashboard');
+
     Route::get('/tecnico-azienda/prodotti/search', [TecnicoAziendaController::class, 'searchProdotti'])
          ->name('tecnicoAzienda.prodotti.search');
     Route::get('/tecnico-azienda/prodotti/{id}', [TecnicoAziendaController::class, 'showProdotto'])
         ->name('tecnicoAzienda.prodotti.show');
+
     Route::delete('/tecnico-azienda/malfunzionamenti/{id}', [TecnicoAziendaController::class, 'deleteMalfunzionamento'])
         ->name('malfunzionamento.delete');
+
     Route::get('/tecnico-azienda/malfunzionamenti/nuovo', function () {
         return view('tecnicoAzienda.malfunzionamento_form');
-            })->name('malfunzionamento.formNuovo');
+    })->name('malfunzionamento.formNuovo');
+
     Route::post('/tecnico-azienda/malfunzionamenti', [TecnicoAziendaController::class, 'createMalfunzionamento'])
         ->name('malfunzionamento.create');
+
+    // ➕ NUOVE ROTTE PER MODIFICA MALFUNZIONAMENTO
+    Route::get('/tecnico-azienda/malfunzionamenti/{id}/edit', [TecnicoAziendaController::class, 'editMalfunzionamento'])
+        ->name('malfunzionamento.edit');
+    Route::put('/tecnico-azienda/malfunzionamenti/{id}', [TecnicoAziendaController::class, 'updateMalfunzionamento'])
+        ->name('malfunzionamento.update');
 });
 
 /*Route::middleware(['auth', 'can:isAdmin'])->group(function () {

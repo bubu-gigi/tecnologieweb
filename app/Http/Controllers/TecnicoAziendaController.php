@@ -31,21 +31,42 @@ class TecnicoAziendaController extends Controller
     public function showProdotto($id)
     {
         $prodotto = Prodotto::with('malfunzionamenti')->findOrFail($id);
-
         return view('tecnicoAzienda.prodotto_dettaglio', compact('prodotto'));
     }
 
-    public function deleteMalfunzionamento($id) {
+    public function deleteMalfunzionamento($id)
+    {
         Malfunzionamento::where('id', $id)->delete();
     }
 
-    public function createMalfunzionamento(MalfunzionamentoRequest $request) {
-         $malfunzionamento = Malfunzionamento::create([
+    public function createMalfunzionamento(MalfunzionamentoRequest $request)
+    {
+        $malfunzionamento = Malfunzionamento::create([
             'descrizione' => $request->descrizione,
             'soluzione_tecnica' => $request->soluzione_tecnica,
         ]);
 
         return redirect()
-            ->route('tecnicoAzienda.prodotto_dettaglio');
+            ->route('tecnicoAzienda.prodotto_dettaglio', ['id' => $malfunzionamento->prodotto_id ?? 1]); // adattare se serve
+    }
+
+    // ➕ NUOVI METODI PER MODIFICA
+    public function editMalfunzionamento($id)
+    {
+        $malfunzionamento = Malfunzionamento::findOrFail($id);
+        return view('tecnicoAzienda.malfunzionamento_form', compact('malfunzionamento'));
+    }
+
+    public function updateMalfunzionamento(MalfunzionamentoRequest $request, $id)
+    {
+        $malfunzionamento = Malfunzionamento::findOrFail($id);
+        $malfunzionamento->update([
+            'descrizione' => $request->descrizione,
+            'soluzione_tecnica' => $request->soluzione_tecnica,
+        ]);
+
+        return redirect()
+            ->route('tecnicoAzienda.prodotti.show', ['id' => $malfunzionamento->prodotto_id])
+            ->with('success', 'Malfunzionamento aggiornato correttamente.');
     }
 }
