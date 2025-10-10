@@ -6,10 +6,10 @@
         <h1 class="text-3xl font-bold text-[#FB7116] mb-4">{{ $prodotto->name }}</h1>
 
         <div class="mb-4 flex justify-end">
-            <a href="{{ route('malfunzionamento.formNuovo') }}" 
-               class="bg-[#FB7116] text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition-all duration-200">
-                Nuovo malfunzionamento
-            </a>
+            <a href="{{ route('malfunzionamento.formNuovo', ['id' => $prodotto->id]) }}" 
+                class="bg-[#FB7116] text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition-all duration-200">
+                    Nuovo malfunzionamento
+                </a>
         </div>
 
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -27,7 +27,6 @@
                             <td class="px-6 py-4 text-gray-800">{{ $malfunzionamento->descrizione }}</td>
                             <td class="px-6 py-4 text-gray-700">{{ $malfunzionamento->soluzione_tecnica }}</td>
                             <td class="px-6 py-4 flex items-center justify-end space-x-3">
-                                {{-- ✏️ Pulsante modifica --}}
                                 <a href="{{ route('malfunzionamento.edit', $malfunzionamento->id) }}"
                                    class="text-[#FB7116] hover:text-[#e35f0f]"
                                    title="Modifica">
@@ -35,8 +34,6 @@
                                         <path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
                                     </svg>
                                 </a>
-
-                                {{-- 🗑️ Pulsante elimina --}}
                                 <button
                                     type="button"
                                     class="delete-malfunzionamento-btn cursor-pointer text-[#FB7116] hover:text-[#e35f0f]"

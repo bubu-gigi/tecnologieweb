@@ -11,7 +11,7 @@
             method="POST" 
             action="{{ isset($malfunzionamento) 
                 ? url('/tecnico-azienda/malfunzionamenti/' . $malfunzionamento->id) 
-                : url('/tecnico-azienda/malfunzionamenti') }}"
+                : url('/tecnico-azienda/prodotti/'. $prodotto_id . '/malfunzionamenti') }}"
         >
             @csrf
             @if(isset($malfunzionamento))
@@ -45,7 +45,7 @@
             <div class="flex justify-end">
                 <button 
                     type="submit"
-                    class="bg-[#FB7116] text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition-all duration-200"
+                    class="bg-[#FB7116] cursor-pointer text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition-all duration-200"
                 >
                     Salva
                 </button>

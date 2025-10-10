@@ -14,6 +14,43 @@
         </div>
     </header>
 
+    <section id="funzionalita" class="bg-white shadow-lg rounded-xl p-6 space-y-3">
+        <h2 class="text-2xl font-bold text-[#FB7116] mb-4">Funzionalità del Sito</h2>
+
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-[#FB7116]">Pubblico Generico</h3>
+            <ul class="list-disc list-inside text-gray-700 text-sm">
+                <li>Visualizzare informazioni generali sull’azienda e sul sito.</li>
+                <li>Consultare il catalogo prodotti con schede tecniche, incluse note tecniche d’uso e modalità di installazione (senza informazioni su malfunzionamenti).</li>
+                <li>Visualizzare l’elenco dei centri di assistenza sul territorio.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-[#FB7116]">Tecnici dei Centri di Assistenza</h3>
+            <ul class="list-disc list-inside text-gray-700 text-sm">
+                <li>Accedere a tutte le informazioni del Livello 1.</li>
+                <li>Consultare le schede prodotto complete, inclusi malfunzionamenti e relative soluzioni tecniche.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-[#FB7116]">Staff Tecnico Aziendale</h3>
+            <ul class="list-disc list-inside text-gray-700 text-sm">
+                <li>Accedere a tutte le informazioni del Livello 2.</li>
+                <li>Gestire le schede prodotto: inserire, modificare o cancellare malfunzionamenti e soluzioni correlate.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-[#FB7116]">Amministratore del Sito</h3>
+            <ul class="list-disc list-inside text-gray-700 text-sm">
+                <li>Gestire prodotti e relative informazioni, esclusi malfunzionamenti e soluzioni tecniche.</li>
+                <li>Gestire utenti registrati nel sito:
+                    <ul class="list-disc list-inside ml-6">
+                        <li>Tecnici dei centri di assistenza (nome, cognome, data di nascita, specializzazione, centro di appartenenza, username e password).</li>
+                        <li>Membri dello staff (nome, cognome, username e password).</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
     <section id="azienda" class="bg-white shadow-lg rounded-xl p-6 space-y-3">
         <h2 class="text-2xl font-bold text-[#FB7116]">Chi Siamo</h2>
         <p class="text-gray-700 text-sm">

@@ -1,7 +1,10 @@
-<x-wrapper-navbar>
+<section class="bg-white px-8 py-4 border border-[#FB7116] flex justify-between items-center flex-wrap gap-4 rounded-lg">
     <nav class="flex items-center justify-end gap-4 px-6 py-3">
-        <x-button-navbar href="{{ route('logout') }}">
+        <a href="{{ route('tecnicoAzienda.dashboard') }}" class="text-[#FB7116] hover:text-orange-600">
+            Home
+        </a>
+        <a href="{{ route('logout') }}" class="px-4 py-2 border-2 border-[#FB7116] text-[#FB7116] font-semibold rounded-md hover:bg-[#FB7116] hover:text-white transition">
             Logout
-        </x-button-navbar>
+        </a>
     </nav>
-</x-wrapper-navbar>
+</section>

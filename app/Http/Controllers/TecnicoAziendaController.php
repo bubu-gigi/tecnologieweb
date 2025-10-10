@@ -38,19 +38,24 @@ class TecnicoAziendaController extends Controller
     {
         Malfunzionamento::where('id', $id)->delete();
     }
-
-    public function createMalfunzionamento(MalfunzionamentoRequest $request)
+    public function createMalfunzionamento(MalfunzionamentoRequest $request, $id)
     {
         $malfunzionamento = Malfunzionamento::create([
             'descrizione' => $request->descrizione,
             'soluzione_tecnica' => $request->soluzione_tecnica,
+            'prodotto_id' => $id,
         ]);
 
         return redirect()
-            ->route('tecnicoAzienda.prodotto_dettaglio', ['id' => $malfunzionamento->prodotto_id ?? 1]); // adattare se serve
+            ->route('tecnicoAzienda.prodotti.show', ['id' => $id])
+            ->with('success', 'Malfunzionamento creato correttamente.');
     }
 
-    // ➕ NUOVI METODI PER MODIFICA
+    public function createFormMalfunzionamento($id)
+    {
+        return view('tecnicoAzienda.malfunzionamento_form', ['prodotto_id' => $id]);
+    }
+
     public function editMalfunzionamento($id)
     {
         $malfunzionamento = Malfunzionamento::findOrFail($id);

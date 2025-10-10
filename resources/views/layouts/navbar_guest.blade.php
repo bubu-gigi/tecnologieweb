@@ -1,44 +1,39 @@
-<x-wrapper-navbar class="bg-[#FB7116] border-[#FB7116]">
-    <x-left-navbar>
-        <x-link-navbar href="#struttura" class="text-[#FB7116] hover:text-orange-600">
-            Struttura
-        </x-link-navbar>
-        <x-link-navbar href="#funzionalita" class="text-[#FB7116] hover:text-orange-600">
+<section class="bg-white px-8 py-4 border border-[#FB7116] flex justify-between items-center flex-wrap gap-4 rounded-lg">
+        <a href="#funzionalita" class="text-[#FB7116] hover:text-orange-600">
             Funzionalità
-        </x-link-navbar>
-        <x-link-navbar href="#dipartimenti" class="text-[#FB7116] hover:text-orange-600">
-            Dipartimenti
-        </x-link-navbar>
-    </x-left-navbar>
-
-    <x-right-navbar>
+        </a>
+        <a href="#azienda" class="text-[#FB7116] hover:text-orange-600">
+            Azienda
+        </a>
+        <a href="#prodotti" class="text-[#FB7116] hover:text-orange-600">
+            Prodotti
+        </a>
+        <a href="#centri_assistenza" class="text-[#FB7116] hover:text-orange-600">
+            Centri Assistenza
+        </a>
         @if (Auth::check())
             @php
                 $role = Auth::user()->ruolo;
                 $dashboardRoute = match($role) {
                     'admin' => route('admin.dashboard'),
-                    'user' => route('customers.dashboard'),
-                    'staff' => route('staff.dashboard'),
+                    'tecnico_assistenza' => route('tecnicoAssistenza.dashboard'),
+                    'tencico_azienda' => route('tecnicoAzienda.dashboard'),
                     default => route('home'),
                 };
             @endphp
 
-            <x-button-navbar href="{{ $dashboardRoute }}" class="border-[#FB7116] text-[#FB7116] hover:bg-[#FB7116] hover:text-white">
+            <a href="{{ $dashboardRoute }}" class="border-[#FB7116] text-[#FB7116] hover:bg-[#FB7116] hover:text-white">
                 Area Personale
-            </x-button-navbar>
+            </a>
 
-            <x-button-navbar href="{{ route('logout') }}" class="border-[#FB7116] text-[#FB7116] hover:bg-[#FB7116] hover:text-white">
+            <a href="{{ route('logout') }}" class="px-4 py-2 border-2 border-[#FB7116] text-[#FB7116] font-semibold rounded-md hover:bg-[#FB7116] hover:text-white transition">
                 Logout
-            </x-button-navbar>
+            </a>
         @else
-            <x-button-navbar href="{{ route('login') }}" class="border-[#FB7116] text-[#FB7116] hover:bg-[#FB7116] hover:text-white">
+            <a href="{{ route('login') }}" class="px-4 py-2 border-2 border-[#FB7116] text-[#FB7116] font-semibold rounded-md hover:bg-[#FB7116] hover:text-white transition">
                 Login
-            </x-button-navbar>
-            <x-button-navbar href="{{ route('register') }}" class="border-[#FB7116] text-[#FB7116] hover:bg-[#FB7116] hover:text-white">
-                Register
-            </x-button-navbar>
+            </a>
         @endif
-    </x-right-navbar>
-</x-wrapper-navbar>
+</section>
 
 

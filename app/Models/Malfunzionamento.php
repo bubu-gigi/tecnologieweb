@@ -14,6 +14,7 @@ class Malfunzionamento extends Model
 
     protected $fillable = [
         'descrizione',
+        'prodotto_id',
         'soluzione_tecnica',
     ];
 
