@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->forget('login_referrer');
 
         switch (Auth::user()->ruolo) {
-            case 'amministratore': return redirect()->route('admin.dashboard');
+            case 'amministratore': return redirect()->route('amministratore.dashboard');
             case 'tecnico_assistenza': return redirect()->route('tecnicoAssistenza.dashboard');
             case 'tecnico_azienda': return redirect()->route('tecnicoAzienda.dashboard');
             default: return redirect('/');

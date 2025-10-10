@@ -8,9 +8,11 @@
     @vite(entrypoints: 'resources/css/app.css')
 </head>
 <body>
-    <x-header class="bg-[#FB7116]">
-            @include('layouts.navbar_guest')
-    </x-header>
+     <header class="bg-[#FB7116] text-white px-8 py-8 flex justify-between items-center rounded-b-lg">
+        @include('layouts.navbar_guest')
+        <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-20 w-20 object-contain rounded-lg">
+    </header>
+
 
     <main class="flex-1 px-8 max-w-[1000px] mx-auto">
         @yield('content')
