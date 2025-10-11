@@ -34,8 +34,23 @@
             >
                 Gestisci Utenti
             </button>
-
+        </div>
+    </div>
+    {{-- GESTIONE CENTRI ASSISTENZA --}}
+    <div class="max-w-2xl w-full flex justify-center mt-14">
+        <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition text-center w-full">
+            <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Centri Assistenza</h2>
+            <p class="text-gray-700 mb-6">
+                Visualizza, aggiungi o modifica i centri di assistenza esterni all’azienda.
+            </p>
+            <button 
+                onclick="window.location.href='{{ route('amministratore.centri.index') }}'"
+                class="bg-[#FB7116] cursor-pointer hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition-colors"
+            >
+                Gestisci Centri
+            </button>
         </div>
     </div>
 </div>
 @endsection
+

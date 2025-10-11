@@ -4,6 +4,7 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\TecnicoAssistenzaController;
 use App\Http\Controllers\AmministratoreController;
 use App\Http\Controllers\TecnicoAziendaController;
+use App\Http\Controllers\CentroAssistenzaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
@@ -104,24 +105,55 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
         ->name('amministratore.tecnicoAssistenza.delete');
 
 
-// GESTIONE STAFF (tecnici_azienda)
-Route::get('/amministratore/tecnici-azienda', [AmministratoreController::class, 'gestioneTecniciAzienda'])
-    ->name('amministratore.gestioneTecniciAzienda');
+    // GESTIONE STAFF (tecnici_azienda)
+    Route::get('/amministratore/tecnici-azienda', [AmministratoreController::class, 'gestioneTecniciAzienda'])
+        ->name('amministratore.gestioneTecniciAzienda');
 
-Route::get('/amministratore/tecnici-azienda/nuovo', [AmministratoreController::class, 'createTecnicoAzienda'])
-    ->name('amministratore.tecnicoAzienda.create');
+    Route::get('/amministratore/tecnici-azienda/nuovo', [AmministratoreController::class, 'createTecnicoAzienda'])
+        ->name('amministratore.tecnicoAzienda.create');
 
-Route::post('/amministratore/tecnici-azienda', [AmministratoreController::class, 'storeTecnicoAzienda'])
-    ->name('amministratore.tecnicoAzienda.store');
+    Route::post('/amministratore/tecnici-azienda', [AmministratoreController::class, 'storeTecnicoAzienda'])
+        ->name('amministratore.tecnicoAzienda.store');
 
-Route::get('/amministratore/tecnici-azienda/{id}/edit', [AmministratoreController::class, 'editTecnicoAzienda'])
-    ->name('amministratore.tecnicoAzienda.edit');
+    Route::get('/amministratore/tecnici-azienda/{id}/edit', [AmministratoreController::class, 'editTecnicoAzienda'])
+        ->name('amministratore.tecnicoAzienda.edit');
 
-Route::put('/amministratore/tecnici-azienda/{id}', [AmministratoreController::class, 'updateTecnicoAzienda'])
-    ->name('amministratore.tecnicoAzienda.update');
+    Route::put('/amministratore/tecnici-azienda/{id}', [AmministratoreController::class, 'updateTecnicoAzienda'])
+        ->name('amministratore.tecnicoAzienda.update');
 
-Route::delete('/amministratore/tecnici-azienda/{id}', [AmministratoreController::class, 'deleteTecnicoAzienda'])
-    ->name('amministratore.tecnicoAzienda.delete');
+    Route::delete('/amministratore/tecnici-azienda/{id}', [AmministratoreController::class, 'deleteTecnicoAzienda'])
+        ->name('amministratore.tecnicoAzienda.delete');
+
+
+    // =============================
+    // 🔸 GESTIONE CENTRI ASSISTENZA
+    // =============================
+    Route::prefix('amministratore')->middleware(['auth'])->group(function () {
+        
+        // Lista dei centri
+        Route::get('/centri', [CentroAssistenzaController::class, 'index'])
+            ->name('amministratore.centri.index');
+
+        // Form per creare nuovo centro
+        Route::get('/centri/create', [CentroAssistenzaController::class, 'create'])
+            ->name('amministratore.centri.create');
+
+        // Salvataggio nuovo centro
+        Route::post('/centri', [CentroAssistenzaController::class, 'store'])
+            ->name('amministratore.centri.store');
+
+        // Form modifica centro
+        Route::get('/centri/{id}/edit', [CentroAssistenzaController::class, 'edit'])
+            ->name('amministratore.centri.edit');
+
+        // Aggiornamento centro
+        Route::put('/centri/{id}', [CentroAssistenzaController::class, 'update'])
+            ->name('amministratore.centri.update');
+
+        // Eliminazione centro (AJAX)
+        Route::delete('/centri/{id}', [CentroAssistenzaController::class, 'destroy'])
+            ->name('amministratore.centri.destroy');
+});
 });
 
 require __DIR__.'/auth.php';
