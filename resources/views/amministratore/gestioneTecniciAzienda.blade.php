@@ -19,8 +19,8 @@
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Nome</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Cognome</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Username</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Password</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Azioni</th>
+                        <th class="px-6 py-3 text-center text-sm font-medium text-gray-700">Password</th>
+                        <th class="px-6 py-3 text-center text-sm font-medium text-gray-700">Azioni</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -30,7 +30,7 @@
                             <td class="py-3 px-6 text-gray-800">{{ $membro->cognome }}</td>
                             <td class="py-3 px-6 text-gray-800">{{ $membro->username }}</td>
                             <td class="py-3 px-6 text-center">******</td>
-                            <td class="px-6 py-4 flex items-center justify-end space-x-4">
+                            <td class="px-6 py-4 space-x-1">
                                 {{-- ✏️ Modifica --}}
                                 <a href="{{ route('amministratore.tecnicoAzienda.edit', $membro->id) }}"
                                    class="text-orange-500 hover:text-orange-600 transition"

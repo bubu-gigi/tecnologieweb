@@ -66,12 +66,12 @@
 
             <div class="flex justify-end space-x-3 mt-6">
                 <a href="{{ route('amministratore.gestioneTecniciAssistenza') }}" 
-                   class="bg-gray-300 text-gray-700 cursor-pointer px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition">
+                   class="bg-gray-200 text-gray-700 cursor-pointer font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200">
                    Annulla
                 </a>
                 <button type="submit" 
-                        class="bg-[#FB7116] text-white cursor-pointer px-6 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition">
-                    Salva modifiche
+                        class="bg-[#FB7116] text-white cursor-pointer font-semibold px-4 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition-all duration-200">
+                    Salva tecnico
                 </button>
             </div>
         </form>
