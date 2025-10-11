@@ -33,4 +33,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+        public function centroAssistenza()  
+    {
+        return $this->belongsTo(CentroAssistenza::class, 'centro_assistenza_id');
+    }
+
 }
