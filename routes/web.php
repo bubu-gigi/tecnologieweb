@@ -46,7 +46,15 @@ Route::middleware(['auth', 'can:isTecnicoAzienda'])->group(function () {
 Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::get('/amministratore', [AmministratoreController::class, 'index'])->name('amministratore.dashboard');
 
-    Route::get('/amministratore/prodotti' ,[AmministratoreController::class, 'gestioneProdotti'])->name('amministratore.gestioneProdotti');
+    Route::get('/amministratore/prodotti', [AmministratoreController::class, 'gestioneProdotti'])->name('amministratore.gestioneProdotti');
+
+    Route::get('/amministratore/prodotti/nuovo', [AmministratoreController::class, 'createProdotto'])->name('amministratore.prodotto.create');
+    Route::post('/amministratore/prodotti', [AmministratoreController::class, 'storeProdotto'])->name('amministratore.prodotto.store');
+
+    Route::get('/amministratore/prodotti/{id}/edit', [AmministratoreController::class, 'editProdotto'])->name('amministratore.prodotto.edit');
+    Route::put('/amministratore/prodotti/{id}', [AmministratoreController::class, 'updateProdotto'])->name('amministratore.prodotto.update');
+
+    Route::delete('/amministratore/prodotti/{id}', [AmministratoreController::class, 'deleteProdotto'])->name('amministratore.prodotto.delete');
 });
 
 require __DIR__.'/auth.php';

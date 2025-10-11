@@ -36,8 +36,16 @@ class TecnicoAziendaController extends Controller
 
     public function deleteMalfunzionamento($id)
     {
-        Malfunzionamento::where('id', $id)->delete();
+        $malfunzionamento = Malfunzionamento::findOrFail($id);
+        $malfunzionamento->delete();
+
+        // ✅ Risposta JSON per toast di successo
+        return response()->json([
+            'success' => true,
+            'message' => 'Malfunzionamento eliminato con successo.'
+        ]);
     }
+
     public function createMalfunzionamento(MalfunzionamentoRequest $request, $id)
     {
         $malfunzionamento = Malfunzionamento::create([
@@ -46,6 +54,7 @@ class TecnicoAziendaController extends Controller
             'prodotto_id' => $id,
         ]);
 
+        // ✅ Toast di successo dopo creazione
         return redirect()
             ->route('tecnicoAzienda.prodotti.show', ['id' => $id])
             ->with('success', 'Malfunzionamento creato correttamente.');
@@ -70,6 +79,7 @@ class TecnicoAziendaController extends Controller
             'soluzione_tecnica' => $request->soluzione_tecnica,
         ]);
 
+        // ✅ Toast di successo dopo aggiornamento
         return redirect()
             ->route('tecnicoAzienda.prodotti.show', ['id' => $malfunzionamento->prodotto_id])
             ->with('success', 'Malfunzionamento aggiornato correttamente.');

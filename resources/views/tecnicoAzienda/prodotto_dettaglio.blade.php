@@ -9,7 +9,7 @@
             <a href="{{ route('malfunzionamento.formNuovo', ['id' => $prodotto->id]) }}" 
                 class="bg-[#FB7116] text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition-all duration-200">
                     Nuovo malfunzionamento
-                </a>
+            </a>
         </div>
 
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -58,6 +58,14 @@
         </div>
     </div>
 </div>
+
+{{-- ✅ Toast di successo, visibile anche dopo redirect --}}
+@if(session('success'))
+    <div id="toast-success"
+         class="fixed bottom-6 right-6 bg-[#FB7116] text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium opacity-0 transition-opacity duration-500">
+        {{ session('success') }}
+    </div>
+@endif
 @endsection
 
 @push('scripts')
@@ -73,17 +81,35 @@
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                success: function () { 
+                success: function (response) { 
                     $(`tr#${malfunzionamentoId}`).fadeOut(300, function () {
                         $(this).remove();
                     });
-                    alert('Malfunzionamento eliminato con successo.');
+                    showToast(response.message || 'Malfunzionamento eliminato con successo.');
                 },
                 error: function () {
-                    alert('Errore durante l\'eliminazione.');
+                    showToast('Errore durante l\'eliminazione.');
                 }
             });
         });
+
+        // Mostra toast se presente nella sessione
+        @if(session('success'))
+            const toast = document.getElementById('toast-success');
+            setTimeout(() => toast.classList.remove('opacity-0'), 100);
+            setTimeout(() => toast.classList.add('opacity-0'), 3500);
+        @endif
     });
+
+    // ✅ Funzione toast riutilizzabile
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.className = 'fixed bottom-6 right-6 bg-[#FB7116] text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium opacity-0 transition-opacity duration-500';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.remove('opacity-0'), 100);
+        setTimeout(() => toast.classList.add('opacity-0'), 3500);
+        setTimeout(() => toast.remove(), 4000);
+    }
 </script>
 @endpush
