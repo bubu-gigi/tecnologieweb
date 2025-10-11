@@ -14,6 +14,9 @@ class AmministratoreController extends Controller
         return view('amministratore.dashboard');
     }
 
+    /* ==============================
+     *  GESTIONE PRODOTTI
+     * ============================== */
     public function gestioneProdotti()
     {
         $prodotti = Prodotto::all();
@@ -70,21 +73,20 @@ class AmministratoreController extends Controller
         return response()->json(['success' => true]);
     }
 
+    /* ==============================
+     *  GESTIONE UTENTI GENERALE
+     * ============================== */
     public function gestioneUtenti()
     {
         return view('amministratore.gestioneUtenti');
     }
 
-    // ============================================
-    // 🟧 SEZIONE GESTIONE TECNICI ASSISTENZA (LVL 2)
-    // ============================================
-
+    /* ==============================
+     *  GESTIONE TECNICI ASSISTENZA (LVL 2)
+     * ============================== */
     public function gestioneTecniciAssistenza()
     {
-        $tecnici = User::where('ruolo', 'tecnico_assistenza')
-                        ->with('centroAssistenza')
-                        ->get();
-
+        $tecnici = User::where('ruolo', 'tecnico_assistenza')->with('centroAssistenza')->get();
         return view('amministratore.gestioneTecniciAssistenza', compact('tecnici'));
     }
 
@@ -106,13 +108,12 @@ class AmministratoreController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        $data['password'] = $data['password']; // visibile in chiaro
+        $data['password'] = bcrypt($data['password']);
         $data['ruolo'] = 'tecnico_assistenza';
 
         User::create($data);
 
-        return redirect()
-            ->route('amministratore.gestioneTecniciAssistenza')
+        return redirect()->route('amministratore.gestioneTecniciAssistenza')
             ->with('success', 'Tecnico creato correttamente.');
     }
 
@@ -126,7 +127,6 @@ class AmministratoreController extends Controller
     public function updateTecnicoAssistenza(Request $request, $id)
     {
         $tecnico = User::where('ruolo', 'tecnico_assistenza')->findOrFail($id);
-
         $data = $request->validate([
             'nome' => 'required|string|max:255',
             'cognome' => 'required|string|max:255',
@@ -138,15 +138,14 @@ class AmministratoreController extends Controller
         ]);
 
         if (!empty($data['password'])) {
-            $data['password'] = $data['password']; // visibile in chiaro
+            $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
         }
 
         $tecnico->update($data);
 
-        return redirect()
-            ->route('amministratore.gestioneTecniciAssistenza')
+        return redirect()->route('amministratore.gestioneTecniciAssistenza')
             ->with('success', 'Tecnico aggiornato correttamente.');
     }
 
@@ -158,6 +157,78 @@ class AmministratoreController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Tecnico eliminato correttamente.'
+        ]);
+    }
+
+
+    // 🔸 GESTIONE STAFF (tecnici_azienda)
+    public function gestioneTecniciAzienda()
+    {
+        $staff = User::where('ruolo', 'tecnico_azienda')->get();
+        return view('amministratore.gestioneTecniciAzienda', compact('staff'));
+    }
+
+    public function createTecnicoAzienda()
+    {
+        $staff = collect();
+        return view('amministratore.tecniciAziendaForm');
+    }
+
+    public function storeTecnicoAzienda(Request $request)
+    {
+        $data = $request->validate([
+            'nome' => 'required|string|max:255',
+            'cognome' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $data['password'] = bcrypt($data['password']);
+        $data['ruolo'] = 'tecnico_azienda';
+
+        User::create($data);
+
+        return redirect()->route('amministratore.gestioneTecniciAzienda')
+            ->with('success', 'Membro dello staff creato correttamente.');
+    }
+
+    public function editTecnicoAzienda($id)
+    {
+        $membro = User::where('ruolo', 'tecnico_azienda')->findOrFail($id);
+        return view('amministratore.tecniciAziendaForm', compact('membro'));
+    }
+
+    public function updateTecnicoAzienda(Request $request, $id)
+    {
+        $tecnico = User::where('ruolo', 'tecnico_azienda')->findOrFail($id);
+
+        $data = $request->validate([
+            'nome' => 'required|string|max:255',
+            'cognome' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $tecnico->id,
+            'password' => 'nullable|string|min:6',
+        ]);
+
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $tecnico->update($data);
+
+        return redirect()->route('amministratore.gestioneTecniciAzienda')
+            ->with('success', 'Membro dello staff aggiornato correttamente.');
+    }
+
+    public function deleteTecnicoAzienda($id)
+    {
+        $tecnico = User::where('ruolo', 'tecnico_azienda')->findOrFail($id);
+        $tecnico->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Membro dello staff eliminato correttamente.'
         ]);
     }
 }

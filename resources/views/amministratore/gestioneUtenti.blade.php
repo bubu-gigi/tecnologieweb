@@ -8,7 +8,7 @@
     </div>
 
     <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-        {{-- 👷‍♂️ GESTISCI TECNICI --}}
+        {{-- 👨‍🔧 GESTISCI TECNICI --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Tecnici</h2>
             <p class="text-gray-700 mb-6">
@@ -26,10 +26,10 @@
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Staff</h2>
             <p class="text-gray-700 mb-6">
-                Aggiungi, modifica o elimina membri dello staff tecnico.
+                Aggiungi, modifica o elimina membri dello staff tecnico aziendale.
             </p>
             <button 
-                onclick="alert('Sezione Staff in sviluppo');"
+                onclick="window.location.href='{{ route('amministratore.gestioneTecniciAzienda') }}'"
                 class="bg-[#FB7116] cursor-pointer hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors"
             >
                 Gestisci Staff

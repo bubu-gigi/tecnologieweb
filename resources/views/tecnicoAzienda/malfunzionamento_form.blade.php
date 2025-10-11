@@ -51,7 +51,7 @@
                     href="{{ isset($malfunzionamento) 
                         ? route('tecnicoAzienda.prodotti.show', ['id' => $malfunzionamento->prodotto_id])
                         : url()->previous() }}"
-                    class="bg-gray-200 text-gray-700 font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200"
+                    class="bg-gray-200 text-gray-700 cursor-pointer font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200"
                 >
                     Annulla
                 </a>
