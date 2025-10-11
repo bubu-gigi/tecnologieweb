@@ -72,4 +72,10 @@ class AmministratoreController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function gestioneUtenti()
+{
+    return view('amministratore.gestioneUtenti');
+}
+
 }

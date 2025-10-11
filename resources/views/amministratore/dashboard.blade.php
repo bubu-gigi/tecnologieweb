@@ -8,9 +8,12 @@
     </div>
 
     <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- 🔧 GESTISCI PRODOTTI --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Prodotti</h2>
-            <p class="text-gray-700 mb-6">Inserisci, modifica o elimina i prodotti presenti nel catalogo.</p>
+            <p class="text-gray-700 mb-6">
+                Inserisci, modifica o elimina i prodotti presenti nel catalogo.
+            </p>
             <button 
                 onclick="window.location.href='{{ route('amministratore.gestioneProdotti') }}'"
                 class="bg-[#FB7116] cursor-pointer hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors"
@@ -19,11 +22,15 @@
             </button>
         </div>
 
+        {{-- 👥 GESTISCI UTENTI --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Utenti</h2>
-            <p class="text-gray-700 mb-6">Gestisci i tecnici e lo staff, aggiorna le informazioni degli utenti registrati.</p>
+            <p class="text-gray-700 mb-6">
+                Gestisci i tecnici e lo staff, aggiorna le informazioni degli utenti registrati.
+            </p>
             <button 
-                class="bg-[#FB7116] hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors"
+                onclick="window.location.href='{{ route('amministratore.gestioneUtenti') }}'"
+                class="bg-[#FB7116] cursor-pointer hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors"
             >
                 Gestisci Utenti
             </button>

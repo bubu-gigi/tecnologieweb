@@ -55,6 +55,9 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::put('/amministratore/prodotti/{id}', [AmministratoreController::class, 'updateProdotto'])->name('amministratore.prodotto.update');
 
     Route::delete('/amministratore/prodotti/{id}', [AmministratoreController::class, 'deleteProdotto'])->name('amministratore.prodotto.delete');
+
+    Route::get('/amministratore/utenti', [AmministratoreController::class, 'gestioneUtenti'])
+     ->name('amministratore.gestioneUtenti');
 });
 
 require __DIR__.'/auth.php';
