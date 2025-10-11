@@ -20,30 +20,30 @@
         <div class="space-y-4">
             <h3 class="text-xl font-semibold text-[#FB7116]">Pubblico Generico</h3>
             <ul class="list-disc list-inside text-gray-700 text-sm">
-                <li>Visualizzare informazioni generali sull’azienda e sul sito.</li>
-                <li>Consultare il catalogo prodotti con schede tecniche, incluse note tecniche d’uso e modalità di installazione (senza informazioni su malfunzionamenti).</li>
-                <li>Visualizzare l’elenco dei centri di assistenza sul territorio.</li>
+                <li>Può accedere alle informazioni generali sull’azienda e sulle sue attività.</li>
+                <li>Ha la possibilità di consultare il catalogo dei prodotti, comprensivo di schede tecniche, note d’uso e modalità di installazione (senza informazioni su malfunzionamenti).</li>
+                <li>Può visualizzare l'elenco dei centri di assistenza presenti sul territorio.</li>
             </ul>
 
             <h3 class="text-xl font-semibold text-[#FB7116]">Tecnici dei Centri di Assistenza</h3>
             <ul class="list-disc list-inside text-gray-700 text-sm">
-                <li>Accedere a tutte le informazioni del Livello 1.</li>
-                <li>Consultare le schede prodotto complete, inclusi malfunzionamenti e relative soluzioni tecniche.</li>
+                <li>Accedono a tutte le informazioni disponibili agli utenti generici.</li>
+                <li>Possono consultare le schede prodotto complete, comprese le sezioni dedicate ai malfunzionamenti e alle relative soluzioni tecniche.</li>
             </ul>
 
             <h3 class="text-xl font-semibold text-[#FB7116]">Staff Tecnico Aziendale</h3>
             <ul class="list-disc list-inside text-gray-700 text-sm">
-                <li>Accedere a tutte le informazioni del Livello 2.</li>
-                <li>Gestire le schede prodotto: inserire, modificare o cancellare malfunzionamenti e soluzioni correlate.</li>
+                <li>Ha accesso a tutte le informazioni disponibili ai tecnici dei centri di assistenza.</li>
+                <li>Può gestire le schede prodotto con la possibilità di inserire, modificare o cancellare malfunzionamenti e soluzioni tecniche correlate.</li>
             </ul>
 
             <h3 class="text-xl font-semibold text-[#FB7116]">Amministratore del Sito</h3>
             <ul class="list-disc list-inside text-gray-700 text-sm">
-                <li>Gestire prodotti e relative informazioni, esclusi malfunzionamenti e soluzioni tecniche.</li>
-                <li>Gestire utenti registrati nel sito:
+                <li>Gestisce l'intero catalogo dei prodotti e le relative informazioni (ad eccezione dei malfunzionamenti e delle soluzioni tecniche).</li>
+                <li>Amministra gli utenti registrati nel sistema, in particolare può creare, modificare o eliminare gli account di:
                     <ul class="list-disc list-inside ml-6">
-                        <li>Tecnici dei centri di assistenza (nome, cognome, data di nascita, specializzazione, centro di appartenenza, username e password).</li>
-                        <li>Membri dello staff (nome, cognome, username e password).</li>
+                        <li>tecnici dei centri di assistenza (con nome, cognome, data di nascita, specializzazione, centro di appartenenza, username e password).</li>
+                        <li>membri dello staff (con nome, cognome, username e password).</li>
                     </ul>
                 </li>
             </ul>
@@ -58,7 +58,7 @@
         </p>
         <p class="text-gray-700 text-sm">📍 Via Garibaldi, 12 - Ancona (AN)</p>
         <p class="text-gray-700 text-sm">📞 Telefono: <a href="tel:+390712345678" class="text-[#FB7116] underline">071 2345678</a></p>
-        <p class="text-gray-700 text-sm">✉️ Email: <a href="mailto:info@azienda.it" class="text-[#FB7116] underline">info@azienda.it</a></p>
+        <p class="text-gray-700 text-sm">✉️ Email: <a href="mailto:info@aziendatecnologica.it" class="text-[#FB7116] underline">info@aziendatecnologica.it</a></p>
     </section>
 
     <section id="prodotti" class="space-y-6">

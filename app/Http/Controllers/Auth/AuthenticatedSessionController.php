@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,9 +21,16 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        $credentials = $request->only('username', 'password');
+
+        // 🔴 Se credenziali errate → torna al login con messaggio di errore
+        if (!Auth::attempt($credentials)) {
+            return back()
+                ->withErrors(['login_error' => 'Credenziali non valide. Riprova.'])
+                ->withInput();
+        }
 
         $request->session()->regenerate();
 
@@ -40,11 +46,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->forget('login_referrer');
 
-        switch (Auth::user()->ruolo) {
-            case 'amministratore': return redirect()->route('amministratore.dashboard');
-            case 'tecnico_assistenza': return redirect()->route('tecnicoAssistenza.dashboard');
-            case 'tecnico_azienda': return redirect()->route('tecnicoAzienda.dashboard');
-            default: return redirect('/');
+        // 🔁 Reindirizzamento in base al ruolo
+        switch ($user->ruolo) {
+            case 'amministratore':
+                return redirect()->route('amministratore.dashboard');
+            case 'tecnico_assistenza':
+                return redirect()->route('tecnicoAssistenza.dashboard');
+            case 'tecnico_azienda':
+                return redirect()->route('tecnicoAzienda.dashboard');
+            default:
+                return redirect('/');
         }
     }
 
@@ -53,7 +64,6 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
