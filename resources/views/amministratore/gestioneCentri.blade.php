@@ -43,7 +43,7 @@
                                 {{-- 🗑️ Elimina --}}
                                 <button
                                     type="button"
-                                    class="delete-centro-btn text-[#FB7116] hover:text-[#e35f0f]"
+                                    class="delete-centro-btn text-[#FB7116] cursor-pointer hover:text-[#e35f0f]"
                                     data-id="{{ $centro->id }}"
                                     title="Elimina"
                                 >

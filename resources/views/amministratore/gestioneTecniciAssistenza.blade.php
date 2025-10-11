@@ -80,7 +80,7 @@
             if (!confirm('Sei sicuro di voler eliminare questo tecnico?')) return;
 
             $.ajax({
-                url: `{{ url('/amministratore/tecnici') }}/${tecnicoId}`,
+                url: `{{ url('/amministratore/tecnici-assistenza') }}/${tecnicoId}`,
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
