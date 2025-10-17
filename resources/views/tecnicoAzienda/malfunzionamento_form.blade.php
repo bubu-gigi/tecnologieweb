@@ -30,6 +30,11 @@
                     rows="4" 
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-400 focus:outline-none"
                 >{{ old('descrizione', $malfunzionamento->descrizione ?? '') }}</textarea>
+                 <ul>
+                @error('descrizione')
+                    <p class="text-red-700 text-sm mt-1">{{ $message }}</p>
+                @enderror
+    </ul>
             </div>
 
             {{-- Soluzione tecnica --}}
@@ -43,6 +48,8 @@
                     rows="4" 
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-400 focus:outline-none"
                 >{{ old('soluzione_tecnica', $malfunzionamento->soluzione_tecnica ?? '') }}</textarea>
+                 <ul>
+    </ul>
             </div>
             
             <div class="flex justify-end space-x-3">

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Prodotto;
 use App\Models\User;
 use App\Models\CentroAssistenza;
+use App\Http\Requests\ProdottoRequest;
 
 class AmministratoreController extends Controller
 {
@@ -25,19 +26,13 @@ class AmministratoreController extends Controller
 
     public function createProdotto()
     {
-        return view('amministratore.prodottoForm');
+        $staff = User::where('ruolo', 'tecnico_azienda')->get();
+        return view('amministratore.prodottoForm', compact('staff'));
     }
 
-    public function storeProdotto(Request $request)
+    public function storeProdotto(ProdottoRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'descrizione' => 'required|string',
-            'note_uso' => 'nullable|string',
-            'mod_installazione' => 'nullable|string',
-        ]);
-
-        Prodotto::create($validated);
+        Prodotto::create($request->validated());
 
         return redirect()->route('amministratore.gestioneProdotti')
             ->with('success', 'Prodotto aggiunto con successo.');
@@ -49,17 +44,11 @@ class AmministratoreController extends Controller
         return view('amministratore.prodottoForm', compact('prodotto'));
     }
 
-    public function updateProdotto(Request $request, $id)
+    public function updateProdotto(ProdottoRequest $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'descrizione' => 'required|string',
-            'note_uso' => 'nullable|string',
-            'mod_installazione' => 'nullable|string',
-        ]);
 
         $prodotto = Prodotto::findOrFail($id);
-        $prodotto->update($validated);
+        $prodotto->update($request->validated());
 
         return redirect()->route('amministratore.gestioneProdotti')
             ->with('success', 'Prodotto aggiornato correttamente.');
@@ -96,18 +85,9 @@ class AmministratoreController extends Controller
         return view('amministratore.tecniciAssistenzaForm', compact('centri'));
     }
 
-    public function storeTecnicoAssistenza(Request $request)
+    public function storeTecnicoAssistenza(TecnicoAssistenzaRequest $request)
     {
-        $data = $request->validate([
-            'nome' => 'required|string|max:255',
-            'cognome' => 'required|string|max:255',
-            'data_nascita' => 'required|date',
-            'specializzazione' => 'nullable|string|max:255',
-            'centro_assistenza_id' => 'required|exists:centri_assistenza,id',
-            'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'required|string|min:6',
-        ]);
-
+        $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $data['ruolo'] = 'tecnico_assistenza';
 
@@ -124,18 +104,10 @@ class AmministratoreController extends Controller
         return view('amministratore.tecniciAssistenzaForm', compact('tecnico', 'centri'));
     }
 
-    public function updateTecnicoAssistenza(Request $request, $id)
+    public function updateTecnicoAssistenza(TecnicoAssistenzaRequest $request, $id)
     {
         $tecnico = User::where('ruolo', 'tecnico_assistenza')->findOrFail($id);
-        $data = $request->validate([
-            'nome' => 'required|string|max:255',
-            'cognome' => 'required|string|max:255',
-            'data_nascita' => 'required|date',
-            'specializzazione' => 'nullable|string|max:255',
-            'centro_assistenza_id' => 'required|exists:centri_assistenza,id',
-            'username' => 'required|string|max:255|unique:users,username,' . $tecnico->id,
-            'password' => 'nullable|string|min:6',
-        ]);
+        $data = $request->validated();
 
         if (!empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);

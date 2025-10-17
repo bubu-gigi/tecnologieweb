@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('descrizione')->nullable();
             $table->text('note_uso')->nullable();
             $table->text('mod_installazione')->nullable();
+            $table->foreignId('staff_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps(); // created_at e updated_at
         });
     }

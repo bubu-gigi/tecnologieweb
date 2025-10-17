@@ -9,24 +9,25 @@ use App\Http\Requests\MalfunzionamentoRequest;
 
 class TecnicoAziendaController extends Controller
 {
-    public function searchProdotti(Request $request)
-    {
-        $query = Prodotto::query();
+  public function searchProdotti(Request $request)
+{
+    $search = trim($request->q);
+    $query = Prodotto::query();
 
-        if ($request->filled('q')) {
-            $term = $request->q;
-
-            if (str_ends_with($term, '*')) {
-                $term = rtrim($term, '*');
-                $query->where('descrizione', 'like', $term . '%');
-            } else {
-                $query->where('descrizione', 'like', '%' . $term . '%');
-            }
+    if ($search) {
+        if (str_ends_with($search, '*')) {
+            $pattern = rtrim($search, '*') . '%';
+            $query->where('descrizione', 'LIKE', $pattern);
+        } else {
+            $query->where('descrizione', 'LIKE', '%' . $search . '%');
         }
-
-        $prodotti = $query->orderBy('name')->get();
-        return response()->json(['prodotti' => $prodotti]);
     }
+
+    $prodotti = $query->orderBy('name')->get();
+
+    return response()->json(['prodotti' => $prodotti]);
+}
+
 
     public function showProdotto($id)
     {

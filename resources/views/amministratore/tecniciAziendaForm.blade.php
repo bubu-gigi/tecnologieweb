@@ -40,6 +40,7 @@
                     <input type="text" name="password" value="" placeholder="{{ isset($membro) ? 'Lascia vuoto per non modificare' : '' }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
                 </div>
             </div>
+            
 
             <div class="flex justify-end space-x-3 mt-6">
                 <a href="{{ route('amministratore.gestioneTecniciAzienda') }}" 

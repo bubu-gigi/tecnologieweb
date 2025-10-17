@@ -35,7 +35,6 @@
                     name="name"
                     value="{{ old('name', $prodotto->name ?? '') }}"
                     class="w-full border border-gray-300 rounded-lg p-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
-                    required
                 >
                 @error('name')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -52,7 +51,6 @@
                     name="descrizione"
                     rows="3"
                     class="w-full border border-gray-300 rounded-lg p-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
-                    required
                 >{{ old('descrizione', $prodotto->descrizione ?? '') }}</textarea>
                 @error('descrizione')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -90,6 +88,28 @@
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
+
+            <div class="mb-5">
+    <label for="staff" class="block text-sm font-medium text-gray-700 mb-1">
+        Seleziona membro dello staff
+    </label>
+    <select 
+        name="staff_id" 
+        id="staff" 
+        class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400"
+    >
+        <option value="">-- Seleziona membro --</option>
+        @foreach($staff as $membro)
+            <option value="{{ $membro->id }}">
+                {{ $membro->nome }}
+            </option>
+        @endforeach
+    </select>
+    @error('staff_id')
+        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
 
             {{-- Pulsanti --}}
             <div class="flex justify-end space-x-3">

@@ -22,22 +22,34 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
                     <input type="text" name="nome" value="{{ old('nome', $tecnico->nome ?? '') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
+                    @error('nome')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Cognome</label>
                     <input type="text" name="cognome" value="{{ old('cognome', $tecnico->cognome ?? '') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
+                          @error('cognome')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                 </div>
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Data di nascita</label>
                 <input type="date" name="data_nascita" value="{{ old('data_nascita', $tecnico->data_nascita ?? '') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
+                @error('data_nascita')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Specializzazione</label>
                 <input type="text" name="specializzazione" value="{{ old('specializzazione', $tecnico->specializzazione ?? '') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
+                @error('specializzazione')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mt-4">
@@ -51,16 +63,25 @@
                         </option>
                     @endforeach
                 </select>
+                @error('centro_assistenza_id')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="grid grid-cols-2 gap-4 mt-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <input type="text" name="username" value="{{ old('username', $tecnico->username ?? '') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
+                    @error('username')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                     <input type="text" name="password" value="{{ old('password', $tecnico->password ?? '') }}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400">
+                    @error('password')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 

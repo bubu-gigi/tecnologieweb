@@ -1,16 +1,16 @@
 <section class="bg-white px-8 py-4 border border-[#FB7116] flex justify-between items-center flex-wrap gap-4 rounded-lg">
 
     <div class="flex items-center gap-6">
-            <a href="#funzionalita" class="text-[#FB7116] hover:text-orange-600">
+            <a href="/#funzionalita" class="text-[#FB7116] hover:text-orange-600">
                 Funzionalità
             </a>
-            <a href="#azienda" class="text-[#FB7116] hover:text-orange-600">
+            <a href="/#azienda" class="text-[#FB7116] hover:text-orange-600">
                 Azienda
             </a>
-            <a href="#prodotti" class="text-[#FB7116] hover:text-orange-600">
+            <a href="/#prodotti" class="text-[#FB7116] hover:text-orange-600">
                 Prodotti
             </a>
-            <a href="#centri_assistenza" class="text-[#FB7116] hover:text-orange-600">
+            <a href="/#centri_assistenza" class="text-[#FB7116] hover:text-orange-600">
                 Centri Assistenza
             </a>
 
