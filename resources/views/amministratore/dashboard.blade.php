@@ -8,7 +8,6 @@
     </div>
 
     <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-        {{-- 🔧 GESTISCI PRODOTTI --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Prodotti</h2>
             <p class="text-gray-700 mb-6">
@@ -22,7 +21,6 @@
             </button>
         </div>
 
-        {{-- 👥 GESTISCI UTENTI --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Utenti</h2>
             <p class="text-gray-700 mb-6">
@@ -36,7 +34,6 @@
             </button>
         </div>
     </div>
-    {{-- GESTIONE CENTRI ASSISTENZA --}}
     <div class="max-w-2xl w-full flex justify-center mt-14">
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition text-center w-full">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Centri Assistenza</h2>

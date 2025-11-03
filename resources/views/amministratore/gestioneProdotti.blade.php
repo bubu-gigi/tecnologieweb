@@ -31,7 +31,6 @@
                             <td class="px-6 py-4 text-gray-700">{{ $prodotto->note_uso }}</td>
                             <td class="px-6 py-4 text-gray-700">{{ $prodotto->mod_installazione }}</td>
                             <td class="px-6 py-4 flex items-center justify-end space-x-3">
-                                {{-- ✏️ Modifica --}}
                                 <a href="{{ route('amministratore.prodotto.edit', $prodotto->id) }}"
                                    class="text-[#FB7116] hover:text-[#e35f0f]" title="Modifica">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
@@ -39,7 +38,6 @@
                                     </svg>
                                 </a>
 
-                                {{-- 🗑️ Elimina --}}
                                 <button
                                     type="button"
                                     class="delete-prodotto-btn cursor-pointer text-[#FB7116] hover:text-[#e35f0f]"
@@ -65,7 +63,6 @@
     </div>
 </div>
 
-{{-- ✅ Toast notifica --}}
 @if(session('success'))
     <div id="toast-success"
          class="fixed bottom-6 right-6 bg-[#FB7116] text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium opacity-0 transition-opacity duration-500">
@@ -77,7 +74,6 @@
 @push('scripts')
 <script>
     $(function () {
-        // 🔸 Eliminazione AJAX
         $('.delete-prodotto-btn').on('click', function () {
             const prodottoId = $(this).data('prodotto-id');
             if (!confirm('Sei sicuro di voler eliminare questo prodotto?')) return;
@@ -98,7 +94,6 @@
             });
         });
 
-        // 🔸 Mostra il toast se esiste in sessione
         @if(session('success'))
             const toast = document.getElementById('toast-success');
             setTimeout(() => toast.classList.remove('opacity-0'), 100);
@@ -106,7 +101,6 @@
         @endif
     });
 
-    // 🔸 Funzione per mostrare un toast personalizzato
     function showToast(message) {
         const toast = document.createElement('div');
         toast.textContent = message;

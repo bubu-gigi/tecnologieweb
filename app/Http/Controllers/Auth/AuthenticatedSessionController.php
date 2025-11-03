@@ -25,7 +25,6 @@ class AuthenticatedSessionController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
-        // 🔴 Se credenziali errate → torna al login con messaggio di errore
         if (!Auth::attempt($credentials)) {
             return back()
                 ->withErrors(['login_error' => 'Credenziali non valide. Riprova.'])
@@ -46,7 +45,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->forget('login_referrer');
 
-        // 🔁 Reindirizzamento in base al ruolo
         switch ($user->ruolo) {
             case 'amministratore':
                 return redirect()->route('amministratore.dashboard');

@@ -8,7 +8,6 @@
     </div>
 
     <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-        {{-- 👨‍🔧 GESTISCI TECNICI --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Tecnici</h2>
             <p class="text-gray-700 mb-6">
@@ -22,7 +21,6 @@
             </button>
         </div>
 
-        {{-- 👩‍💼 GESTISCI STAFF --}}
         <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
             <h2 class="text-2xl font-semibold text-[#FB7116] mb-4">Gestisci Staff</h2>
             <p class="text-gray-700 mb-6">

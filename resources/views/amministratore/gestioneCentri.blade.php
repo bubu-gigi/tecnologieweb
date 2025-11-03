@@ -5,7 +5,6 @@
     <div class="max-w-5xl mx-auto">
         <h1 class="text-3xl font-bold text-[#FB7116] mb-4">Centri di Assistenza</h1>
 
-        {{-- 🔹 Bottone per aggiungere un nuovo centro --}}
         <div class="flex justify-end mb-4">
             <a href="{{ route('amministratore.centri.create') }}"
                class="bg-[#FB7116] text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-[#e35f0f] transition">
@@ -13,7 +12,6 @@
             </a>
         </div>
 
-        {{-- 🔹 Tabella Centri --}}
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-orange-100">
@@ -31,7 +29,6 @@
                             <td class="px-6 py-4 text-gray-800">{{ $centro->indirizzo }}</td>
                             <td class="px-6 py-4 text-right flex justify-end space-x-3">
 
-                                {{-- ✏️ Modifica --}}
                                 <a href="{{ route('amministratore.centri.edit', $centro->id) }}"
                                    class="text-[#FB7116] hover:text-[#e35f0f]"
                                    title="Modifica">
@@ -40,7 +37,6 @@
                                     </svg>
                                 </a>
 
-                                {{-- 🗑️ Elimina --}}
                                 <button
                                     type="button"
                                     class="delete-centro-btn text-[#FB7116] cursor-pointer hover:text-[#e35f0f]"
@@ -66,7 +62,6 @@
     </div>
 </div>
 
-{{-- ✅ TOAST DI SUCCESSO --}}
 @if (session('success'))
 <script>
     const toast = document.createElement('div');
@@ -82,7 +77,6 @@
 </script>
 @endif
 
-{{-- 🗑️ Eliminazione con AJAX --}}
 <script>
 document.querySelectorAll('.delete-centro-btn').forEach(btn => {
     btn.addEventListener('click', function() {

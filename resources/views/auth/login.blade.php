@@ -12,7 +12,6 @@
         <h1 class="text-3xl font-extrabold text-center text-[#FB7116] mb-6">Benvenuto</h1>
         <p class="text-center text-gray-500 mb-8">Accedi al tuo account</p>
 
-        {{-- 🔴 MESSAGGIO DI ERRORE LOGIN --}}
         @if ($errors->has('login_error'))
             <div class="mb-4 flex items-center space-x-2 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

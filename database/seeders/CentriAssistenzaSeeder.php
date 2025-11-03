@@ -7,9 +7,6 @@ use App\Models\CentroAssistenza;
 
 class CentriAssistenzaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $centri = [

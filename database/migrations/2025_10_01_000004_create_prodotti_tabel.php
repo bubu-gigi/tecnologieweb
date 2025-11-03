@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prodotti', function (Blueprint $table) {
-            $table->id(); // id autoincrement
+            $table->id(); 
             $table->string('name', 255);
             $table->string('image_name', 255)->nullable();
             $table->text('descrizione')->nullable();
             $table->text('note_uso')->nullable();
             $table->text('mod_installazione')->nullable();
             $table->foreignId('staff_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->timestamps(); // created_at e updated_at
+            $table->timestamps(); 
         });
     }
 

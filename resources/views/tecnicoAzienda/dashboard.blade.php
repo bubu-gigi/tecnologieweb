@@ -51,7 +51,6 @@ function caricaProdotti(query = '') {
 
             if(response.prodotti.length > 0){
                 response.prodotti.forEach(function(prodotto){
-                    // tronca descrizione a 100 caratteri
                     let descrizioneTroncata = prodotto.descrizione.length > 100 
                         ? prodotto.descrizione.substring(0, 100) + '...' 
                         : prodotto.descrizione;

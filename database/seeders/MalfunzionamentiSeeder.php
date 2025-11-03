@@ -14,7 +14,6 @@ class MalfunzionamentiSeeder extends Seeder
      */
     public function run(): void
     {
-        // Prodotto -> elenco malfunzionamenti (descrizione, soluzione_tecnica)
         $data = [
             'Workstation Pro XPS 15' => [
                 [
@@ -126,18 +125,15 @@ class MalfunzionamentiSeeder extends Seeder
             
         ];
 
-        // Pre-carico i prodotti indicizzati da "nome normalizzato"
         $prodottiIndicizzati = Prodotto::all()->keyBy(function ($p) {
             return $this->normalizeName($p->name);
         });
 
         foreach ($data as $productName => $issues) {
-            // Normalizzo anche la chiave definita qui sopra
             $key = $this->normalizeName($productName);
             $prodotto = $prodottiIndicizzati->get($key);
 
             if (! $prodotto) {
-                // Non trovato: salto senza interrompere il seed
                 continue;
             }
 
@@ -158,13 +154,11 @@ class MalfunzionamentiSeeder extends Seeder
         }
     }
 
-    /**
-     * Uniforma trattini/spacing/case per avere match affidabile.
-     */
+
     private function normalizeName(string $name): string
     {
         return Str::of($name)
-            ->replace(['–', '—', '−'], '-') // en dash, em dash, minus → '-'
+            ->replace(['–', '—', '−'], '-') 
             ->lower()
             ->squish()
             ->toString();

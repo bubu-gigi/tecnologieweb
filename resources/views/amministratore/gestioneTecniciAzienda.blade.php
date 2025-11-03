@@ -31,7 +31,6 @@
                             <td class="py-3 px-6 text-gray-800">{{ $membro->username }}</td>
                             <td class="py-3 px-6 text-center">******</td>
                             <td class="px-6 py-4 space-x-1">
-                                {{-- ✏️ Modifica --}}
                                 <a href="{{ route('amministratore.tecnicoAzienda.edit', $membro->id) }}"
                                    class="text-orange-500 hover:text-orange-600 transition"
                                    title="Modifica">
@@ -41,7 +40,6 @@
                                     </svg>
                                 </a>
 
-                                {{-- 🗑️ Elimina --}}
                                 <button
                                     type="button"
                                     class="delete-staff-btn cursor-pointer text-orange-500 hover:text-orange-600 transition"
@@ -65,7 +63,6 @@
     </div>
 </div>
 
-{{-- ✅ TOAST SUCCESSO --}}
 @if (session('success'))
 <script>
     const toast = document.createElement('div');
@@ -76,7 +73,6 @@
 </script>
 @endif
 
-{{-- 🗑️ JS Eliminazione Staff --}}
 <script>
 document.querySelectorAll('.delete-staff-btn').forEach(btn => {
     btn.addEventListener('click', function() {

@@ -7,7 +7,6 @@
             {{ isset($malfunzionamento) ? 'Modifica malfunzionamento e soluzione tecnica' : 'Nuovo malfunzionamento' }}
         </h1>
 
-        {{-- FORM --}}
         <form 
             method="POST" 
             action="{{ isset($malfunzionamento) 
@@ -19,7 +18,6 @@
                 @method('PUT')
             @endif
 
-            {{-- Descrizione --}}
             <div class="mb-5">
                 <label for="descrizione" class="block text-sm font-medium text-gray-700 mb-1">
                     Descrizione del malfunzionamento
@@ -37,7 +35,6 @@
     </ul>
             </div>
 
-            {{-- Soluzione tecnica --}}
             <div class="mb-5">
                 <label for="soluzione_tecnica" class="block text-sm font-medium text-gray-700 mb-1">
                     Soluzione tecnica
@@ -53,7 +50,6 @@
             </div>
             
             <div class="flex justify-end space-x-3">
-                {{-- 🔙 Bottone ANNULLA --}}
                 <a 
                     href="{{ isset($malfunzionamento) 
                         ? route('tecnicoAzienda.prodotti.show', ['id' => $malfunzionamento->prodotto_id])
@@ -63,7 +59,6 @@
                     Annulla
                 </a>
 
-            {{-- Pulsante Salva --}}
             <div class="flex justify-end">
                 <button 
                     type="submit"
@@ -76,7 +71,6 @@
     </div>
 </div>
 
-{{-- ✅ Toast notifica elegante --}}
 @if(session('success'))
     <div id="toast-success"
          class="fixed bottom-6 right-6 bg-[#FB7116] text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium opacity-0 transition-opacity duration-500">
@@ -88,7 +82,6 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Se esiste un messaggio di successo, mostra il toast
         @if(session('success'))
             const toast = document.getElementById('toast-success');
             setTimeout(() => toast.classList.remove('opacity-0'), 100);
@@ -96,7 +89,6 @@
         @endif
     });
 
-    // Funzione richiamabile in futuro anche via AJAX
     function showToast(message) {
         const toast = document.createElement('div');
         toast.textContent = message;

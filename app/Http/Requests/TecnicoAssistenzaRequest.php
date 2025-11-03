@@ -26,9 +26,6 @@ class TecnicoAssistenzaRequest extends FormRequest
         ];
     }
 
-    /**
-     * Messaggi personalizzati di errore.
-     */
     public function messages(): array
     {
         return [

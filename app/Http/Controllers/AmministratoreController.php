@@ -15,9 +15,6 @@ class AmministratoreController extends Controller
         return view('amministratore.dashboard');
     }
 
-    /* ==============================
-     *  GESTIONE PRODOTTI
-     * ============================== */
     public function gestioneProdotti()
     {
         $prodotti = Prodotto::all();
@@ -62,17 +59,11 @@ class AmministratoreController extends Controller
         return response()->json(['success' => true]);
     }
 
-    /* ==============================
-     *  GESTIONE UTENTI GENERALE
-     * ============================== */
     public function gestioneUtenti()
     {
         return view('amministratore.gestioneUtenti');
     }
 
-    /* ==============================
-     *  GESTIONE TECNICI ASSISTENZA (LVL 2)
-     * ============================== */
     public function gestioneTecniciAssistenza()
     {
         $tecnici = User::where('ruolo', 'tecnico_assistenza')->with('centroAssistenza')->get();
@@ -133,7 +124,6 @@ class AmministratoreController extends Controller
     }
 
 
-    // 🔸 GESTIONE STAFF (tecnici_azienda)
     public function gestioneTecniciAzienda()
     {
         $staff = User::where('ruolo', 'tecnico_azienda')->get();

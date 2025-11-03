@@ -4,7 +4,6 @@
 <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-4xl mx-auto">
         @php
-            // Verifica se si tratta di una modifica o creazione
             $isEdit = isset($prodotto);
         @endphp
 
@@ -24,7 +23,6 @@
                 @method('PUT')
             @endif
 
-            {{-- Nome --}}
             <div class="mb-5">
                 <label for="name" class="block text-gray-700 font-semibold mb-2">
                     Nome del prodotto
@@ -41,7 +39,6 @@
                 @enderror
             </div>
 
-            {{-- Descrizione --}}
             <div class="mb-5">
                 <label for="descrizione" class="block text-gray-700 font-semibold mb-2">
                     Descrizione
@@ -57,7 +54,6 @@
                 @enderror
             </div>
 
-            {{-- Note d'uso --}}
             <div class="mb-5">
                 <label for="note_uso" class="block text-gray-700 font-semibold mb-2">
                     Note d'uso
@@ -73,7 +69,6 @@
                 @enderror
             </div>
 
-            {{-- Modalità di installazione --}}
             <div class="mb-6">
                 <label for="mod_installazione" class="block text-gray-700 font-semibold mb-2">
                     Modalità di installazione
@@ -111,7 +106,6 @@
 </div>
 
 
-            {{-- Pulsanti --}}
             <div class="flex justify-end space-x-3">
                 <a href="{{ route('amministratore.gestioneProdotti') }}"
                    class="bg-gray-200 text-gray-700 cursor-pointer font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200">

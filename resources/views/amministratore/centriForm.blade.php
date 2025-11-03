@@ -7,7 +7,6 @@
             {{ isset($centro) ? 'Modifica Centro di Assistenza' : 'Nuovo Centro di Assistenza' }}
         </h1>
 
-        {{-- 🔹 Form --}}
         <form method="POST"
               action="{{ isset($centro) 
                     ? route('amministratore.centri.update', $centro->id) 
@@ -17,7 +16,6 @@
                 @method('PUT')
             @endif
 
-            {{-- Nome Centro --}}
             <div class="mb-5">
                 <label for="nome" class="block text-gray-700 font-medium mb-2">Nome Centro</label>
                 <input type="text"
@@ -32,7 +30,6 @@
                 @enderror
             </div>
 
-            {{-- Indirizzo --}}
             <div class="mb-5">
                 <label for="indirizzo" class="block text-gray-700 font-medium mb-2">Indirizzo</label>
                 <input type="text"
@@ -47,7 +44,6 @@
                 @enderror
             </div>
 
-            {{-- Pulsanti --}}
             <div class="flex justify-between mt-8">
                 <a href="{{ route('amministratore.centri.index') }}"
                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-5 py-2 rounded-lg shadow transition-colors cursor-pointer">

@@ -59,7 +59,6 @@
     </div>
 </div>
 
-{{-- ✅ Toast di successo, visibile anche dopo redirect --}}
 @if(session('success'))
     <div id="toast-success"
          class="fixed bottom-6 right-6 bg-[#FB7116] text-white px-5 py-3 rounded-lg shadow-lg text-sm font-medium opacity-0 transition-opacity duration-500">
@@ -93,7 +92,6 @@
             });
         });
 
-        // Mostra toast se presente nella sessione
         @if(session('success'))
             const toast = document.getElementById('toast-success');
             setTimeout(() => toast.classList.remove('opacity-0'), 100);
@@ -101,7 +99,6 @@
         @endif
     });
 
-    // ✅ Funzione toast riutilizzabile
     function showToast(message) {
         const toast = document.createElement('div');
         toast.textContent = message;
