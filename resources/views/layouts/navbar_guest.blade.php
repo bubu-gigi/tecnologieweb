@@ -15,14 +15,14 @@
             @php
                 $role = Auth::user()->ruolo;
                 $dashboardRoute = match($role) {
-                    'admin' => route('admin.dashboard'),
+                    'amministratore' => route('amministratore.dashboard'),
                     'tecnico_assistenza' => route('tecnicoAssistenza.dashboard'),
-                    'tencico_azienda' => route('tecnicoAzienda.dashboard'),
+                    'tecnico_azienda' => route('tecnicoAzienda.dashboard'),
                     default => route('home'),
                 };
             @endphp
 
-            <a href="{{ $dashboardRoute }}" class="border-[#FB7116] text-[#FB7116] hover:bg-[#FB7116] hover:text-white">
+            <a href="{{ $dashboardRoute }}" class="px-4 py-2 border-2 border-[#FB7116] text-[#FB7116] font-semibold rounded-md hover:bg-[#FB7116] hover:text-white transition">
                 Area Personale
             </a>
 

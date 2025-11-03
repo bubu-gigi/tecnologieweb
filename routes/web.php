@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-/* ===========================
- * TECNICO ASSISTENZA
- * =========================== */
 Route::middleware(['auth', 'can:isTecnicoAssistenza'])->group(function () {
     Route::get('/tecnico-assistenza/dashboard', function () {
         return view('tecnicoAssistenza.dashboard');
@@ -24,9 +21,6 @@ Route::middleware(['auth', 'can:isTecnicoAssistenza'])->group(function () {
          ->name('prodotti.show');
 });
 
-/* ===========================
- * TECNICO AZIENDA
- * =========================== */
 Route::middleware(['auth', 'can:isTecnicoAzienda'])->group(function () {
     Route::get('/tecnico-azienda/dashboard', function () {
         return view('tecnicoAzienda.dashboard');
@@ -54,15 +48,12 @@ Route::middleware(['auth', 'can:isTecnicoAzienda'])->group(function () {
          ->name('malfunzionamento.update');
 });
 
-/* ===========================
- * AMMINISTRATORE
- * =========================== */
+
 Route::middleware(['auth', 'can:isAdmin'])->group(function () {
 
     Route::get('/amministratore', [AmministratoreController::class, 'index'])
         ->name('amministratore.dashboard');
 
-    /* --- GESTIONE PRODOTTI --- */
     Route::get('/amministratore/prodotti', [AmministratoreController::class, 'gestioneProdotti'])
         ->name('amministratore.gestioneProdotti');
 
@@ -81,11 +72,9 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::delete('/amministratore/prodotti/{id}', [AmministratoreController::class, 'deleteProdotto'])
         ->name('amministratore.prodotto.delete');
 
-    /* --- GESTIONE UTENTI --- */
     Route::get('/amministratore/utenti', [AmministratoreController::class, 'gestioneUtenti'])
         ->name('amministratore.gestioneUtenti');
 
-    /* --- GESTIONE TECNICI ASSISTENZA --- */
     Route::get('/amministratore/tecnici-assistenza', [AmministratoreController::class, 'gestioneTecniciAssistenza'])
         ->name('amministratore.gestioneTecniciAssistenza');
 
@@ -105,7 +94,6 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
         ->name('amministratore.tecnicoAssistenza.delete');
 
 
-    // GESTIONE STAFF (tecnici_azienda)
     Route::get('/amministratore/tecnici-azienda', [AmministratoreController::class, 'gestioneTecniciAzienda'])
         ->name('amministratore.gestioneTecniciAzienda');
 
@@ -125,32 +113,23 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
         ->name('amministratore.tecnicoAzienda.delete');
 
 
-    // =============================
-    // 🔸 GESTIONE CENTRI ASSISTENZA
-    // =============================
     Route::prefix('amministratore')->middleware(['auth'])->group(function () {
         
-        // Lista dei centri
         Route::get('/centri', [CentroAssistenzaController::class, 'index'])
             ->name('amministratore.centri.index');
 
-        // Form per creare nuovo centro
         Route::get('/centri/create', [CentroAssistenzaController::class, 'create'])
             ->name('amministratore.centri.create');
 
-        // Salvataggio nuovo centro
         Route::post('/centri', [CentroAssistenzaController::class, 'store'])
             ->name('amministratore.centri.store');
 
-        // Form modifica centro
         Route::get('/centri/{id}/edit', [CentroAssistenzaController::class, 'edit'])
             ->name('amministratore.centri.edit');
 
-        // Aggiornamento centro
         Route::put('/centri/{id}', [CentroAssistenzaController::class, 'update'])
             ->name('amministratore.centri.update');
 
-        // Eliminazione centro (AJAX)
         Route::delete('/centri/{id}', [CentroAssistenzaController::class, 'destroy'])
             ->name('amministratore.centri.destroy');
 });
