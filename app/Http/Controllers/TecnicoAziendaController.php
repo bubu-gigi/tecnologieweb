@@ -3,31 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Prodotto;
 use App\Models\Malfunzionamento;
 use App\Http\Requests\MalfunzionamentoRequest;
 
 class TecnicoAziendaController extends Controller
 {
-  public function searchProdotti(Request $request)
-{
-    $search = trim($request->q);
-    $query = Prodotto::query();
+    public function searchProdotti(Request $request)
+    {
+        $search = trim($request->q);
+        $userId = Auth::id(); 
 
-    if ($search) {
-        if (str_ends_with($search, '*')) {
-            $pattern = rtrim($search, '*') . '%';
-            $query->where('descrizione', 'LIKE', $pattern);
-        } else {
-            $query->where('descrizione', 'LIKE', '%' . $search . '%');
+        $query = Prodotto::query()
+            ->where(function ($q) use ($userId) {
+                $q->whereNull('staff_id')
+                ->orWhere('staff_id', $userId);
+            });
+
+        if ($search) {
+            if (str_ends_with($search, '*')) {
+                $pattern = rtrim($search, '*') . '%';
+                $query->where('descrizione', 'LIKE', $pattern);
+            } else {
+                $query->where('descrizione', 'LIKE', '%' . $search . '%');
+            }
         }
+
+        $prodotti = $query->orderBy('name')->get();
+
+        return response()->json(['prodotti' => $prodotti]);
     }
-
-    $prodotti = $query->orderBy('name')->get();
-
-    return response()->json(['prodotti' => $prodotti]);
-}
-
 
     public function showProdotto($id)
     {
