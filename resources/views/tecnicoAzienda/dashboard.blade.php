@@ -37,7 +37,7 @@
 $(document).ready(function(){
 $('#searchForm').on('submit', function(e){
     e.preventDefault();
-    let query = $('#searchInput').val();
+    let query = $('#searchInput').val().replace('*','');
     caricaProdotti(query);
 });
 
