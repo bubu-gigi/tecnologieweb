@@ -38,7 +38,8 @@ class AmministratoreController extends Controller
     public function editProdotto($id)
     {
         $prodotto = Prodotto::findOrFail($id);
-        return view('amministratore.prodottoForm', compact('prodotto'));
+        $staff = User::where('ruolo', 'tecnico_azienda')->get();
+        return view('amministratore.prodottoForm', compact('staff', 'prodotto'));
     }
 
     public function updateProdotto(ProdottoRequest $request, $id)

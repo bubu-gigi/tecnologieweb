@@ -17,7 +17,8 @@ class Prodotto extends Model
         'image_name',
         'descrizione',
         'note_uso',
-        'mod_installazione'
+        'mod_installazione',
+        'staff_id'
     ];
 
     public function malfunzionamenti(): HasMany

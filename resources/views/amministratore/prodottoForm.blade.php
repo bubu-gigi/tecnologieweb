@@ -95,7 +95,10 @@
     >
         <option value="">-- Seleziona membro --</option>
         @foreach($staff as $membro)
-            <option value="{{ $membro->id }}">
+            <option 
+                value="{{ $membro->id }}" 
+                {{ old('staff_id', $prodotto->staff_id ?? '') == $membro->id ? 'selected' : '' }}
+            >
                 {{ $membro->nome }}
             </option>
         @endforeach

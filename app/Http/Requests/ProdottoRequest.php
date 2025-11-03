@@ -18,6 +18,7 @@ class ProdottoRequest extends FormRequest
             'descrizione' => ['required', 'string', 'min:4'],
             'note_uso' => ['required', 'string', 'min:4'],
             'mod_installazione' => ['required', 'string', 'min:4'],
+            'staff_id' => 'nullable',
         ];
     }
 
