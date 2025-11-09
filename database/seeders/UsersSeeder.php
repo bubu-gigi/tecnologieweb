@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
             'specializzazione' => null,
             'centro_assistenza_id' => 1,
             'username' => 'tecntecn',
-            'password' => Hash::make('password'), 
+            'password' => Hash::make('8Toh8Toh'), 
             'ruolo' => 'tecnico_assistenza',
         ]);
 
@@ -28,7 +28,7 @@ class UsersSeeder extends Seeder
             'specializzazione' => 'Elettronica',
             'centro_assistenza_id' => null,
             'username' => 'staffstaff',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('8Toh8Toh'),
             'ruolo' => 'tecnico_azienda',
         ]);
 
@@ -39,7 +39,7 @@ class UsersSeeder extends Seeder
             'specializzazione' => null,
             'centro_assistenza_id' => null,
             'username' => 'adminadmin',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('8Toh8Toh'),
             'ruolo' => 'amministratore',
         ]);
     }
