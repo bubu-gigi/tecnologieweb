@@ -29,7 +29,17 @@ class AmministratoreController extends Controller
 
     public function storeProdotto(ProdottoRequest $request)
     {
-        Prodotto::create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('prodotti', 'public');
+
+            $filename = basename($path);
+
+            $data['image_name'] = $filename;
+        }
+
+        Prodotto::create($data);
 
         return redirect()->route('amministratore.gestioneProdotti')
             ->with('success', 'Prodotto aggiunto con successo.');
@@ -46,7 +56,17 @@ class AmministratoreController extends Controller
     {
 
         $prodotto = Prodotto::findOrFail($id);
-        $prodotto->update($request->validated());
+
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('prodotti', 'public');
+
+            $filename = basename($path);
+
+            $data['image_name'] = $filename;
+        }
+        $prodotto->update($data);
 
         return redirect()->route('amministratore.gestioneProdotti')
             ->with('success', 'Prodotto aggiornato correttamente.');
@@ -192,6 +212,26 @@ class AmministratoreController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Membro dello staff eliminato correttamente.'
+        ]);
+    }
+
+    public function deleteProdottoImage($id)
+    {
+        $prodotto = Prodotto::findOrFail($id);
+
+        if ($prodotto->image_name) {
+            $imagePath = storage_path('app/public/prodotti/' . $prodotto->image_name);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            $prodotto->image_name = null;
+            $prodotto->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Immagine del prodotto eliminata correttamente.'
         ]);
     }
 }

@@ -112,6 +112,8 @@ Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::delete('/amministratore/tecnici-azienda/{id}', [AmministratoreController::class, 'deleteTecnicoAzienda'])
         ->name('amministratore.tecnicoAzienda.delete');
 
+    Route::delete('/amministratore/prodotti/image/{id}', [AmministratoreController::class, 'deleteProdottoImage'])
+        ->name('amministratore.prodotto.deleteImage');
 
     Route::prefix('amministratore')->middleware(['auth'])->group(function () {
         

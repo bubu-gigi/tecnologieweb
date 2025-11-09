@@ -6,7 +6,7 @@
 <div class="container mx-auto px-4 py-8 space-y-12">
 
     <header class="relative bg-[#FB7116] rounded-xl overflow-hidden h-80">
-        <img src="{{ asset('images/hero-banner.jpg') }}" alt="Azienda" class="w-full h-full object-cover opacity-70">
+        <img src="{{ asset('storage/prodotti/hero-banner.jpg') }}" alt="Azienda" class="w-full h-full object-cover opacity-70">
         <div class="absolute inset-0 flex flex-col justify-center items-start px-8">
             <h1 class="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">AZIENDA TECNOLOGICA</h1>
             <p class="text-white mt-2 text-lg">Supporto tecnico e assistenza prodotti</p>
@@ -64,9 +64,11 @@
     <section id="prodotti" class="space-y-6">
         <h2 class="text-2xl font-bold text-[#FB7116] mb-4">Catalogo Prodotti</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            @foreach($prodotti as $prodotto)
+           @foreach($prodotti as $prodotto)
                 <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex flex-col">
-                    <img src="{{ asset('images/' . $prodotto->image_name) }}" alt="{{ $prodotto->nome }}" class="h-48 w-full object-cover rounded-lg mb-4">
+                    <img src="{{ asset('storage/prodotti/' . $prodotto->image_name) }}" 
+                        alt="{{ $prodotto->nome }}" 
+                        class="h-48 w-full object-cover rounded-lg mb-4">
                     <h3 class="text-lg font-semibold text-[#FB7116]">{{ $prodotto->nome }}</h3>
                     <p class="text-gray-700 text-sm mb-2">{{ Str::limit($prodotto->descrizione, 100) }}</p>
                     <p class="text-gray-600 text-xs mb-2"><strong>Note tecniche:</strong> {{ $prodotto->note_uso }}</p>

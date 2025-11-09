@@ -16,6 +16,7 @@
                 ? route('amministratore.prodotto.update', $prodotto->id) 
                 : route('amministratore.prodotto.store') }}"
             method="POST"
+            enctype="multipart/form-data" 
             class="bg-white shadow-lg rounded-lg p-6"
         >
             @csrf
@@ -84,30 +85,61 @@
                 @enderror
             </div>
 
-            <div class="mb-5">
-    <label for="staff" class="block text-sm font-medium text-gray-700 mb-1">
-        Seleziona membro dello staff
-    </label>
-    <select 
-        name="staff_id" 
-        id="staff" 
-        class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400"
-    >
-        <option value="">-- Seleziona membro --</option>
-        @foreach($staff as $membro)
-            <option 
-                value="{{ $membro->id }}" 
-                {{ old('staff_id', $prodotto->staff_id ?? '') == $membro->id ? 'selected' : '' }}
-            >
-                {{ $membro->nome }}
-            </option>
-        @endforeach
-    </select>
-    @error('staff_id')
-        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-    @enderror
-</div>
+            <div class="mb-6">
+                <label for="immagine" class="block text-gray-700 font-semibold mb-2">
+                    Immagine del prodotto
+                </label>
 
+                @if($isEdit && !empty($prodotto->image_name))
+                    <div id="current-image" class="mb-3 relative inline-block w-32 h-32">
+                        <img src="{{ asset('storage/prodotti/' . $prodotto->image_name) }}" 
+                            alt="Immagine prodotto" 
+                            class="w-full h-full object-cover rounded-lg shadow">
+
+                        <button type="button" id="delete-image-btn" 
+                                class="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs cursor-pointer z-10">
+                            ✕
+                        </button>
+                    </div>
+                @endif
+
+
+                <input 
+                    type="file" 
+                    id="image" 
+                    name="image"
+                    accept=".jpeg,.jpg,.png"
+                    class="w-full border border-gray-300 rounded-lg p-2 focus:ring-[#FB7116] focus:border-[#FB7116]"
+                >
+                @error('image')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+
+            <div class="mb-5">
+                <label for="staff" class="block text-sm font-medium text-gray-700 mb-1">
+                    Seleziona membro dello staff
+                </label>
+                <select 
+                    name="staff_id" 
+                    id="staff" 
+                    class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-orange-400"
+                >
+                    <option value="">-- Seleziona membro --</option>
+                    @foreach($staff as $membro)
+                        <option 
+                            value="{{ $membro->id }}" 
+                            {{ old('staff_id', $prodotto->staff_id ?? '') == $membro->id ? 'selected' : '' }}
+                        >
+                            {{ $membro->nome }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('staff_id')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="flex justify-end space-x-3">
                 <a href="{{ route('amministratore.gestioneProdotti') }}"
@@ -125,4 +157,33 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script>
+   $(document).ready(function() {
+    $('#delete-image-btn').click(function() {
+        if(confirm('Sei sicuro di voler eliminare l\'immagine?')) {
+            $.ajax({
+                url: "{{ route('amministratore.prodotto.deleteImage', $prodotto->id) }}",
+                type: 'DELETE',
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if(response.success) {
+                        $('#current-image').remove();
+                        alert('Immagine eliminata con successo.');
+                    } else {
+                        alert('Errore durante l\'eliminazione dell\'immagine.');
+                    }
+                },
+                error: function() {
+                    alert('Errore durante l\'eliminazione dell\'immagine.');
+                }
+            });
+        }
+    });
+});
+</script>
+@endpush
 @endsection

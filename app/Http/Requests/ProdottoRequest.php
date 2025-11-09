@@ -19,6 +19,7 @@ class ProdottoRequest extends FormRequest
             'note_uso' => ['required', 'string', 'min:4'],
             'mod_installazione' => ['required', 'string', 'min:4'],
             'staff_id' => 'nullable',
+            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:4096'],
         ];
     }
 

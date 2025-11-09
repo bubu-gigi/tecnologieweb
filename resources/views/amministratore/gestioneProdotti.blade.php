@@ -20,6 +20,7 @@
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Descrizione</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Note Uso</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Installazione</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Staff</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 text-right">Azioni</th>
                     </tr>
                 </thead>
@@ -27,9 +28,10 @@
                     @forelse($prodotti as $prodotto)
                         <tr id="{{ $prodotto->id }}" class="hover:bg-gray-50">
                             <td class="px-6 py-4 text-gray-800">{{ $prodotto->name }}</td>
-                            <td class="px-6 py-4 text-gray-700">{{ $prodotto->descrizione }}</td>
-                            <td class="px-6 py-4 text-gray-700">{{ $prodotto->note_uso }}</td>
-                            <td class="px-6 py-4 text-gray-700">{{ $prodotto->mod_installazione }}</td>
+                            <td class="px-6 py-4 text-gray-700">{{ \Illuminate\Support\Str::limit($prodotto->descrizione, 20) }}</td>
+                            <td class="px-6 py-4 text-gray-700">{{ \Illuminate\Support\Str::limit($prodotto->note_uso, 20) }}</td>
+                            <td class="px-6 py-4 text-gray-700">{{ \Illuminate\Support\Str::limit($prodotto->mod_installazione, 20) }}</td>
+                            <td class="px-6 py-4 text-gray-700">{{ $prodotto->staff ? ($prodotto->staff->cognome . ' ' . $prodotto->staff->nome) : '-' }}</td>
                             <td class="px-6 py-4 flex items-center justify-end space-x-3">
                                 <a href="{{ route('amministratore.prodotto.edit', $prodotto->id) }}"
                                    class="text-[#FB7116] hover:text-[#e35f0f]" title="Modifica">
