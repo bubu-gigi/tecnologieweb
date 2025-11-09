@@ -10,7 +10,13 @@
 <body>
      <header class="bg-[#FB7116] text-white px-8 py-8 flex justify-between items-center rounded-b-lg">
         @include('layouts.navbar_guest')
-        <img src="{{ asset('storage/prodotti/logo.jpg') }}" alt="Logo" class="h-20 w-20 object-contain rounded-lg">
+        <div class="flex items-center space-x-4">
+                <a href="{{ asset('Documentazione_TecWeb_54.pdf') }}" target="_blank"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg shadow transition">
+                    Vedi documentazione
+                </a>
+                <img src="{{ asset('storage/prodotti/logo.jpg') }}" alt="Logo" class="h-20 w-20 object-contain rounded-lg">
+            </div>
     </header>
 
 
